@@ -1,0 +1,261 @@
+<?php
+
+namespace App\Http\Controllers\admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\WorkingCompany;
+use App\Models\TempFile;
+use Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+
+class CompanyController extends Controller
+{
+  public function index(Request $request)
+    {
+        $query = WorkingCompany::orderBy('created_at', 'DESC');
+
+        if (!empty($request->keyword)) {
+            $query->where('name', 'like', '%' . $request->keyword . '%');
+        }
+
+        $companies = $query->paginate(20);
+        return view('admin.companies.list', ['companies' => $companies]);
+    }
+
+    public function create()
+    {
+        return view('admin.companies.create');
+    }
+
+
+    public function save(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:working_companies',
+            'slug' => 'required|unique:working_companies',
+        ]);
+
+        if($validator->passes()) {
+            // Form validated successfully
+
+            $company = new WorkingCompany;
+            $company->name = $request->name;
+            $company->slug = $request->slug;
+            $company->status = $request->status;
+            $company->save();
+
+
+            if ($request->image_id > 0) {
+
+                $tempImage = TempFile::where('id',$request->image_id)->first();
+
+                if ($tempImage) {
+
+                    $tempFileName = $tempImage->name;
+
+                    $ext = pathinfo($tempFileName,PATHINFO_EXTENSION);
+
+                    $newFileName = $company->slug . '.' . $ext;
+
+                    $sourcePath = public_path('uploads/temp/' . $tempFileName);
+
+                    $smallDirectory = public_path('uploads/companies/thumb/small');
+
+                    $largeDirectory = public_path('uploads/companies/thumb/large');
+
+                    if (!File::exists($smallDirectory)) {File::makeDirectory($smallDirectory,0755,true);
+                    }
+
+                    if (!File::exists($largeDirectory)) {File::makeDirectory($largeDirectory,0755,true);
+                    }
+                    if (File::exists($sourcePath)) {
+
+                        $manager = ImageManager::usingDriver(Driver::class);
+
+                        $img = $manager->decodePath($sourcePath);
+                        $img->cover(360,220);
+                        $img->save($smallDirectory .DIRECTORY_SEPARATOR .$newFileName);
+
+                        $img = $manager->decodePath($sourcePath);
+                        $img->scaleDown(width: 1150);
+                        $img->save($largeDirectory .DIRECTORY_SEPARATOR .$newFileName);
+
+                        $company->image = $newFileName;
+
+                        $company->save();
+
+                        File::delete($sourcePath);
+
+                        $tempImage->delete();
+                    }
+                }
+            }
+
+            $request->session()->flash('success','Company Created Successfully');
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Company Created Successfully'
+            ]);
+
+        } else {
+            // return errors
+            return response()->json([
+                'status' => 0,
+                'errors' => $validator->errors()
+            ]);
+        }
+    }
+
+    public function edit($id)
+    {
+        $company = WorkingCompany::findOrFail($id);
+        return view('admin.companies.edit', ['company' => $company]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $company = WorkingCompany::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:working_companies,name,' . $company->id,
+            'slug' => 'required|unique:working_companies,slug,' . $company->id,
+        ]);
+
+        if ($validator->passes()) {
+            // Check if service exists
+            if (empty($company)) {
+                $request->session()->flash('error', 'Record not found');
+                return response()->json([
+                    'status' => 0,
+                ]);
+            }
+
+            $oldImageName = $company->image;
+
+            $company->name = $request->name;
+            $company->slug = $request->slug;
+            $company->status = $request->status;
+            $company->save();
+
+            // Handle the main image update
+            if ($request->image_id > 0) {
+
+                $tempImage = TempFile::where('id', $request->image_id)->first();
+
+                if ($tempImage) {
+
+                    $tempFileName = $tempImage->name;
+                    $ext = pathinfo($tempFileName, PATHINFO_EXTENSION);
+
+                    // ✅ SLUG ONLY
+                    $newFileName = $company->slug . '.' . $ext;
+
+                    $sourcePath = './uploads/temp/' . $tempFileName;
+
+                    $manager = ImageManager::usingDriver(Driver::class);
+
+                    $img = $manager->decodePath($sourcePath);
+                    $img->cover(360,220);
+                    $img->save('./uploads/companies/thumb/small/' . $newFileName);
+
+                    $img = $manager->decodePath($sourcePath);
+                    $img->scaleDown(1150);
+                    $img->save('./uploads/companies/thumb/large/' . $newFileName);
+
+                    File::delete('./uploads/companies/thumb/small/' . $oldImageName);
+                    File::delete('./uploads/companies/thumb/large/' . $oldImageName);
+
+                    $company->image = $newFileName;
+                    $company->save();
+
+                    File::delete($sourcePath);
+                }
+            }
+
+            $request->session()->flash('success', 'Company updated Successfully');
+
+            return redirect()->route('companyList');
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Company Updated Successfully'
+            ]);
+
+        } else {
+            return response()->json([
+                'status' => 0,
+                'errors' => $validator->errors()
+            ]);
+        }
+    }
+
+    public function delete(Request $request, $id)
+    {
+        $company = WorkingCompany::find($id);
+        if (!$company) {
+            $request->session()->flash('error', 'Record not found');
+            return response(['status' => 0]);
+        }
+
+        if ($company->image) {
+            File::delete(public_path('uploads/companies/thumb/small/' . $company->image));
+            File::delete(public_path('uploads/companies/thumb/large/' . $company->image));
+        }
+
+        $company->delete();
+
+        $request->session()->flash('success', 'Company deleted successfully');
+
+        return response(['status' => 1]);
+    }
+
+    public function getSlug(Request $request)
+    {
+        $slug = SlugService::createSlug(WorkingCompany::class, 'slug', $request->name);
+        return response()->json([
+            'status' => true,
+            'slug' => $slug,
+        ]);
+    }
+
+    public function removeMainImage(Request $request, $id)
+    {
+            // Find the company by ID
+            $company = WorkingCompany::findOrFail($id);
+            $imageName = $request->input('image');
+
+            // Check if the image exists in the database
+            if ($company->image === $imageName) {
+                // Define paths for large and small images
+                $largeImagePath = public_path('uploads/companies/thumb/large/' . $imageName);
+                $smallImagePath = public_path('uploads/companies/thumb/small/' . $imageName);
+
+                // Delete the image files from storage
+                if (file_exists($largeImagePath)) {
+                    unlink($largeImagePath);
+                }
+                if (file_exists($smallImagePath)) {
+                    unlink($smallImagePath);
+                }
+
+                // Set the image field in the database to null
+                $company->image = null;
+
+                // Save the company instance
+                if ($company->save()) {
+                    return response()->json(['status' => 200, 'message' => 'Main image removed successfully']);
+                } else {
+                    return response()->json(['status' => 500, 'message' => 'Failed to remove image from the database']);
+                }
+            }
+
+            return response()->json(['status' => 400, 'message' => 'Image not found']);
+    }
+
+}
