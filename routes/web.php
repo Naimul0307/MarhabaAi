@@ -9,11 +9,14 @@ use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\SubCategoryController;
 use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\CompanyController;
+use App\Http\Controllers\admin\SettingsController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\SubCategoriesController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+Route::get('/',[HomeController::class,'index'])->name('home');
+Route::get('/category/{slug}', [CategoriesController::class, 'index'])->name('categories.index');
+Route::get('/subcategory/{slug}', [SubCategoriesController::class, 'index'])->name('subcategory.index');
 Route::prefix('admin')->group(function () {
 
     Route::middleware('admin.guest')->group(function () {
@@ -76,5 +79,8 @@ Route::prefix('admin')->group(function () {
         Route::get('/companies/sub-categories', [CompanyController::class, 'getSubCategories'])->name('company.subcategories');
         Route::post('/company/{id}/remove-image', [CompanyController::class, 'removeMainImage'])->name('company.remove.image');
         Route::post('/company/{id}/remove-gallery-image', [CompanyController::class, 'removeGalleryImage'])->name('company.remove.gallery.image');
+
+        Route::get('/settings',[SettingsController::class,'index'])->name('settings.index');
+        Route::post('/settings',[SettingsController::class,'save'])->name('settings.save');
     });
 });

@@ -17,6 +17,11 @@ class SubCategory extends Model
         return $this->belongsTo(Category::class, 'category_id');
     }
 
+    public function services()
+    {
+        return $this->hasMany(Service::class, 'sub_category_id');
+    }
+
     public function sluggable(): array
     {
         return [

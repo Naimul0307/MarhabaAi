@@ -84,6 +84,28 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea
+                                    name="description"
+                                    id="description"
+                                    class="summernote"
+                                ></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="short_description">
+                                    Short Description
+                                </label>
+
+                                <textarea
+                                    name="short_description"
+                                    id="short_description"
+                                    rows="7"
+                                    class="form-control"
+                                ></textarea>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="videos_link">Video Link</label>
                                 <input type="text" name="videos_link" id="videos_link" class="form-control">
                             </div>
@@ -120,28 +142,6 @@
                                 >
                                     Add Another Link
                                 </button>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="description">Description</label>
-                                <textarea
-                                    name="description"
-                                    id="description"
-                                    class="summernote"
-                                ></textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="short_description">
-                                    Short Description
-                                </label>
-
-                                <textarea
-                                    name="short_description"
-                                    id="short_description"
-                                    rows="7"
-                                    class="form-control"
-                                ></textarea>
                             </div>
 
                             <div class="form-group">

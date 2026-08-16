@@ -80,6 +80,12 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{ route('settings.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Settings</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('admin.logout') }}" class="nav-link">
                                     <i class='fas fa-sign-out-alt nav-icon'></i>
                                     <p>Logout</p>
