@@ -42,7 +42,7 @@
                                             @if(!empty($service->image))
 
                                                 <a
-                                                    href="{{ asset('uploads/services/thumb/large/' . $service->image) }}"
+                                                    href="{{ route('service.detail', $service->slug) }}"
                                                     class="fancybox"
                                                 >
                                                     <img
@@ -54,7 +54,7 @@
 
                                             @else
 
-                                                <a href="#">
+                                                <a  href="{{ route('service.detail', $service->slug) }}">
                                                     <img
                                                         src="{{ asset('assets/images/latest-projects/img-1.jpg') }}"
                                                         alt="{{ $service->name }}"
@@ -72,7 +72,7 @@
                                         <div class="project-title">
 
                                             <h3>
-                                                <a href="#">
+                                                <a  href="{{ route('service.detail', $service->slug) }}">
                                                     {{ $service->name }}
                                                 </a>
                                             </h3>

@@ -45,7 +45,6 @@
             <span></span>
             <span></span>
             <span></span>
-            <span></span>
         </div>
     </div>
     <!-- END PRELOADER -->

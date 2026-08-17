@@ -87,7 +87,7 @@
                                 @else
 
                                     {{-- HOME PAGE --}}
-                                    <a href="#">Projects</a>
+                                    <a>Projects</a>
 
                                     <ul class="sub-menu">
 

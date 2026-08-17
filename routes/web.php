@@ -13,10 +13,14 @@ use App\Http\Controllers\admin\SettingsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\SubCategoriesController;
+use App\Http\Controllers\ServicesController;
+
 
 Route::get('/',[HomeController::class,'index'])->name('home');
 Route::get('/category/{slug}', [CategoriesController::class, 'index'])->name('categories.index');
 Route::get('/subcategory/{slug}', [SubCategoriesController::class, 'index'])->name('subcategory.index');
+Route::get('/service/{slug}',[ ServicesController::class, 'detail'])->name('service.detail');
+
 Route::prefix('admin')->group(function () {
 
     Route::middleware('admin.guest')->group(function () {
