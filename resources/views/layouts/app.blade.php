@@ -75,5 +75,6 @@
 <script src="{{ asset('assets/js/portfolio.js') }}"></script>
 <script src="{{ asset('assets/js/script.js') }}"></script>
 
+@stack('extraJs')
 </body>
 </html>

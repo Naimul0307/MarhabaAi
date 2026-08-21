@@ -593,58 +593,6 @@
         return false;
     })
 
-    /*------------------------------------------
-        = CONTACT FORM SUBMISSION
-    -------------------------------------------*/
-    if ($("#contact-form").length) {
-        $("#contact-form").validate({
-            rules: {
-                name: {
-                    required: true,
-                    minlength: 2
-                },
-
-                email: "required",
-
-                note: {
-                    required: true
-                }
-            },
-
-            messages: {
-                name: "Please enter your name",
-                email: "Please enter your email",
-                note: "Please write some notes"
-            },
-
-            submitHandler: function (form) {
-                $("#loader").css("display", "inline-block");
-                $.ajax({
-                    type: "POST",
-                    url: "mail.php",
-                    data: $(form).serialize(),
-                    success: function () {
-                        $( "#loader").hide();
-                        $( "#success").slideDown( "slow" );
-                        setTimeout(function() {
-                        $( "#success").slideUp( "slow" );
-                        }, 3000);
-                        form.reset();
-                    },
-                    error: function() {
-                        $( "#loader").hide();
-                        $( "#error").slideDown( "slow" );
-                        setTimeout(function() {
-                        $( "#error").slideUp( "slow" );
-                        }, 3000);
-                    }
-                });
-
-                return false; // required to block normal submit since you used ajax
-            }
-        });
-    }
-
     // Home style 2 slider contact form
     if ($("#slider-contact-form").length) {
         $("#slider-contact-form").validate({

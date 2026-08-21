@@ -19,9 +19,9 @@
                         <div class="widget site-map-widget">
                             <h3>Navigation</h3>
                             <ul>
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">About</a></li>
-                                <li><a href="#">Contuct</a></li>
+                                <li><a href="{{ route('home') }}">Home</a></li>
+                                {{-- <li><a href="#">About</a></li> --}}
+                                <li><a href="{{ route('contact') }}">Contuct</a></li>
                             </ul>
                         </div>
                     </div>

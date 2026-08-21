@@ -43,7 +43,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="index-2.html"><img src="{{ asset('assets/images/logo.png') }}" alt></a>
+                        <a class="navbar-brand" href="{{ route('home') }}"><img src="{{ asset('assets/images/logo.png') }}" alt></a>
                     </div>
 
                     <div id="navbar" class="navbar-collapse collapse navbar-right navigation-holder">
@@ -52,7 +52,7 @@
                             <li class="menu-item-has-children current-menu-ancestor current-menu-parent">
                                 <a href="{{ route('home') }}">Home</a>
                             </li>
-                            <li><a href="about.html">About</a></li>
+                            {{-- <li><a href="about.html">About</a></li> --}}
                             <li class="menu-item-has-children">
 
                                 @if(isset($isCategoryPage) && $isCategoryPage)
@@ -106,10 +106,10 @@
                                 @endif
 
                             </li>
-                            <li class="menu-item-has-children">
+                            {{-- <li class="menu-item-has-children">
                                 <a href="#">Blog</a>
-                            </li>
-                            <li><a href="contact.html">Contact</a></li>
+                            </li> --}}
+                            <li><a href="{{ route('contact') }}">Contact</a></li>
                         </ul>
                     </div><!-- end of nav-collapse -->
 
