@@ -593,6 +593,72 @@
         return false;
     })
 
+    /*------------------------------------------
+        = CONTACT FORM SUBMISSION
+    -------------------------------------------*/
+        $(function () {
+        const $form = $("#contact-form");
+        const $submit = $("#submit");
+        const $loader = $("#loader");
+
+        if ($form.length === 0) return; // only run on pages that have this form
+
+        $loader.hide();
+
+        $form.off("submit").on("submit", function(event) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+            $submit.prop("disabled", true);
+            $loader.show();
+
+            $(".invalid-feedback").html("");
+            $(".is-invalid").removeClass("is-invalid");
+            $("#success").hide();
+            $("#error").hide();
+
+            $.ajax({
+                url: $form.attr("action"),
+                type: "POST",
+                data: $form.serialize(),
+                dataType: "json",
+                success: function(response) {
+                    $submit.prop("disabled", false);
+                    $loader.hide();
+
+                    if (response.status == 0) {
+                        if (response.errors.name) {
+                            $("#name").addClass("is-invalid");
+                            $(".name-error").html(response.errors.name);
+                        }
+                        if (response.errors.email) {
+                            $("#email").addClass("is-invalid");
+                            $(".email-error").html(response.errors.email);
+                        }
+                        if (response.errors.phone) {
+                            $("#phone").addClass("is-invalid");
+                            $(".phone-error").html(response.errors.phone);
+                        }
+                        if (response.errors.message) {
+                            $("#message").addClass("is-invalid");
+                            $(".message-error").html(response.errors.message);
+                        }
+                    } else {
+                        $("#success").show();
+                        $form[0].reset();
+                    }
+                },
+                error: function(xhr) {
+                    $submit.prop("disabled", false);
+                    $loader.hide();
+                    $("#error").show();
+                    console.error("AJAX Error:", xhr);
+                }
+            });
+
+            return false;
+        });
+    });
     // Home style 2 slider contact form
     if ($("#slider-contact-form").length) {
         $("#slider-contact-form").validate({

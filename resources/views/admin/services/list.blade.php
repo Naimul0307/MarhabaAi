@@ -103,7 +103,7 @@
                                     <td>{{ $service->name }}</td>
                                     <td>{{ $service->slug }}</td>
                                     <td>{{ $service->categoryName }}</td>
-                                    <td>{{ $service->sub_category_name }}</td>
+                                    <td>{{ $service->subCategoryName }}</td>
                                     <td>{{ $service->meta_title}}</td>
                                     <td>{{ $service->meta_keywords}}</td>
                                     <td>{{ $service->meta_description}}</td>

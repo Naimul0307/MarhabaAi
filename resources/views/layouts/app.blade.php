@@ -1,54 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+       <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-2606KHQ743"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="themexriver">
+        gtag('config', 'G-2606KHQ743');
+        </script>
 
-    <title>{{ $meta_title ?? 'Marhaba Ai' }}</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="google-site-verification" content="DRjpAQfoniJxaRdOE3UhWhguZA2bL32hftgz2ymHRYI" />
+        <title>{{ $meta_title ?? 'MIRROR BOOTH EVENT SERVICES L.L.C.-DUBAI' }}</title>
+        <link rel="canonical" href="{{ $meta_canonical ?? url()->current() }}">
+        <meta name="title" content="{{ $meta_title ?? 'MIRROR BOOTH EVENT SERVICES L.L.C.-DUBAI' }}">
+        <meta name="description" content="{{ $meta_description ?? 'Default description' }}">
+        <meta name="keywords" content="{{ $meta_keywords ?? 'Default, Keywords' }}">
+        <meta name="_token" content="{{ csrf_token() }}">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
-    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
+        <link rel="shortcut icon" href="{{ asset('assets/favicon.ico') }}" type="image/x-icon">
+        <link rel="apple-touch-icon" href="{{ asset('assets/apple-touch-icon.png') }}" sizes="180x180">
+        <link rel="icon" href="{{ asset('assets/android-chrome-192x192.png') }}" sizes="192x192" type="image/png">
+        <link rel="icon" href="{{ asset('assets/android-chrome-512x512.png') }}" sizes="512x512" type="image/png">
 
-    <link href="{{ asset('assets/css/font-awesome.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/flaticon.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/animate.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/owl.carousel.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/owl.theme.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/slick.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/slick-theme.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/owl.transitions.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/jquery.fancybox.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/bootstrap-select.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/magnific-popup.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
-</head>
+        <!-- for website performance LCP Content preload Banner Section-->
 
-<body>
+        @php
+            $firstHeroImage = null;
 
-<div class="page-wrapper">
+            if (isset($heroSlides)) {
+                $firstHero = collect($heroSlides)->first(function ($slide) {
+                    return !empty(is_array($slide) ? ($slide['image'] ?? null) : ($slide->image ?? null));
+                });
 
-    <!-- PRELOADER -->
-    <div class="preloader">
-        <div class="preloader-inner">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </div>
-    <!-- END PRELOADER -->
+                if ($firstHero) {
+                    $firstHeroImage = is_array($firstHero)
+                        ? ($firstHero['image'] ?? null)
+                        : ($firstHero->image ?? null);
+                }
+            }
+        @endphp
 
+        @if (!empty($firstHeroImage))
+            <link
+                rel="preload"
+                as="image"
+                href="{{ asset('uploads/hero_slides/thumb/large/' . $firstHeroImage) }}"
+                fetchpriority="high"
+            >
+        @endif
+
+
+        <!-- Main CSS -->
+
+        <link rel="stylesheet" href="{{ asset('assets/css/all-styles.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/navebar.css') }}">
+
+        <!-- FontAwesome async -->
+        <link rel="preload" href="{{ asset('assets/fontawesome/css/fontawesome.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="{{ asset('assets/fontawesome/css/fontawesome.min.css') }}"></noscript>
+
+        <link rel="preload" href="{{ asset('assets/fontawesome/css/solid.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="{{ asset('assets/fontawesome/css/solid.min.css') }}"></noscript>
+
+        <link rel="preload" href="{{ asset('assets/fontawesome/css/brands.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="{{ asset('assets/fontawesome/css/brands.min.css') }}"></noscript>
+
+        @yield('extraCss')
+    </head>
+
+<body id="top">
+
+    <a href="https://wa.me/971502664501?text=Hello%20there!" class="whatsapp-button" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp">
+        <img src="{{ asset('uploads/WhatsApp.svg') }}" alt="" width="24" height="24" aria-hidden="true">
+        Chat with us
+    </a>
 
     @include('layouts.header')
 
@@ -59,22 +89,65 @@
     @endif
 
 
-    @yield('content')
 
+    <main id="main-content">
+        @yield('content')
+    </main>
+
+
+    @include('layouts.review')
 
     @include('layouts.company')
 
     @include('layouts.footer')
 
-</div>
+    <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}" ></script>
+    <script src="{{ asset('assets/js/bootstrap.min.js') }}" defer></script>
+    <script src="{{ asset('assets/js/slick.min.js') }}" defer></script>
+    <script src="{{ asset('assets/js/custom.js') }}" defer></script>
+    <script src="{{ asset('assets/js/disableRightClick.js') }}" defer></script>
+    <script src="{{ asset('assets/js/nav-bar.js') }}" defer></script>
 
+    <script>
+    $(document).ready(function () {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+    });
 
-<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery-plugin-collection.js') }}"></script>
-<script src="{{ asset('assets/js/portfolio.js') }}"></script>
-<script src="{{ asset('assets/js/script.js') }}"></script>
+    window.addEventListener('load', function () {
+        setTimeout(function () {
+            const heroCarousel = document.querySelector('#heroCarousel');
 
-@stack('extraJs')
+            if (heroCarousel) {
+                new bootstrap.Carousel(heroCarousel, {
+                    interval: 4000,
+                    ride: 'carousel'
+                });
+            }
+        }, 3000);
+    });
+
+    window.addEventListener('load', function () {
+        const heroCarousel = document.querySelector('#heroCarousel');
+
+        if (!heroCarousel || typeof bootstrap === 'undefined') {
+            return;
+        }
+
+        setTimeout(function () {
+            heroCarousel.classList.add('carousel-fade');
+
+            new bootstrap.Carousel(heroCarousel, {
+                interval: 4000,
+                ride: 'carousel'
+            });
+        }, 1500);
+    });
+    </script>
+
+    @stack('extraJs')
 </body>
 </html>

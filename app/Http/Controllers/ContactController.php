@@ -13,7 +13,8 @@ class ContactController extends Controller
         return view('contact', [
             'meta_title' => 'CONTACT US | MArhaba Ai',
             'meta_description' => 'Get in touch with Marhaba Ai for bookings or inquiries. Contact us today to make your event unforgettable with our photo booth services.',
-            'meta_keywords' => 'CONTACT, MIRROR BOOTH, DUBAI, BOOKING,UAE, Marhaba Ai'
+            'meta_keywords' => 'CONTACT, MIRROR BOOTH, DUBAI, BOOKING,UAE, Marhaba Ai',
+            'settings' => getSettings(),
         ]);
     }
 

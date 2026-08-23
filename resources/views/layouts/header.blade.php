@@ -1,171 +1,164 @@
-        <!-- Start header -->
-        <header class="site-header header-style-1">
-            <div class="topbar">
-                <div class="container">
-                    <div class="row">
-                        <div class="col col-sm-6 contact-info">
-                            <ul>
-                                <li>
-                                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
-                                    {{ $settings->email }}
-                                </li>
+<header>
 
-                                <li>
-                                    <i class="fa fa-volume-control-phone" aria-hidden="true"></i>
-                                    {{ $settings->phone }}
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col col-sm-6 language-login-wrapper">
-                            <div class="language-login clearfix">
-                                <div class="language">
-                                    <i class="fa fa-globe" aria-hidden="true"></i> Lang:
-                                    <form>
-                                        <select class="selectpicker">
-                                            <option>ENG</option>
-                                            <option>TUK</option>
-                                            <option>SPH</option>
-                                        </select>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- end topbar -->
+    {{-- =========================
+        DESKTOP NAVIGATION
+    ========================== --}}
+    <nav class="desktop-nav" aria-label="Desktop navigation">
+        <div class="nav-bar">
 
-            <nav class="navigation navbar navbar-default">
-                <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="open-btn">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="{{ route('home') }}"><img src="{{ asset('assets/images/logo.png') }}" alt></a>
-                    </div>
+            {{-- Logo --}}
+            <div class="logo">
+                <a href="{{ route('home') }}">
+                    <img src="{{ asset('assets/logo.png') }}"
+                         alt="Mirror Booth Dubai Logo"
+                         class="logo-img"
+                         width="220">
+                </a>
+            </div>
 
-                    <div id="navbar" class="navbar-collapse collapse navbar-right navigation-holder">
-                        <button class="close-navbar"><i class="fa fa-close"></i></button>
-                        <ul class="nav navbar-nav">
-                            <li class="menu-item-has-children current-menu-ancestor current-menu-parent">
-                                <a href="{{ route('home') }}">Home</a>
-                            </li>
-                            {{-- <li><a href="about.html">About</a></li> --}}
-                            <li class="menu-item-has-children">
+            @php
+                $settings = getSettings();
+            @endphp
 
-                                @if(isset($isCategoryPage) && $isCategoryPage)
+            {{-- Contact information --}}
+            <div class="nav-contact">
 
-                                    {{-- CATEGORY PAGE --}}
-                                    <a href="{{ route('categories.index', $category->slug) }}">
-                                        {{ $category->name }}
-                                    </a>
+                @if(!empty($settings) && $settings->email)
+                    <a href="mailto:{{ $settings->email }}"
+                       aria-label="Email us">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                        <span>{{ $settings->email }}</span>
+                    </a>
+                @endif
 
-                                    <ul class="sub-menu">
+                @if(!empty($settings) && $settings->phone)
+                    <a href="tel:{{ $settings->phone }}"
+                       aria-label="Call us">
+                        <i class="fa fa-volume-control-phone" aria-hidden="true"></i>
+                        <span>{{ $settings->phone }}</span>
+                    </a>
+                @endif
 
-                                        @forelse($category->subCategories as $subCategory)
+            </div>
 
-                                            <li>
-                                                <a href="{{ route('subcategory.index', $subCategory->slug) }}">
-                                                    {{ $subCategory->name }}
-                                                </a>
-                                            </li>
+            {{-- Desktop menu --}}
+            <ul class="menu" role="list">
 
-                                        @empty
+                <li>
+                    <a href="{{ route('home') }}"
+                       @if(request()->routeIs('home')) aria-current="page" @endif>
+                        THE INSIDE
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('categories.index') }}"
+                    @if(request()->routeIs('categories.index')) aria-current="page" @endif>
+                        WHAT WE DO
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('contact') }}"
+                       @if(request()->routeIs('contact')) aria-current="page" @endif>
+                        CONNECT
+                    </a>
+                </li>
 
-                                            <li>
-                                                <a href="#">
-                                                    No subcategories
-                                                </a>
-                                            </li>
+            </ul>
 
-                                        @endforelse
+        </div>
+    </nav>
 
-                                    </ul>
 
-                                @else
+    {{-- =========================
+        MOBILE NAVIGATION
+    ========================== --}}
+    <nav class="mobile-nav" aria-label="Mobile navigation">
 
-                                    {{-- HOME PAGE --}}
-                                    <a>Projects</a>
+        <div class="nav-bar">
 
-                                    <ul class="sub-menu">
+            {{-- Mobile logo --}}
+            <div class="logo">
+                <a href="{{ route('home') }}">
+                    <img src="{{ asset('assets/logo.png') }}"
+                         alt="Marhaba Ai"
+                         class="logo-img"
+                         width="160">
+                </a>
+            </div>
 
-                                        @foreach($categories as $item)
+            {{-- Mobile menu buttons --}}
+            <button
+                class="menu-toggle"
+                id="menu-toggle"
+                aria-label="Open menu"
+                aria-expanded="false"
+                aria-controls="mobile-menu"
+                type="button">
+                <i class="fas fa-bars" aria-hidden="true"></i>
+            </button>
 
-                                            <li>
-                                                <a href="{{ route('categories.index', $item->slug) }}">
-                                                    {{ $item->name }}
-                                                </a>
-                                            </li>
+            <button
+                class="close-menu"
+                id="close-menu"
+                aria-label="Close menu"
+                type="button">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
 
-                                        @endforeach
+        </div>
 
-                                    </ul>
 
-                                @endif
+        {{-- Mobile sidebar --}}
+        <ul class="menu" id="mobile-menu" role="list">
 
-                            </li>
-                            {{-- <li class="menu-item-has-children">
-                                <a href="#">Blog</a>
-                            </li> --}}
-                            <li><a href="{{ route('contact') }}">Contact</a></li>
-                        </ul>
-                    </div><!-- end of nav-collapse -->
+            {{-- Mobile contact information --}}
+            <li>
+                @if(!empty($settings) && $settings->email)
+                    <a href="mailto:{{ $settings->email }}"
+                       aria-label="Email us">
+                        <span>{{ $settings->email }}</span>
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                    </a>
+                @endif
+            </li>
+            <li>
+                @if(!empty($settings) && $settings->phone)
+                    <a href="tel:{{ $settings->phone }}"
+                       aria-label="Call us">
+                        <span>{{ $settings->phone }}</span>
+                        <i class="fa fa-volume-control-phone" aria-hidden="true"></i>
+                    </a>
+                @endif
 
-                    <div class="social-links-holder">
-                        <ul class="social-links">
+            </li>
 
-                                @if(!empty($settings->facebook_url))
-                                    <li>
-                                        <a href="{{ $settings->facebook_url }}" target="_blank">
-                                            <i class="fa fa-facebook"></i>
-                                        </a>
-                                    </li>
-                                @endif
 
-                                @if(!empty($settings->twitter_url))
-                                    <li>
-                                        <a href="{{ $settings->twitter_url }}" target="_blank">
-                                            <i class="fa fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                @endif
+            {{-- THE INSIDE --}}
+            <li>
+                <a href="{{ route('home') }}"
+                   @if(request()->routeIs('home')) aria-current="page" @endif>
+                    THE INSIDE
+                </a>
+            </li>
 
-                                @if(!empty($settings->linkedin_url))
-                                    <li>
-                                        <a href="{{ $settings->linkedin_url }}" target="_blank">
-                                            <i class="fa fa-linkedin"></i>
-                                        </a>
-                                    </li>
-                                @endif
 
-                                @if(!empty($settings->instagram_url))
-                                    <li>
-                                        <a href="{{ $settings->instagram_url }}" target="_blank">
-                                            <i class="fa fa-instagram"></i>
-                                        </a>
-                                    </li>
-                                @endif
+            {{-- WHAT WE DO --}}
+            <li>
+                <a href="{{ route('categories.index') }}"
+                @if(request()->routeIs('categories.index')) aria-current="page" @endif>
+                    WHAT WE DO
+                </a>
+            </li>
+            {{-- CONNECT --}}
+            <li>
+                <a href="{{ route('contact') }}"
+                   @if(request()->routeIs('contact')) aria-current="page" @endif>
+                    CONNECT
+                </a>
+            </li>
 
-                                @if(!empty($settings->youtube_url))
-                                    <li>
-                                        <a href="{{ $settings->youtube_url }}" target="_blank">
-                                            <i class="fa fa-youtube"></i>
-                                        </a>
-                                    </li>
-                                @endif
+        </ul>
 
-                                @if(!empty($settings->tiktok_url))
-                                    <li>
-                                        <a href="{{ $settings->tiktok_url }}" target="_blank">
-                                            <i class="fa fa-music"></i>
-                                        </a>
-                                    </li>
-                                @endif
-                        </ul>
-                    </div>
-                </div><!-- end of container -->
-            </nav>
-        </header>
-        <!-- end of header -->
+    </nav>
+
+</header>

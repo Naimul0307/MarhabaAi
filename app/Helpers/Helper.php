@@ -17,10 +17,12 @@ function getCategories()
         'featured_services.category_id'
     )
     ->whereNotNull('featured_services.category_id')
+    ->where('categories.status', 1)
     ->orderBy('featured_services.sort_order', 'ASC')
     ->select(
         'featured_services.*',
-        'categories.name as category_name'
+        'categories.name as category_name',
+        'categories.slug as category_slug'
     )
     ->get();
 }
@@ -37,7 +39,8 @@ function getSubCategories()
     ->orderBy('featured_services.sort_order', 'ASC')
     ->select(
         'featured_services.*',
-        'sub_categories.name as sub_category_name'
+        'sub_categories.name as sub_category_name',
+        'sub_categories.slug as sub_category_slug'
     )
     ->get();
 }

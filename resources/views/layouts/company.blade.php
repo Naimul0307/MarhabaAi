@@ -1,31 +1,36 @@
-<!-- Start Company Slider -->
-<section class="partners-section">
-    <h2 class="hidden">Partners</h2>
-
+<section class="section-6 py-5">
     <div class="container">
-        <div class="row">
-            <div class="col col-xs-12">
 
-                <div class="partners-slider">
+        <h2 class="title-color mb-4"><span>OUR </span>CLIENTS</h2>
 
-                    @foreach($companies as $company)
-
-                        @if(!empty($company->image))
-                            <div class="grid">
-                                <img
-                                    src="{{ asset('uploads/companies/thumb/large/' . $company->image) }}"
-                                    alt="{{ $company->name }}"
-                                    class="img img-responsive"
-                                >
-                            </div>
-                        @endif
-
-                    @endforeach
-
-                </div>
-
-            </div>
+        <div class="divider-container">
+            <div class="divider mb-3"></div>
         </div>
+
+        <div class="companies-slider">
+
+            @foreach($companies as $company)
+
+                @if(!empty($company->image))
+
+                    <div class="px-2">
+
+                        <div class="supporter-logo text-center">
+
+                            <img
+                                src="{{ asset('uploads/companies/thumb/large/' . $company->image) }}"
+                                class="img-fluid"
+                                alt="{{ $company->name }}">
+
+                        </div>
+
+                    </div>
+
+                @endif
+
+            @endforeach
+
+        </div>
+
     </div>
 </section>
-<!-- End Company Slider -->

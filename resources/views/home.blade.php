@@ -2,164 +2,336 @@
 
 @section('content')
 
-{{-- Categories --}}
-@foreach($categories as $index => $category)
-    <section class="about-us section-padding">
-        <div class="container">
-            <div class="row">
+{{-- =========================================================
+    LATEST PROJECTS / SERVICES SLIDER
+========================================================= --}}
+<section class="section-6 py-5">
 
-                @if($index % 2 == 0)
-
-                    {{-- Text Left / Image Right --}}
-                    <div class="col col-md-6">
-                        <div class="section-title-s1">
-                            <h2>{{ $category->name }}</h2>
-                        </div>
-
-                        <div class="about-details">
-                            <p>{{ $category->description }}</p>
-                             <a href="{{ route('categories.index', $category->slug) }}" class="theme-btn-s1">Read Article</a>
-                        </div>
-                    </div>
-
-                    <div class="col col-md-6 about-image-col">
-                        <div class="img-holder">
-                            @if($category->image)
-                                <img
-                                    src="{{ asset('uploads/categories/thumb/large/' . $category->image) }}"
-                                    alt="{{ $category->name }}"
-                                    class="img img-responsive"
-                                >
-                            @endif
-                        </div>
-                    </div>
-
-                @else
-
-                    {{-- Image Left / Text Right --}}
-                    <div class="col col-md-6 about-image-col">
-                        <div class="img-holder">
-                            @if($category->image)
-                                <img
-                                    src="{{ asset('uploads/categories/thumb/large/' . $category->image) }}"
-                                    alt="{{ $category->name }}"
-                                    class="img img-responsive"
-                                >
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="col col-md-6">
-                        <div class="section-title-s1">
-                            <h2>{{ $category->name }}</h2>
-                        </div>
-
-                        <div class="about-details">
-                            <p>{{ $category->description }}</p>
-                            <a href="{{ route('categories.index', $category->slug) }}" class="theme-btn-s1">Read Article</a>
-                        </div>
-                    </div>
-
-                @endif
-
-            </div>
-        </div>
-    </section>
-@endforeach
-
-
-{{-- Latest Projects / Subcategories --}}
-<section class="latest-projects section-padding">
     <div class="container">
 
-        <div class="row section-title-s3">
-            <div class="col col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <h2>Our latest <span>Projects</span></h2>
-                <p>
-                    Explore our services and solutions by category.
-                    Choose a category below to view our services.
-                </p>
-            </div>
+
+        {{-- =================================================
+            SECTION TITLE
+        ================================================== --}}
+        <h2 class="title-color mb-4">
+            Our <span>Lates</span> WORK
+        </h2>
+
+        <div class="divider-container">
+            <div class="divider mb-3"></div>
         </div>
 
-        <div class="portfolio gallery-grid">
-            <div class="row">
 
-                {{-- Filter Buttons --}}
-                <ul class="portfolio-sorting gallery-button list-inline text-center">
+        {{-- =================================================
+            CATEGORY FILTER BUTTONS
+        ================================================== --}}
+        <div class="category-filter-wrapper">
+
+            <ul class="portfolio-sorting gallery-button list-inline text-center">
+
+                {{-- ALL --}}
+                <li>
+                    <a href="#"
+                       class="filter-btn active"
+                       data-category="all"
+                       data-category-slug=""
+                       data-category-name="All">
+
+                        All
+
+                    </a>
+                </li>
+
+
+                {{-- CATEGORIES --}}
+                @foreach($categories as $category)
+
                     <li>
                         <a href="#"
-                           data-group="all"
-                           class="filter-btn active">
-                            All
+                           class="filter-btn"
+                           data-category="category-{{ $category->id }}"
+                           data-category-slug="{{ $category->slug }}"
+                           data-category-name="{{ $category->name }}">
+
+                            {{ $category->name }}
+
                         </a>
                     </li>
 
-                    @foreach($categories as $category)
-                        <li>
-                            <a href="#"
-                               data-group="category-{{ $category->id }}"
-                               class="filter-btn">
-                                {{ $category->name }}
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
+                @endforeach
 
-                {{-- Subcategories --}}
-                <div id="lightBox" class="gallery-wrapper">
-                    <ul class="portfolio-items courses list-unstyled" id="grid">
+            </ul>
 
-                        @foreach($categories as $category)
-                            @foreach($category->subCategories as $subCategory)
+        </div>
 
-                                <li class="col-md-3 col-sm-6"
-                                    data-groups='["category-{{ $category->id }}"]'>
 
-                                    <figure class="portfolio-item gallery-caption grid">
+        {{-- =================================================
+            SERVICES SLIDER
+        ================================================== --}}
+        <div class="services-slider-wrapper">
 
-                                        <div class="inner">
-                                            @if($subCategory->image)
-                                                <a href="{{ route('subcategory.index', $subCategory->slug) }}"
-                                                   class="fancybox">
-                                                    <img
-                                                        src="{{ asset('uploads/sub_categories/thumb/large/' . $subCategory->image) }}"
-                                                        alt="{{ $subCategory->name }}"
-                                                        class="img img-responsive"
-                                                    >
-                                                </a>
-                                            @else
-                                                <a href="{{ route('subcategory.index', $subCategory->slug) }}">
-                                                    <img
-                                                        src="{{ asset('assets/images/latest-projects/img-1.jpg') }}"
-                                                        alt="{{ $subCategory->name }}"
-                                                        class="img img-responsive"
-                                                    >
-                                                </a>
-                                            @endif
+            <div class="services-slider">
+
+                @foreach($categories as $category)
+
+                    @foreach($category->subCategories as $subCategory)
+
+                        @foreach($subCategory->services as $service)
+
+                            <div class="service-slide"
+                                 data-category="category-{{ $category->id }}"
+                                 data-subcategory="subcategory-{{ $subCategory->id }}">
+
+                                <div class="card border-0 text-center service-card">
+
+
+                                    {{-- =====================================
+                                        SERVICE IMAGE
+                                    ====================================== --}}
+                                    <a class="service-card-image-link"
+                                       href="{{ route('service.detail', $service->slug) }}"
+                                       aria-label="View {{ $service->name }}">
+
+                                        @if(!empty($service->image))
+
+                                            <img
+                                                src="{{ asset('uploads/services/thumb/large/' . $service->image) }}"
+                                                class="card-img-top"
+                                                alt="{{ $service->name }}"
+                                                width="400"
+                                                height="300"
+                                                loading="lazy"
+                                                decoding="async">
+
+                                        @else
+
+                                            <img
+                                                src="{{ asset('uploads/services/thumb/large/caption-cam.webp') }}"
+                                                class="card-img-top"
+                                                alt="{{ $service->name }}"
+                                                width="400"
+                                                height="300"
+                                                loading="lazy"
+                                                decoding="async">
+
+                                        @endif
+
+                                    </a>
+
+
+                                    {{-- =====================================
+                                        SERVICE CONTENT
+                                    ====================================== --}}
+                                    <div class="card-body p-3">
+
+
+                                        {{-- SUB CATEGORY --}}
+                                        <div class="service-subcategory-name">
+
+                                            {{ $subCategory->name }}
+
                                         </div>
 
-                                        <div class="project-title">
-                                            <h3>
-                                                <a href="{{ route('subcategory.index', $subCategory->slug) }}">
-                                                    {{ $subCategory->name }}
-                                                </a>
-                                            </h3>
+
+                                        {{-- SERVICE NAME --}}
+                                        <h4 class="card-title mt-2">
+
+                                            <a href="{{ route('service.detail', $service->slug) }}">
+
+                                                {{ $service->name }}
+
+                                            </a>
+
+                                        </h4>
+
+
+                                        {{-- SHORT DESCRIPTION --}}
+                                        <div class="content pt-2">
+
+                                            <p class="card-text">
+                                                {{ $service->short_desc ?: '' }}
+                                            </p>
+
                                         </div>
 
-                                    </figure>
-                                </li>
 
-                            @endforeach
+                                        {{-- SEE IN ACTION --}}
+                                        <a href="{{ route('service.detail', $service->slug) }}"
+                                           class="service-action-btn">
+
+                                            <span>See In Action</span>
+
+                                            <i class="fa-solid fa-angle-right"></i>
+
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
                         @endforeach
 
-                    </ul>
+                    @endforeach
+
+                @endforeach
+
+            </div>
+
+        </div>
+
+
+        {{-- =================================================
+            SELECTED CATEGORY PAGE BUTTON
+        ================================================== --}}
+        <div class="selected-category-action">
+
+            <a href="{{ route('categories.index') }}"
+               class="category-page-btn"
+               id="category-page-button">
+
+                <span id="category-page-button-text">
+                    View All Categories
+                </span>
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+{{-- =========================================================
+    FACTS IN NUMBERS
+========================================================= --}}
+<section class="facts-section">
+
+    <div class="container">
+
+        {{-- SECTION TITLE --}}
+        <div class="facts-heading">
+
+            <h2>
+                SOME <span> FACTS OF OUR </span> WORK
+            </h2>
+
+            <div class="divider-container">
+                <div class="divider"></div>
+            </div>
+
+        </div>
+
+
+        {{-- =================================================
+            COUNTERS
+        ================================================== --}}
+        <div class="row facts-row">
+
+
+            {{-- PROJECTS --}}
+            <div class="col-md-4 col-sm-4 col-xs-12">
+
+                <div class="fact-item">
+
+                    <div class="fact-number">
+
+                        <span
+                            class="counter-number"
+                            data-target="50">
+                            0
+                        </span>
+
+                        <span class="counter-suffix">+</span>
+
+                    </div>
+
+                    <h3>Activation</h3>
+
+                    <div class="fact-line"></div>
+
+                    <p>
+                        Successfully completed projects
+                        delivered with quality and attention
+                        to detail.
+                    </p>
+
                 </div>
 
             </div>
+
+
+            {{-- CLIENTS --}}
+            <div class="col-md-4 col-sm-4 col-xs-12">
+
+                <div class="fact-item">
+
+                    <div class="fact-number">
+
+                        <span
+                            class="counter-number"
+                            data-target="25">
+                            0
+                        </span>
+
+                        <span class="counter-suffix">+</span>
+
+                    </div>
+
+                    <h3>Clients</h3>
+
+                    <div class="fact-line"></div>
+
+                    <p>
+                        Trusted by clients who value
+                        professional service and memorable
+                        experiences.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {{-- SATISFACTION --}}
+            <div class="col-md-4 col-sm-4 col-xs-12">
+
+                <div class="fact-item">
+
+                    <div class="fact-number">
+
+                        <span
+                            class="counter-number"
+                            data-target="5">
+                            0
+                        </span>
+
+                        <span class="counter-suffix">*</span>
+
+                    </div>
+
+                    <h3>Rating</h3>
+
+                    <div class="fact-line"></div>
+
+                    <p>
+                        Our commitment to quality helps us
+                        deliver experiences our clients love.
+                    </p>
+
+                </div>
+
+            </div>
+
+
         </div>
 
     </div>
+
 </section>
 
 @endsection

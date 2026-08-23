@@ -46,6 +46,7 @@ class SettingsController extends Controller
         ]);
 
         if ($validator->passes()) {
+
             FeaturedService::query()->delete();
 
             $categories = json_decode($request->featured_categories, true);
@@ -81,6 +82,7 @@ class SettingsController extends Controller
             $settings->website_title = $request->website_title;
             $settings->email = $request->email;
             $settings->phone = $request->phone;
+
             $settings->facebook_url = $request->facebook_url;
             $settings->twitter_url = $request->twitter_url;
             $settings->instagram_url = $request->instagram_url;
@@ -88,9 +90,13 @@ class SettingsController extends Controller
             $settings->linkedin_url = $request->linkedin_url;
             $settings->tiktok_url = $request->tiktok_url;
             $settings->youtube_url = $request->youtube_url;
+
             $settings->contact_card_one = $request->contact_card_one;
             $settings->contact_card_two = $request->contact_card_two;
+            $settings->google_map = $request->google_map;
+
             $settings->copy = $request->copy;
+
             $settings->save();
 
             $request->session()->flash('success', 'Settings saved successfully');

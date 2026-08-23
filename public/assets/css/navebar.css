@@ -1,0 +1,914 @@
+/* =========================================================
+   GENERAL NAV BAR
+========================================================= */
+
+.nav-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 40;
+    min-height: 80px;
+    padding: 0 20px;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.logo-img {
+    display: block;
+    height: auto;
+    object-fit: contain;
+}
+
+.desktop-nav .logo-img {
+    width: 220px;
+    height: auto;
+    margin-left: 30px;
+}
+
+.mobile-nav .logo-img {
+    width: 160px;
+    height: auto;
+}
+
+
+/* =========================================================
+   DESKTOP NAV
+========================================================= */
+
+.desktop-nav {
+    display: flex;
+}
+
+.desktop-nav .nav-bar {
+    min-height: 80px;
+}
+
+.desktop-nav .nav-bar.scrolled {
+    background-color: #000;
+}
+
+
+/* =========================================================
+   DESKTOP CONTACT
+========================================================= */
+
+.nav-contact {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.nav-contact a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+
+.nav-contact a:hover {
+    color: #D4AF37;
+}
+
+.nav-contact i {
+    color: #D4AF37;
+    font-size: 16px;
+}
+
+
+/* =========================================================
+   DESKTOP MENU
+========================================================= */
+
+.desktop-nav .menu {
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-right: 40px;
+    padding: 0;
+    margin-bottom: 0;
+    gap: 0;
+}
+
+.desktop-nav .menu li {
+    padding-left: 30px;
+    position: relative;
+}
+
+.desktop-nav .menu li a {
+    text-decoration: none;
+    color: white;
+    text-transform: uppercase;
+    transition: 0.15s ease-in-out;
+    line-height: 80px;
+    display: block;
+}
+
+.desktop-nav .menu li a:hover {
+    color: #D4AF37;
+}
+
+
+/* =========================================================
+   DESKTOP DROPDOWN
+========================================================= */
+
+.desktop-nav .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #111;
+    z-index: 50;
+    padding: 0;
+    min-width: 220px;
+    list-style: none;
+}
+
+.desktop-nav .dropdown-menu.show {
+    display: block;
+}
+
+.desktop-nav .dropdown-menu li {
+    padding: 0;
+}
+
+.desktop-nav .dropdown-menu li a {
+    display: block;
+    padding: 14px 20px;
+    color: #fff;
+    text-transform: none;
+    white-space: nowrap;
+    line-height: 1.4;
+}
+
+.desktop-nav .dropdown-menu li a:hover {
+    background: #2e2b2d;
+    color: #fff;
+}
+
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+.mobile-nav {
+    display: none;
+}
+
+.mobile-nav .nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    background-color: var(--color2, #000);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 40;
+    min-height: 70px;
+}
+
+.mobile-nav .nav-bar.scrolled {
+    background-color: #000;
+}
+
+
+/* =========================================================
+   MOBILE MENU BUTTONS
+========================================================= */
+
+.menu-toggle,
+.close-menu {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+    padding: 8px;
+    line-height: 1;
+    z-index: 50;
+}
+
+.menu-toggle {
+    display: block;
+}
+
+.close-menu {
+    display: none;
+}
+
+.menu-toggle:focus,
+.close-menu:focus {
+    outline: 2px solid #D4AF37;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+
+/* =========================================================
+   MOBILE SIDEBAR
+========================================================= */
+
+.mobile-nav .menu {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    list-style: none;
+    top: 0;
+    left: 0;
+    width: 320px;
+    height: 100vh;
+    background-color: #000;
+    overflow-y: auto;
+    z-index: 30;
+    align-items: center;
+    padding: 80px 0 30px;
+    margin: 0;
+}
+
+.mobile-nav .menu.show-menu {
+    display: flex;
+}
+
+
+/* =========================================================
+   MOBILE MENU ITEMS
+========================================================= */
+
+.mobile-nav .menu > li {
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.mobile-nav .menu > li > a {
+    color: #fff;
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 16px;
+    padding: 10px;
+    transition: 0.2s ease;
+}
+
+.mobile-nav .menu > li > a:hover {
+    color: #D4AF37;
+}
+
+
+/* =========================================================
+   MOBILE DROPDOWN
+========================================================= */
+
+.mobile-nav .menu .dropdown {
+    position: relative;
+}
+
+.mobile-nav .menu .dropdown-menu {
+    display: none;
+    position: relative;
+    left: 0;
+    width: 100%;
+    background-color: rgba(19, 18, 18, 0.95);
+    z-index: 50;
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+}
+
+.mobile-nav .menu .dropdown-menu.show {
+    display: block;
+}
+
+.mobile-nav .menu .dropdown-menu li {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.mobile-nav .menu .dropdown-menu li a {
+    color: #fff;
+    text-align: left;
+    display: block;
+    padding: 12px 20px;
+    text-transform: none;
+    font-size: 14px;
+}
+
+.mobile-nav .dropdown-menu a:hover {
+    background: #2e2b2d;
+    color: #fff;
+}
+
+
+/* =========================================================
+   HIDDEN HELPER
+========================================================= */
+
+.is-hidden {
+    display: none !important;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .desktop-nav {
+        display: none;
+    }
+
+    .mobile-nav {
+        display: block;
+    }
+
+    .mobile-nav .nav-bar {
+        min-height: 70px;
+    }
+
+    .mobile-nav .logo-img {
+        width: 160px;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .close-menu {
+        display: none;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .mobile-nav .menu {
+        width: 280px;
+    }
+
+    .mobile-nav .logo-img {
+        width: 140px;
+    }
+
+    .mobile-nav .nav-bar {
+        padding: 0 15px;
+    }
+
+}
+
+/* navbar.css */
+
+/* ─── GENERAL NAV BAR ─── */
+.nav-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    position: fixed;
+    z-index: 40;
+    /* ✅ increased navbar height */
+    min-height: 80px;
+    padding: 0 20px;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+/* ─── LOGO IMAGE ─── */
+/* ✅ height: auto preserves natural aspect ratio */
+.logo-img {
+    display: block;
+    height: auto;
+    object-fit: contain;
+}
+
+/* ─── DESKTOP NAV ─── */
+.desktop-nav {
+    display: flex;
+}
+
+.desktop-nav .nav-bar {
+    min-height: 80px; /* ✅ taller desktop navbar */
+}
+
+.desktop-nav .nav-bar.scrolled {
+    background-color: black;
+}
+
+/* ✅ replaced .desktop-nav .logo img with .logo-img class */
+.desktop-nav .logo-img {
+    width: 220px;
+    height: auto;
+    margin-left: 30px;
+}
+
+.desktop-nav .menu {
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-right: 80px;
+    padding: 0;
+    margin-bottom: 0;
+    gap: 0;
+}
+
+.desktop-nav .menu li {
+    padding-left: 30px;
+    position: relative;
+}
+
+.desktop-nav .menu li a {
+    text-decoration: none;
+    color: white;
+    text-transform: uppercase;
+    transition: 0.15s ease-in-out;
+    line-height: 80px; /* ✅ vertically centers links in taller navbar */
+    display: block;
+}
+
+.desktop-nav .menu li a:hover {
+    color: #D4AF37;
+}
+
+.desktop-nav .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #111;
+    z-index: 50;
+    padding: 0;
+    min-width: 220px;
+    list-style: none;
+}
+
+.desktop-nav .dropdown-menu.show {
+    display: block;
+}
+
+.desktop-nav .dropdown-menu li {
+    padding: 0;
+}
+
+.desktop-nav .dropdown-menu li a {
+    display: block;
+    padding: 14px 20px;
+    color: #fff;
+    text-transform: none;
+    white-space: nowrap;
+    line-height: 1.4; /* ✅ reset line-height for dropdown items */
+}
+
+.desktop-nav .dropdown-menu li a:hover {
+    background: #2e2b2d;
+    color: #fff;
+}
+
+/* ─── MOBILE NAV ─── */
+.mobile-nav {
+    display: none;
+}
+
+.mobile-nav .nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    background-color: var(--color2, #000);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 40;
+    min-height: 70px; /* ✅ taller mobile navbar */
+}
+
+.mobile-nav .nav-bar.scrolled {
+    background-color: black;
+}
+
+/* ✅ replaced .mobile-nav .logo img with .logo-img class */
+.mobile-nav .logo-img {
+    width: 160px;
+    height: auto;
+}
+
+/* ─── TOGGLE & CLOSE BUTTONS ─── */
+.menu-toggle,
+.close-menu {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+    padding: 8px;
+    line-height: 1;
+    z-index: 50;
+    display: none;
+    /* ✅ removed position:absolute — flexbox handles positioning now */
+}
+
+.menu-toggle:focus,
+.close-menu:focus {
+    outline: 2px solid #D4AF37;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ─── JS visibility helper ─── */
+.is-hidden {
+    display: none !important;
+}
+
+/* ─── MOBILE MENU SIDEBAR ─── */
+.mobile-nav .menu {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    list-style: none;
+    top: 0;
+    left: 0;
+    width: 320px;
+    height: 100vh;
+    background-color: #000;
+    overflow-y: auto;
+    z-index: 30;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-nav .menu.show-menu {
+    display: flex;
+}
+
+.mobile-nav .menu li {
+    margin-top: 55px;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.mobile-nav .menu li a {
+    color: #fff;
+    text-align: left;
+    display: block;
+    text-decoration: none;
+}
+
+.mobile-nav .menu .dropdown-menu {
+    display: none;
+    position: relative;
+    left: 0;
+    background-color: rgba(19, 18, 18, 0.767);
+    z-index: 50;
+    list-style: none;
+    padding: 0;
+}
+
+.mobile-nav .menu .dropdown-menu.show {
+    display: block;
+}
+
+.mobile-nav .menu .dropdown-menu li {
+    padding: 10px;
+    margin-top: 0;
+}
+
+.mobile-nav .menu .dropdown-menu a {
+    color: #fff;
+    text-align: left;
+}
+
+.mobile-nav .dropdown-menu a:hover {
+    background: #2e2b2d;
+    color: #fff;
+}
+
+
+/* =========================================================
+   NAVIGATION ACTIVE + HOVER EFFECTS
+========================================================= */
+
+.desktop-nav .menu > li > a,
+.mobile-nav .menu > li > a {
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+
+/* Active page */
+.desktop-nav .menu > li > a[aria-current="page"],
+.mobile-nav .menu > li > a[aria-current="page"] {
+    color: #D4AF37;
+}
+
+
+/* Desktop hover */
+.desktop-nav .menu > li > a:hover {
+    color: #D4AF37;
+}
+
+
+/* Active page underline */
+.desktop-nav .menu > li > a[aria-current="page"]::after {
+    position: absolute;
+    right: 0;
+    bottom: 17px;
+    left: 0;
+    height: 2px;
+    background: #D4AF37;
+    content: "";
+}
+
+
+/* Desktop hover underline */
+.desktop-nav .menu > li > a:not([aria-current="page"])::after {
+    position: absolute;
+    right: 0;
+    bottom: 17px;
+    left: 0;
+    height: 2px;
+    background: #D4AF37;
+    content: "";
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.25s ease;
+}
+
+
+/* Show underline on hover */
+.desktop-nav .menu > li > a:not([aria-current="page"]):hover::after {
+    transform: scaleX(1);
+}
+
+
+/* Mobile hover */
+.mobile-nav .menu > li > a:hover,
+.mobile-nav .menu > li > a:focus-visible {
+    color: #D4AF37;
+}
+
+@media (min-width: 1101px) and (max-width: 1280px) {
+    .desktop-nav .logo-img {
+        width: 185px;
+        margin-left: 10px;
+    }
+
+    .desktop-nav .menu {
+        margin-right: 20px;
+    }
+
+    .desktop-nav .menu > li {
+        padding-left: 20px;
+    }
+
+    .desktop-nav .menu > li > a {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 1100px) {
+    .desktop-nav {
+        display: none;
+    }
+
+    .mobile-nav {
+        display: block;
+    }
+
+    .mobile-nav .nav-bar {
+        top: 0;
+        min-height: 64px;
+        padding: 0 18px;
+        background: rgba(0, 0, 0, 0.96);
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .mobile-nav .logo {
+        display: flex;
+        align-items: center;
+        min-width: 0;
+    }
+
+    .mobile-nav .logo a {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .mobile-nav .logo-img {
+        width: min(142px, 43vw);
+        max-height: 48px;
+        margin: 0;
+        object-fit: contain;
+    }
+
+    .menu-toggle,
+    .close-menu {
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+        align-items: center;
+        justify-content: center;
+        margin: 0 -6px 0 12px;
+        padding: 0;
+        border-radius: 8px;
+        font-size: 1.35rem;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .close-menu {
+        display: none;
+    }
+
+    .mobile-nav .menu {
+        top: 64px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 64px);
+        height: calc(100dvh - 64px);
+        max-width: none;
+        align-items: stretch;
+        gap: 0;
+        padding: 12px 18px 28px;
+        background: rgba(0, 0, 0, 0.98);
+        overscroll-behavior: contain;
+    }
+
+    .mobile-nav .menu.show-menu {
+        display: flex;
+    }
+
+    .mobile-nav .menu > li {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        text-align: left;
+    }
+
+    .mobile-nav .menu > li > a {
+        display: flex;
+        min-height: 48px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 4px;
+        color: #fff;
+        font-size: 0.95rem;
+        font-weight: 600;
+        line-height: 1.3;
+        letter-spacing: 0.04em;
+        text-align: left;
+        text-transform: uppercase;
+    }
+
+    .mobile-nav .menu > li > a:hover,
+    .mobile-nav .menu > li > a:focus-visible {
+        color: #D4AF37;
+    }
+
+    .mobile-nav .dropdown-toggle i {
+        margin-left: 12px;
+        transition: transform 0.2s ease;
+    }
+
+    .mobile-nav .dropdown-toggle[aria-expanded="true"] i {
+        transform: rotate(180deg);
+    }
+
+    .mobile-nav .menu .dropdown-menu {
+        width: 100%;
+        margin: 0 0 10px;
+        padding: 4px 0 6px 14px;
+        border: 0;
+        border-left: 2px solid #D4AF37;
+        border-radius: 0;
+        background: rgba(255, 255, 255, 0.06);
+    }
+
+    .mobile-nav .menu .dropdown-menu li {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .mobile-nav .menu .dropdown-menu a {
+        display: block;
+        padding: 9px 12px;
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 0.9rem;
+        line-height: 1.35;
+        text-align: left;
+    }
+
+    .mobile-nav .menu .dropdown-menu a:hover,
+    .mobile-nav .menu .dropdown-menu a:focus-visible {
+        background: rgba(241, 106, 181, 0.12);
+        color: #fff;
+    }
+
+    .mobile-nav .menu > li:last-child {
+        border-bottom: 0;
+    }
+
+    .mobile-nav .search-form {
+        width: 100%;
+        min-height: 56px;
+        gap: 8px;
+        padding: 10px 4px;
+    }
+
+    .mobile-nav .search-icon-btn {
+        width: 40px;
+        height: 40px;
+        flex: 0 0 40px;
+        padding: 0;
+        border-radius: 8px;
+    }
+
+    .mobile-nav .search-input {
+        width: min(100%, 280px);
+        min-width: 0;
+        flex: 1 1 auto;
+        margin: 0;
+    }
+
+    .mobile-nav .search-submit-btn {
+        height: 36px;
+        flex: 0 0 42px;
+        margin: 0;
+        padding: 6px 10px;
+    }
+
+    body.mobile-menu-open {
+        overflow: hidden;
+    }
+}
+
+
+@media (max-width: 380px) {
+    .mobile-nav .nav-bar {
+        padding-right: 14px;
+        padding-left: 14px;
+    }
+
+    .mobile-nav .menu {
+        padding-right: 14px;
+        padding-left: 14px;
+    }
+
+    .mobile-nav .logo-img {
+        width: 128px;
+    }
+}
+
+@media (max-width: 380px) {
+    .mobile-nav .nav-bar {
+        padding-right: 14px;
+        padding-left: 14px;
+    }
+
+    .mobile-nav .menu {
+        padding-right: 14px;
+        padding-left: 14px;
+    }
+
+    .mobile-nav .logo-img {
+        width: 128px;
+    }
+}
+

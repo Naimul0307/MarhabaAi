@@ -9,6 +9,7 @@ use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\SubCategoryController;
 use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\CompanyController;
+use App\Http\Controllers\admin\ReviewController;
 use App\Http\Controllers\admin\SettingsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoriesController;
@@ -17,8 +18,10 @@ use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\ContactController;
 
 
+
 Route::get('/',[HomeController::class,'index'])->name('home');
-Route::get('/category/{slug}', [CategoriesController::class, 'index'])->name('categories.index');
+Route::get('/categories', [CategoriesController::class, 'index'])->name('categories.index');
+Route::get('/category/{slug}', [CategoriesController::class, 'category'])->name('category.detail');
 Route::get('/subcategory/{slug}', [SubCategoriesController::class, 'index'])->name('subcategory.index');
 Route::get('/service/{slug}',[ ServicesController::class, 'detail'])->name('service.detail');
 Route::get('/contact',[ ContactController::class, 'index' ])->name('contact');
@@ -86,6 +89,17 @@ Route::prefix('admin')->group(function () {
         Route::get('/companies/sub-categories', [CompanyController::class, 'getSubCategories'])->name('company.subcategories');
         Route::post('/company/{id}/remove-image', [CompanyController::class, 'removeMainImage'])->name('company.remove.image');
         Route::post('/company/{id}/remove-gallery-image', [CompanyController::class, 'removeGalleryImage'])->name('company.remove.gallery.image');
+
+        // Review Routes
+        Route::get('/reviews',[ReviewController::class,'index'])->name('reviewList');
+        Route::get('/reviews/create',[ReviewController::class,'create'])->name('review.create');
+        Route::post('/reviews/create',[ReviewController::class,'save'])->name('review.store');
+        Route::get('/reviews/edit/{id}',[ReviewController::class,'edit'])->name('review.edit');
+        Route::post('/reviews/edit/{id}',[ReviewController::class,'update'])->name('review.update');
+        Route::post('/reviews/delete/{id}',[ReviewController::class,'delete'])->name('review.delete');
+        Route::get('/reviews/get-slug',[ReviewController::class,'getSlug'])->name('review.slug');
+        Route::post('/reviews/{id}/remove-image', [ReviewController::class, 'removeMainImage'])->name('review.remove.image');
+
 
         Route::get('/settings',[SettingsController::class,'index'])->name('settings.index');
         Route::post('/settings',[SettingsController::class,'save'])->name('settings.save');

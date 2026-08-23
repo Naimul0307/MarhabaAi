@@ -22,6 +22,7 @@ class Setting extends Model
         'youtube_url',
         'contact_card_one',
         'contact_card_two',
+        'google_map',
         'copy',
     ];
 }

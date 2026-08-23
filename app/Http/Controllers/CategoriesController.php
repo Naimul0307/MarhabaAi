@@ -7,6 +7,32 @@ use Illuminate\Support\Str;
 
 class CategoriesController extends Controller
 {
+    /**
+     * Display all categories.
+     */
+    public function list()
+    {
+        $categories = Category::where('status', 1)
+            ->with('subCategories')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return view('categories', [
+            'categories' => $categories,
+            'isCategoriesPage' => true,
+            'showHero' => false,
+
+            'meta_title' => 'What We Do | Event Services in Dubai',
+
+            'meta_description' => 'Explore our event services, photo booths, mirror booths, video booths and other event entertainment services in Dubai, UAE.',
+
+            'meta_keywords' => 'PHOTO BOOTH, MIRROR BOOTH, VIDEO BOOTH, EVENT SERVICES, DUBAI, UAE',
+        ]);
+    }
+
+    /**
+     * Display a single category.
+     */
     public function index($slug)
     {
         $category = Category::where('slug', $slug)
@@ -19,6 +45,7 @@ class CategoriesController extends Controller
             'subCategories' => $category->subCategories,
             'isCategoryPage' => true,
             'showHero' => false,
+
             'meta_title' => $category->meta_title ?? $category->name,
 
             'meta_description' => $category->meta_description

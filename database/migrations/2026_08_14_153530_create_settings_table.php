@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('website_title', 100);
             $table->string('email', 100)->nullable();
             $table->string('phone', 50)->nullable();
+
             $table->string('facebook_url', 200)->nullable();
             $table->string('twitter_url', 200)->nullable();
             $table->string('whatsapp_url', 200)->nullable();
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->string('tiktok_url', 200)->nullable();
             $table->string('linkedin_url', 200)->nullable();
             $table->string('youtube_url', 200)->nullable();
+            $table->string('google_map')->nullable();
             $table->text('contact_card_one')->nullable();
             $table->text('contact_card_two')->nullable();
             $table->string('copy', 100);

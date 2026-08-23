@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HeroSlide;
 use App\Models\Category;
+use App\Models\Review;
 
 class HomeController extends Controller
 {
@@ -16,17 +17,43 @@ class HomeController extends Controller
             ->get();
 
         $categories = Category::where('status', 1)
-            ->with('subCategories')
-            ->select('id', 'name', 'slug', 'description', 'image')
+            ->with([
+                'subCategories' => function ($query) {
+                    $query->where('status', 1)
+                        ->with([
+                            'services' => function ($query) {
+                                $query->where('status', 1);
+                            }
+                        ]);
+                }
+            ])
+            ->select(
+                'id',
+                'name',
+                'slug',
+                'description',
+                'image'
+            )
+            ->orderBy('id', 'desc')
+            ->get();
+
+            $reviews = Review::where('status', 1)
             ->orderBy('id', 'desc')
             ->get();
 
         return view('home', [
             'heroSlides' => $heroSlides,
+
             'categories' => $categories,
+
+            'reviews' => $reviews,
+
             'showHero' => true,
+
             'isCategoryPage' => false,
+
             'isSubCategoryPage' => false,
+
             'meta_title' => 'HOME | Marhaba Ai',
 
             'meta_description' =>
