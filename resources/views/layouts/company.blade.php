@@ -1,7 +1,12 @@
+@if($companies->isNotEmpty())
+
 <section class="section-6 py-5">
+
     <div class="container">
 
-        <h2 class="title-color mb-4"><span>OUR </span>CLIENTS</h2>
+        <h2 class="title-color mb-4">
+            <span>OUR </span>CLIENTS
+        </h2>
 
         <div class="divider-container">
             <div class="divider mb-3"></div>
@@ -11,26 +16,25 @@
 
             @foreach($companies as $company)
 
-                @if(!empty($company->image))
+                <div class="px-2">
 
-                    <div class="px-2">
+                    <div class="supporter-logo text-center">
 
-                        <div class="supporter-logo text-center">
-
-                            <img
-                                src="{{ asset('uploads/companies/thumb/large/' . $company->image) }}"
-                                class="img-fluid"
-                                alt="{{ $company->name }}">
-
-                        </div>
+                        <img
+                            src="{{ asset('uploads/companies/thumb/large/' . $company->image) }}"
+                            class="img-fluid"
+                            alt="{{ $company->name }}">
 
                     </div>
 
-                @endif
+                </div>
 
             @endforeach
 
         </div>
 
     </div>
+
 </section>
+
+@endif

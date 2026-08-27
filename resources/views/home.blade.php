@@ -2,61 +2,42 @@
 
 @section('content')
 
-{{-- =========================================================
-    LATEST PROJECTS / SERVICES SLIDER
-========================================================= --}}
 <section class="section-6 py-5">
 
     <div class="container">
 
-
-        {{-- =================================================
-            SECTION TITLE
-        ================================================== --}}
         <h2 class="title-color mb-4">
-            Our <span>Lates</span> WORK
+            Our <span>Latest</span> WORK
         </h2>
 
         <div class="divider-container">
             <div class="divider mb-3"></div>
         </div>
 
-
-        {{-- =================================================
-            CATEGORY FILTER BUTTONS
-        ================================================== --}}
         <div class="category-filter-wrapper">
 
             <ul class="portfolio-sorting gallery-button list-inline text-center">
 
-                {{-- ALL --}}
-                <li>
-                    <a href="#"
-                       class="filter-btn active"
-                       data-category="all"
-                       data-category-slug=""
-                       data-category-name="All">
-
-                        All
-
-                    </a>
-                </li>
-
-
-                {{-- CATEGORIES --}}
                 @foreach($categories as $category)
 
-                    <li>
-                        <a href="#"
-                           class="filter-btn"
-                           data-category="category-{{ $category->id }}"
-                           data-category-slug="{{ $category->slug }}"
-                           data-category-name="{{ $category->name }}">
+                    @php
+                        $categoryServices = $category->subCategories
+                            ->flatMap(fn ($subCategory) => $subCategory->services);
+                    @endphp
 
-                            {{ $category->name }}
+                    @if($categoryServices->isNotEmpty())
 
-                        </a>
-                    </li>
+                        <li>
+                            <a href="#"
+                               class="filter-btn"
+                               data-category="category-{{ $category->id }}"
+                               data-category-slug="{{ $category->slug }}"
+                               data-category-name="{{ $category->name }}">
+                                {{ $category->name }}
+                            </a>
+                        </li>
+
+                    @endif
 
                 @endforeach
 
@@ -64,116 +45,96 @@
 
         </div>
 
-
-        {{-- =================================================
-            SERVICES SLIDER
-        ================================================== --}}
         <div class="services-slider-wrapper">
 
             <div class="services-slider">
 
                 @foreach($categories as $category)
 
-                    @foreach($category->subCategories as $subCategory)
+                    @php
+                        $categoryServices = $category->subCategories
+                            ->flatMap(fn ($subCategory) => $subCategory->services);
+                    @endphp
 
-                        @foreach($subCategory->services as $service)
+                    @if($categoryServices->isNotEmpty())
 
-                            <div class="service-slide"
-                                 data-category="category-{{ $category->id }}"
-                                 data-subcategory="subcategory-{{ $subCategory->id }}">
+                        @foreach($category->subCategories as $subCategory)
 
-                                <div class="card border-0 text-center service-card">
+                            @foreach($subCategory->services as $service)
 
+                                <div class="service-slide"
+                                     data-category="category-{{ $category->id }}"
+                                     data-subcategory="subcategory-{{ $subCategory->id }}">
 
-                                    {{-- =====================================
-                                        SERVICE IMAGE
-                                    ====================================== --}}
-                                    <a class="service-card-image-link"
-                                       href="{{ route('service.detail', $service->slug) }}"
-                                       aria-label="View {{ $service->name }}">
+                                    <div class="card border-0 text-center service-card">
 
-                                        @if(!empty($service->image))
+                                        <a class="service-card-image-link"
+                                           href="{{ route('service.detail', $service->slug) }}"
+                                           aria-label="View {{ $service->name }}">
 
-                                            <img
-                                                src="{{ asset('uploads/services/thumb/large/' . $service->image) }}"
-                                                class="card-img-top"
-                                                alt="{{ $service->name }}"
-                                                width="400"
-                                                height="300"
-                                                loading="lazy"
-                                                decoding="async">
+                                            @if(!empty($service->image))
 
-                                        @else
+                                                <img
+                                                    src="{{ asset('uploads/services/thumb/large/' . $service->image) }}"
+                                                    class="card-img-top"
+                                                    alt="{{ $service->name }}"
+                                                    width="400"
+                                                    height="300"
+                                                    loading="lazy"
+                                                    decoding="async">
 
-                                            <img
-                                                src="{{ asset('uploads/services/thumb/large/caption-cam.webp') }}"
-                                                class="card-img-top"
-                                                alt="{{ $service->name }}"
-                                                width="400"
-                                                height="300"
-                                                loading="lazy"
-                                                decoding="async">
+                                            @else
 
-                                        @endif
+                                                <img
+                                                    src="{{ asset('uploads/services/thumb/large/caption-cam.webp') }}"
+                                                    class="card-img-top"
+                                                    alt="{{ $service->name }}"
+                                                    width="400"
+                                                    height="300"
+                                                    loading="lazy"
+                                                    decoding="async">
 
-                                    </a>
+                                            @endif
 
+                                        </a>
 
-                                    {{-- =====================================
-                                        SERVICE CONTENT
-                                    ====================================== --}}
-                                    <div class="card-body p-3">
+                                        <div class="card-body p-3">
 
+                                            <div class="service-subcategory-name">
+                                                {{ $subCategory->name }}
+                                            </div>
 
-                                        {{-- SUB CATEGORY --}}
-                                        <div class="service-subcategory-name">
+                                            <h4 class="card-title mt-2">
+                                                <a href="{{ route('service.detail', $service->slug) }}">
+                                                    {{ $service->name }}
+                                                </a>
+                                            </h4>
 
-                                            {{ $subCategory->name }}
+                                            <div class="content pt-2">
+                                                <p class="card-text">
+                                                    {{ $service->short_desc ?: '' }}
+                                                </p>
+                                            </div>
 
-                                        </div>
+                                            <a href="{{ route('service.detail', $service->slug) }}"
+                                               class="service-action-btn">
 
-
-                                        {{-- SERVICE NAME --}}
-                                        <h4 class="card-title mt-2">
-
-                                            <a href="{{ route('service.detail', $service->slug) }}">
-
-                                                {{ $service->name }}
+                                                <span>See In Action</span>
+                                                <i class="fa-solid fa-angle-right"></i>
 
                                             </a>
 
-                                        </h4>
-
-
-                                        {{-- SHORT DESCRIPTION --}}
-                                        <div class="content pt-2">
-
-                                            <p class="card-text">
-                                                {{ $service->short_desc ?: '' }}
-                                            </p>
-
                                         </div>
-
-
-                                        {{-- SEE IN ACTION --}}
-                                        <a href="{{ route('service.detail', $service->slug) }}"
-                                           class="service-action-btn">
-
-                                            <span>See In Action</span>
-
-                                            <i class="fa-solid fa-angle-right"></i>
-
-                                        </a>
 
                                     </div>
 
                                 </div>
 
-                            </div>
+                            @endforeach
 
                         @endforeach
 
-                    @endforeach
+                    @endif
 
                 @endforeach
 
@@ -181,10 +142,6 @@
 
         </div>
 
-
-        {{-- =================================================
-            SELECTED CATEGORY PAGE BUTTON
-        ================================================== --}}
         <div class="selected-category-action">
 
             <a href="{{ route('categories.index') }}"
@@ -201,19 +158,14 @@
 
         </div>
 
-
     </div>
 
 </section>
 
-{{-- =========================================================
-    FACTS IN NUMBERS
-========================================================= --}}
 <section class="facts-section">
 
     <div class="container">
 
-        {{-- SECTION TITLE --}}
         <div class="facts-heading">
 
             <h2>
@@ -226,14 +178,8 @@
 
         </div>
 
-
-        {{-- =================================================
-            COUNTERS
-        ================================================== --}}
         <div class="row facts-row">
 
-
-            {{-- PROJECTS --}}
             <div class="col-md-4 col-sm-4 col-xs-12">
 
                 <div class="fact-item">
@@ -264,8 +210,6 @@
 
             </div>
 
-
-            {{-- CLIENTS --}}
             <div class="col-md-4 col-sm-4 col-xs-12">
 
                 <div class="fact-item">
@@ -296,8 +240,6 @@
 
             </div>
 
-
-            {{-- SATISFACTION --}}
             <div class="col-md-4 col-sm-4 col-xs-12">
 
                 <div class="fact-item">
@@ -326,7 +268,6 @@
                 </div>
 
             </div>
-
 
         </div>
 

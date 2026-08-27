@@ -67,14 +67,15 @@
                             <thead>
                                 <tr>
                                     <th width="50">Id</th>
-                                    <th>Name</th>
-                                    <th>Slug</th>
-                                    <th>Category</th>
-                                    <th>Meta Title</th>
-                                    <th>Meta Keywords</th>
-                                    <th>Meta Description</th>
-                                    <th width="100">Status</th>
-                                    <th width="100">Action</th>
+                                    <th width="50">Name</th>
+                                    <th width="50">Slug</th>
+                                    <th width="50">Category</th>
+                                    <th width="50">Description</th>
+                                    <th width="50">Meta Title</th>
+                                    <th width="50">Meta Keywords</th>
+                                    <th width="50">Meta Description</th>
+                                    <th width="50">Status</th>
+                                    <th width="50">Action</th>
                                 </tr>
                             </thead>
 
@@ -85,6 +86,7 @@
                                             <td>{{ $subCategory->id }}</td>
                                             <td>{{ $subCategory->name }}</td>
                                             <td>{{ $subCategory->slug }}</td>
+                                             <td>{{ $subCategory->description }}</td>
                                             <td>
                                                 @if($subCategory->category)
                                                     {{ $subCategory->category->name }}

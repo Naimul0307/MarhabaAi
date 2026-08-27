@@ -1,6 +1,5 @@
-{{-- =========================================================
-    REVIEWS
-========================================================= --}}
+@if($reviews->isNotEmpty())
+
 <section class="section-8 py-5">
 
     <div class="container">
@@ -13,10 +12,6 @@
             <div class="divider mb-3"></div>
         </div>
 
-
-        {{-- =================================================
-            REVIEWS SLIDER
-        ================================================== --}}
         <div class="reviews-slider-wrapper">
 
             <div class="reviews-slider">
@@ -27,10 +22,6 @@
 
                         <div class="google-review-card">
 
-
-                            {{-- =================================
-                                AUTHOR
-                            ================================== --}}
                             <div class="google-review-author">
 
                                 @if($review->image)
@@ -48,18 +39,11 @@
                                         class="google-review-avatar"
                                         aria-hidden="true">
 
-                                        {{ strtoupper(
-                                            mb_substr(
-                                                $review->name,
-                                                0,
-                                                1
-                                            )
-                                        ) }}
+                                        {{ strtoupper(mb_substr($review->name, 0, 1)) }}
 
                                     </div>
 
                                 @endif
-
 
                                 <div>
 
@@ -79,10 +63,6 @@
 
                             </div>
 
-
-                            {{-- =================================
-                                STARS
-                            ================================== --}}
                             <div
                                 class="google-review-stars"
                                 aria-label="{{ $review->rating }} out of 5 stars">
@@ -105,18 +85,10 @@
 
                             </div>
 
-
-                            {{-- =================================
-                                REVIEW
-                            ================================== --}}
                             <p>
                                 {{ $review->review }}
                             </p>
 
-
-                            {{-- =================================
-                                DATE
-                            ================================== --}}
                             @if($review->review_date)
 
                                 <time datetime="{{ $review->review_date->format('Y-m-d') }}">
@@ -138,3 +110,5 @@
     </div>
 
 </section>
+
+@endif

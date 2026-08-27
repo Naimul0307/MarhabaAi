@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 
 use App\Models\WorkingCompany;
+use App\Models\Review;
 use App\Models\Category;
 use App\Models\Setting;
 
@@ -31,6 +32,24 @@ class AppServiceProvider extends ServiceProvider
         if (app()->environment('production')) {
             URL::forceScheme('https');
         }
+
+        // Review Slider
+        View::composer('layouts.review', function ($view) {
+            $reviews = Review::where('status', 1)
+                ->select(
+                    'id',
+                    'name',
+                    'slug',
+                    'image',
+                    'rating',
+                    'review',
+                    'review_date'
+                )
+                ->orderBy('id', 'desc')
+                ->get();
+
+            $view->with('reviews', $reviews);
+        });
 
         // Company Slider
         View::composer('layouts.company', function ($view) {
@@ -71,46 +90,4 @@ class AppServiceProvider extends ServiceProvider
 
     }
 
-    //         if (
-    //         isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
-    //         $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https'
-    //     ) {
-    //         URL::forceScheme('https');
-    //     }
-
-    //     if (app()->environment('production')) {
-    //         URL::forceScheme('https');
-    //     }
-
-    //     View::composer('layouts.company', function ($view) {
-    //         $companies = Cache::remember('common_companies', 3600, function () {
-    //             return WorkingCompany::where('status', 1)
-    //                 ->select('id', 'name', 'image')
-    //                 ->get();
-    //         });
-
-    //         $view->with('companies', $companies);
-    //     });
-
-
-    //     View::composer('layouts.header', function ($view) {
-    //         $categories = Cache::remember('header_categories', 3600, function () {
-    //             return Category::where('status', 1)
-    //                 ->select('id', 'name', 'slug')
-    //                 ->orderBy('id', 'desc')
-    //                 ->get();
-    //         });
-
-    //         $view->with('categories', $categories);
-    //     });
-
-
-    //     View::composer('layouts.header', function ($view) {
-    //         $settings = Cache::remember('site_settings', 3600, function () {
-    //             return Setting::first();
-    //         });
-
-    //         $view->with('settings', $settings);
-    //     });
-    // }
 }

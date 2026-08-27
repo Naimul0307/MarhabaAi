@@ -94,6 +94,7 @@ class ServiceController extends Controller
         $service->category_id = $request->category;
         $service->sub_category_id = $request->sub_category ?: null;
         $service->description = $request->description;
+        // $service->description = trim(strip_tags($request->description));
         $service->short_desc = $request->short_description;
         $service->meta_title = $request->meta_title ?: $request->name . ' | Marhaba Ai';
         $service->meta_description = $request->meta_description ?: 'EXPLORE ' . $request->name . ' FROM Marhaba Ai, PROVIDING TOP EVENT SERVICES IN DUBAI.';

@@ -16,8 +16,6 @@ class ServicesController extends Controller
             ])
             ->where('status', 1)
             ->firstOrFail();
-
-
         /*
         |--------------------------------------------------------------------------
         | Gallery Images
@@ -105,7 +103,6 @@ class ServicesController extends Controller
         return view('service', [
 
             'service' => $service,
-
             'galleryImages' => $galleryImages,
 
             'mainVideo' => $mainVideo,

@@ -10,51 +10,106 @@ class CategoriesController extends Controller
     /**
      * Display all categories.
      */
-    public function list()
+    public function index()
     {
         $categories = Category::where('status', 1)
-            ->with('subCategories')
+            ->with([
+                'subCategories.services'
+            ])
             ->orderBy('id', 'desc')
             ->get();
 
         return view('categories', [
+
             'categories' => $categories,
+
+            /*
+            |--------------------------------------------------------------------------
+            | Page Controls
+            |--------------------------------------------------------------------------
+            */
             'isCategoriesPage' => true,
+
+            'isCategoryPage' => false,
+
+            'isSubCategoryPage' => false,
+
             'showHero' => false,
 
-            'meta_title' => 'What We Do | Event Services in Dubai',
+            'showHomeSliders' => false,
 
-            'meta_description' => 'Explore our event services, photo booths, mirror booths, video booths and other event entertainment services in Dubai, UAE.',
 
-            'meta_keywords' => 'PHOTO BOOTH, MIRROR BOOTH, VIDEO BOOTH, EVENT SERVICES, DUBAI, UAE',
+            /*
+            |--------------------------------------------------------------------------
+            | SEO
+            |--------------------------------------------------------------------------
+            */
+            'meta_title' =>
+                'Marhaba Ai | Event Services in Dubai',
+
+            'meta_description' =>
+                'Explore our event services, photo booths, mirror booths, video booths and other event entertainment services in Dubai, UAE.',
+
+            'meta_keywords' =>
+                'PHOTO BOOTH, MIRROR BOOTH, VIDEO BOOTH, EVENT SERVICES, DUBAI, UAE',
         ]);
     }
+
 
     /**
      * Display a single category.
      */
-    public function index($slug)
+    public function category($slug)
     {
         $category = Category::where('slug', $slug)
             ->where('status', 1)
-            ->with('subCategories')
+            ->with([
+                'subCategories.services'
+            ])
             ->firstOrFail();
 
+
         return view('category', [
+
             'category' => $category,
+
             'subCategories' => $category->subCategories,
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Page Controls
+            |--------------------------------------------------------------------------
+            */
+            'isCategoriesPage' => false,
+
             'isCategoryPage' => true,
+
+            'isSubCategoryPage' => false,
+
             'showHero' => false,
 
-            'meta_title' => $category->meta_title ?? $category->name,
+            'showHomeSliders' => false,
 
-            'meta_description' => $category->meta_description
+
+            /*
+            |--------------------------------------------------------------------------
+            | SEO
+            |--------------------------------------------------------------------------
+            */
+            'meta_title' =>
+                $category->meta_title
+                ?? $category->name,
+
+            'meta_description' =>
+                $category->meta_description
                 ?? Str::limit(
                     strip_tags($category->description),
                     150
                 ),
 
-            'meta_keywords' => $category->meta_keywords
+            'meta_keywords' =>
+                $category->meta_keywords
                 ?? 'MIRROR BOOTH, PHOTO BOOTH, VIDEOS BOOTH, MAGAZIN BOOTH, EVENT SERVICES, DUBAI, UAE',
         ]);
     }

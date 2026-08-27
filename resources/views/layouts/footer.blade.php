@@ -27,14 +27,14 @@
                             <li><a href="{{ route('contact') }}">Connect</a></li>
                         </ul>
                     </div>
-                    <div class="widget mt-4">
+                    {{-- <div class="widget mt-4">
                         <a href="https://cloud.fotomaster.com/console/badges/check/mNzip2Kxv3FV2vNhLaCF" target="_blank" rel="noopener noreferrer" title="Click to Verify Genuineness">
                             <img src="https://cloud.fotomaster.com/foto-master-badge-genuiness.png"
                                  alt="Certified Photo Booth: Click to Verify Genuineness"
                                  width="120" loading="lazy"
                                  style="height:auto;">
                         </a>
-                    </div>
+                    </div> --}}
                 </div>
 
                 <div class="col-lg-3 col-md-6 col-sm-6">
@@ -133,7 +133,7 @@
                     <div class="col-lg-6">
                         @if(!empty($settings) && $settings->copy)
                         <div class="copyright">
-                            <a href="https://mirrorboothdubai.com//" class="custom-link" aria-label="Visit our website">{{ $settings->copy }}</a>
+                            <a href="# class="custom-link" aria-label="Visit our website">{{ $settings->copy }}</a>
                         </div>
                         @endif
                     </div>

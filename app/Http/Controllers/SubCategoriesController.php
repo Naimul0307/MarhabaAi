@@ -12,6 +12,7 @@ class SubCategoriesController extends Controller
         $subCategory = SubCategory::where('slug', $slug)
             ->with([
                 'category',
+
                 'services' => function ($query) {
                     $query->where('status', 1)
                         ->orderBy('id', 'desc');
@@ -19,13 +20,37 @@ class SubCategoriesController extends Controller
             ])
             ->firstOrFail();
 
+
         return view('subcategory', [
+
             'subCategory' => $subCategory,
+
             'services' => $subCategory->services,
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | Page Controls
+            |--------------------------------------------------------------------------
+            */
             'showHero' => false,
 
-            'meta_title' => $subCategory->meta_title
+            'showHomeSliders' => false,
+
+            'isCategoriesPage' => false,
+
+            'isCategoryPage' => false,
+
+            'isSubCategoryPage' => true,
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | SEO
+            |--------------------------------------------------------------------------
+            */
+            'meta_title' =>
+                $subCategory->meta_title
                 ?? $subCategory->name,
 
             'meta_description' =>

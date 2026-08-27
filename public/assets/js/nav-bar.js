@@ -1,252 +1,552 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+
     /* =========================================================
        NAVBAR SCROLL
     ========================================================= */
 
-    const desktopNav = document.querySelector('.desktop-nav .nav-bar');
-    const mobileNav  = document.querySelector('.mobile-nav .nav-bar');
+    const desktopNav =
+        document.querySelector('.desktop-nav .nav-bar');
+
+    const mobileNav =
+        document.querySelector('.mobile-nav .nav-bar');
+
 
     function handleNavbarScroll() {
+
         const scrolled = window.scrollY > 50;
 
+
+        /* =====================================================
+           DESKTOP NAVBAR
+        ===================================================== */
+
         if (desktopNav) {
-            desktopNav.classList.toggle('scrolled', scrolled);
+
+            desktopNav.classList.toggle(
+                'scrolled',
+                scrolled
+            );
+
         }
+
+
+        /* =====================================================
+           MOBILE NAVBAR
+        ===================================================== */
 
         if (mobileNav) {
-            mobileNav.classList.toggle('scrolled', scrolled);
+
+            mobileNav.classList.toggle(
+                'scrolled',
+                scrolled
+            );
+
         }
+
     }
 
-    window.addEventListener('scroll', handleNavbarScroll);
 
-    // Run once on page load
+    window.addEventListener(
+        'scroll',
+        handleNavbarScroll,
+        {
+            passive: true
+        }
+    );
+
+
+    /* Run once when page loads */
+
     handleNavbarScroll();
+
 
 
     /* =========================================================
        MOBILE MENU
     ========================================================= */
 
-    const menuToggle = document.getElementById('menu-toggle');
-    const closeMenu  = document.getElementById('close-menu');
-    const mobileMenu = document.getElementById('mobile-menu');
+    const menuToggle =
+        document.getElementById('menu-toggle');
 
-    if (menuToggle && closeMenu && mobileMenu) {
+    const closeMenu =
+        document.getElementById('close-menu');
 
-        const closeMobileMenu = function () {
+    const mobileMenu =
+        document.getElementById('mobile-menu');
 
-            mobileMenu.classList.remove('show-menu');
+
+    if (
+        menuToggle &&
+        closeMenu &&
+        mobileMenu
+    ) {
+
+
+        /* =====================================================
+           CLOSE MOBILE MENU
+        ===================================================== */
+
+        function closeMobileMenu() {
+
+            mobileMenu.classList.remove(
+                'show-menu'
+            );
+
 
             menuToggle.style.display = '';
+
             closeMenu.style.display = '';
 
-            menuToggle.setAttribute('aria-expanded', 'false');
 
-            document.body.classList.remove('mobile-menu-open');
-
-            // Also close mobile dropdowns
-            mobileMenu.querySelectorAll('.dropdown-menu').forEach(function (menu) {
-                menu.classList.remove('show');
-            });
-
-            mobileMenu.querySelectorAll('.dropdown-toggle').forEach(function (toggle) {
-                toggle.setAttribute('aria-expanded', 'false');
-            });
-        };
+            menuToggle.setAttribute(
+                'aria-expanded',
+                'false'
+            );
 
 
-        /* ─────────────────────────────────────
+            document.body.classList.remove(
+                'mobile-menu-open'
+            );
+
+
+            /* =================================================
+               CLOSE MOBILE LANGUAGE
+            ================================================= */
+
+            const languageItem =
+                mobileMenu.querySelector(
+                    '.mobile-language-item'
+                );
+
+
+            const languageToggle =
+                mobileMenu.querySelector(
+                    '.mobile-language-toggle'
+                );
+
+
+            if (languageItem) {
+
+                languageItem.classList.remove(
+                    'open'
+                );
+
+            }
+
+
+            if (languageToggle) {
+
+                languageToggle.setAttribute(
+                    'aria-expanded',
+                    'false'
+                );
+
+            }
+
+        }
+
+
+
+        /* =====================================================
            OPEN MOBILE MENU
-        ───────────────────────────────────── */
+        ===================================================== */
 
-        menuToggle.addEventListener('click', function (e) {
-
-            e.stopPropagation();
-
-            mobileMenu.classList.add('show-menu');
-
-            menuToggle.style.display = 'none';
-
-            closeMenu.style.display = 'block';
-
-            menuToggle.setAttribute('aria-expanded', 'true');
-
-            document.body.classList.add('mobile-menu-open');
-        });
-
-
-        /* ─────────────────────────────────────
-           CLOSE MOBILE MENU
-        ───────────────────────────────────── */
-
-        closeMenu.addEventListener('click', function (e) {
-
-            e.stopPropagation();
-
-            closeMobileMenu();
-        });
-
-
-        /* ─────────────────────────────────────
-           CLICK OUTSIDE MOBILE MENU
-        ───────────────────────────────────── */
-
-        document.addEventListener('click', function (e) {
-
-            if (
-                mobileMenu.classList.contains('show-menu') &&
-                !e.target.closest('.mobile-nav')
-            ) {
-                closeMobileMenu();
-            }
-
-        });
-
-
-        /* ─────────────────────────────────────
-           CLOSE MENU WHEN LINK IS CLICKED
-        ───────────────────────────────────── */
-
-        mobileMenu
-            .querySelectorAll('a:not(.dropdown-toggle)')
-            .forEach(function (link) {
-
-                link.addEventListener('click', function () {
-                    closeMobileMenu();
-                });
-
-            });
-
-
-        /* ─────────────────────────────────────
-           ESCAPE KEY
-        ───────────────────────────────────── */
-
-        document.addEventListener('keydown', function (e) {
-
-            if (
-                e.key === 'Escape' &&
-                mobileMenu.classList.contains('show-menu')
-            ) {
-
-                closeMobileMenu();
-
-                menuToggle.focus();
-            }
-
-        });
-
-
-        /* ─────────────────────────────────────
-           CLOSE MOBILE MENU WHEN SWITCHING
-           TO DESKTOP
-        ───────────────────────────────────── */
-
-        window.addEventListener('resize', function () {
-
-            // CSS switches at 768px
-            if (
-                window.innerWidth > 768 &&
-                mobileMenu.classList.contains('show-menu')
-            ) {
-                closeMobileMenu();
-            }
-
-        });
-
-    }
-
-
-    /* =========================================================
-       SEARCH TOGGLE
-    ========================================================= */
-
-    document
-        .querySelectorAll('.search-form')
-        .forEach(function (form) {
-
-            const btn =
-                form.querySelector('.search-icon-btn');
-
-            const input =
-                form.querySelector('.search-input');
-
-            const submit =
-                form.querySelector('.search-submit-btn');
-
-
-            if (!btn || !input || !submit) {
-                return;
-            }
-
-
-            /* ─────────────────────────────────
-               TOGGLE SEARCH
-            ───────────────────────────────── */
-
-            btn.addEventListener('click', function (e) {
+        menuToggle.addEventListener(
+            'click',
+            function (e) {
 
                 e.preventDefault();
 
                 e.stopPropagation();
 
-                const isHidden =
-                    input.hasAttribute('hidden');
+
+                mobileMenu.classList.add(
+                    'show-menu'
+                );
 
 
-                if (isHidden) {
+                menuToggle.style.display =
+                    'none';
 
-                    input.removeAttribute('hidden');
 
-                    submit.removeAttribute('hidden');
+                closeMenu.style.display =
+                    'block';
 
-                    btn.setAttribute(
-                        'aria-expanded',
-                        'true'
+
+                menuToggle.setAttribute(
+                    'aria-expanded',
+                    'true'
+                );
+
+
+                document.body.classList.add(
+                    'mobile-menu-open'
+                );
+
+            }
+        );
+
+
+
+        /* =====================================================
+           CLOSE MOBILE MENU BUTTON
+        ===================================================== */
+
+        closeMenu.addEventListener(
+            'click',
+            function (e) {
+
+                e.preventDefault();
+
+                e.stopPropagation();
+
+
+                closeMobileMenu();
+
+            }
+        );
+
+
+
+        /* =====================================================
+           CLICK OUTSIDE MOBILE MENU
+        ===================================================== */
+
+        document.addEventListener(
+            'click',
+            function (e) {
+
+                if (
+                    mobileMenu.classList.contains(
+                        'show-menu'
+                    ) &&
+                    !e.target.closest(
+                        '.mobile-nav'
+                    )
+                ) {
+
+                    closeMobileMenu();
+
+                }
+
+            }
+        );
+
+
+
+        /* =====================================================
+           CLOSE AFTER NORMAL LINK CLICK
+        ===================================================== */
+
+        mobileMenu
+            .querySelectorAll(
+                'a:not(.mobile-language-option)'
+            )
+            .forEach(
+                function (link) {
+
+                    link.addEventListener(
+                        'click',
+                        function () {
+
+                            closeMobileMenu();
+
+                        }
                     );
 
-                    input.focus();
+                }
+            );
 
-                } else {
 
-                    input.setAttribute('hidden', '');
 
-                    submit.setAttribute('hidden', '');
+        /* =====================================================
+           ESCAPE KEY
+        ===================================================== */
 
-                    btn.setAttribute(
+        document.addEventListener(
+            'keydown',
+            function (e) {
+
+                if (
+                    e.key === 'Escape' &&
+                    mobileMenu.classList.contains(
+                        'show-menu'
+                    )
+                ) {
+
+                    closeMobileMenu();
+
+                    menuToggle.focus();
+
+                }
+
+            }
+        );
+
+
+
+        /* =====================================================
+           CLOSE MOBILE MENU WHEN SWITCHING DESKTOP
+        ===================================================== */
+
+        window.addEventListener(
+            'resize',
+            function () {
+
+                if (
+                    window.innerWidth > 768 &&
+                    mobileMenu.classList.contains(
+                        'show-menu'
+                    )
+                ) {
+
+                    closeMobileMenu();
+
+                }
+
+            }
+        );
+
+    }
+
+
+
+    /* =========================================================
+       DESKTOP LANGUAGE SELECTOR
+    ========================================================= */
+
+    const desktopLanguage =
+        document.querySelector(
+            '.language-selector'
+        );
+
+
+    const desktopLanguageToggle =
+        document.querySelector(
+            '.language-toggle'
+        );
+
+
+    if (
+        desktopLanguage &&
+        desktopLanguageToggle
+    ) {
+
+
+        /* =====================================================
+           OPEN / CLOSE DESKTOP LANGUAGE
+        ===================================================== */
+
+        desktopLanguageToggle.addEventListener(
+            'click',
+            function (e) {
+
+                e.preventDefault();
+
+                e.stopPropagation();
+
+
+                const isOpen =
+                    desktopLanguage.classList.contains(
+                        'open'
+                    );
+
+
+                desktopLanguage.classList.toggle(
+                    'open',
+                    !isOpen
+                );
+
+
+                desktopLanguageToggle.setAttribute(
+                    'aria-expanded',
+                    String(!isOpen)
+                );
+
+            }
+        );
+
+
+
+        /* =====================================================
+           CLOSE DESKTOP LANGUAGE OUTSIDE CLICK
+        ===================================================== */
+
+        document.addEventListener(
+            'click',
+            function (e) {
+
+                if (
+                    !desktopLanguage.contains(
+                        e.target
+                    )
+                ) {
+
+                    desktopLanguage.classList.remove(
+                        'open'
+                    );
+
+
+                    desktopLanguageToggle.setAttribute(
                         'aria-expanded',
                         'false'
                     );
 
                 }
 
-            });
+            }
+        );
+
+    }
 
 
-            /* ─────────────────────────────────
-               CLOSE SEARCH OUTSIDE
-            ───────────────────────────────── */
 
-            document.addEventListener('click', function (e) {
+    /* =========================================================
+       MOBILE LANGUAGE SELECTOR
+       CLICK ONLY
+    ========================================================= */
 
-                if (!form.contains(e.target)) {
+    const mobileLanguageItem =
+        document.querySelector(
+            '.mobile-language-item'
+        );
 
-                    input.setAttribute('hidden', '');
 
-                    submit.setAttribute('hidden', '');
+    const mobileLanguageToggle =
+        document.querySelector(
+            '.mobile-language-toggle'
+        );
 
-                    btn.setAttribute(
-                        'aria-expanded',
-                        'false'
+
+    const mobileLanguageOptions =
+        document.querySelectorAll(
+            '.mobile-language-option'
+        );
+
+
+    if (
+        mobileLanguageItem &&
+        mobileLanguageToggle
+    ) {
+
+
+        /* =====================================================
+           OPEN / CLOSE MOBILE LANGUAGE
+        ===================================================== */
+
+        mobileLanguageToggle.addEventListener(
+            'click',
+            function (e) {
+
+                e.preventDefault();
+
+                e.stopPropagation();
+
+
+                const isOpen =
+                    mobileLanguageItem.classList.contains(
+                        'open'
                     );
 
-                }
 
-            });
+                mobileLanguageItem.classList.toggle(
+                    'open',
+                    !isOpen
+                );
 
-        });
 
+                mobileLanguageToggle.setAttribute(
+                    'aria-expanded',
+                    String(!isOpen)
+                );
+
+            }
+        );
+
+
+
+        /* =====================================================
+           MOBILE LANGUAGE OPTION
+        ===================================================== */
+
+        mobileLanguageOptions.forEach(
+            function (option) {
+
+                option.addEventListener(
+                    'click',
+                    function (e) {
+
+                        e.preventDefault();
+
+                        e.stopPropagation();
+
+
+                        /* =====================================
+                           REMOVE ACTIVE
+                        ===================================== */
+
+                        mobileLanguageOptions.forEach(
+                            function (item) {
+
+                                item.classList.remove(
+                                    'active'
+                                );
+
+                            }
+                        );
+
+
+                        /* =====================================
+                           ADD ACTIVE
+                        ===================================== */
+
+                        option.classList.add(
+                            'active'
+                        );
+
+
+
+                        /* =====================================
+                           UPDATE CURRENT LANGUAGE
+                        ===================================== */
+
+                        const currentLanguage =
+                            mobileLanguageItem.querySelector(
+                                '.mobile-current-language'
+                            );
+
+
+                        if (currentLanguage) {
+
+                            currentLanguage.textContent =
+                                option.textContent.trim();
+
+                        }
+
+
+
+                        /* =====================================
+                           CLOSE LANGUAGE DROPDOWN
+                        ===================================== */
+
+                        mobileLanguageItem.classList.remove(
+                            'open'
+                        );
+
+
+                        mobileLanguageToggle.setAttribute(
+                            'aria-expanded',
+                            'false'
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+    }
 
 });
+

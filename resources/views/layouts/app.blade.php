@@ -22,12 +22,10 @@
         <meta name="keywords" content="{{ $meta_keywords ?? 'Default, Keywords' }}">
         <meta name="_token" content="{{ csrf_token() }}">
 
-        <link rel="shortcut icon" href="{{ asset('assets/favicon.ico') }}" type="image/x-icon">
-        <link rel="apple-touch-icon" href="{{ asset('assets/apple-touch-icon.png') }}" sizes="180x180">
-        <link rel="icon" href="{{ asset('assets/android-chrome-192x192.png') }}" sizes="192x192" type="image/png">
-        <link rel="icon" href="{{ asset('assets/android-chrome-512x512.png') }}" sizes="512x512" type="image/png">
-
-        <!-- for website performance LCP Content preload Banner Section-->
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+        <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}" sizes="180x180">
+        <link rel="icon" href="{{ asset('android-chrome-192x192.png') }}" sizes="192x192" type="image/png">
+        <link rel="icon" href="{{ asset('android-chrome-512x512.png') }}" sizes="512x512" type="image/png">
 
         @php
             $firstHeroImage = null;
@@ -59,6 +57,7 @@
 
         <link rel="stylesheet" href="{{ asset('assets/css/all-styles.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/navebar.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/hero.css') }}">
 
         <!-- FontAwesome async -->
         <link rel="preload" href="{{ asset('assets/fontawesome/css/fontawesome.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -75,7 +74,7 @@
 
 <body id="top">
 
-    <a href="https://wa.me/971502664501?text=Hello%20there!" class="whatsapp-button" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp">
+    <a href="#" class="whatsapp-button" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp">
         <img src="{{ asset('uploads/WhatsApp.svg') }}" alt="" width="24" height="24" aria-hidden="true">
         Chat with us
     </a>
@@ -94,18 +93,24 @@
         @yield('content')
     </main>
 
+    {{-- Review and Company  ONLY ON HOME PAGE --}}
+    @if(isset($showHomeSliders) && $showHomeSliders === true)
 
-    @include('layouts.review')
+        @include('layouts.review')
 
-    @include('layouts.company')
+        @include('layouts.company')
+
+    @endif
+
 
     @include('layouts.footer')
+
 
     <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}" ></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}" defer></script>
     <script src="{{ asset('assets/js/slick.min.js') }}" defer></script>
     <script src="{{ asset('assets/js/custom.js') }}" defer></script>
-    <script src="{{ asset('assets/js/disableRightClick.js') }}" defer></script>
+
     <script src="{{ asset('assets/js/nav-bar.js') }}" defer></script>
 
     <script>

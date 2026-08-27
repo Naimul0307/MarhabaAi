@@ -63,6 +63,7 @@ class SubCategoryController extends Controller
             $subCategory->category_id = $request->category_id;
             $subCategory->name = $request->name;
             $subCategory->slug = $request->slug;
+            $subCategory->description = $request->description;
 
             $subCategory->meta_title = $request->meta_title
                 ?: $request->name .
@@ -159,6 +160,7 @@ class SubCategoryController extends Controller
             $subCategory->category_id = $request->category_id;
             $subCategory->name = $request->name;
             $subCategory->slug = $request->slug;
+            $subCategory->description = $request->description;
 
             $subCategory->meta_title = $request->meta_title
                 ?: $request->name .

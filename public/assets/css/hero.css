@@ -1,0 +1,201 @@
+/* =========================================================
+   MOBILE MENU BODY LOCK
+========================================================= */
+
+body.mobile-menu-open {
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   04. HERO
+========================================================= */
+
+.hero {
+
+    position: relative;
+
+    width: var(--hero-width);
+
+    margin: var(--hero-margin);
+
+    padding: var(--hero-padding);
+
+    overflow: hidden;
+
+    z-index: var(--hero-z-index);
+}
+
+
+/* =========================================================
+   HERO HEIGHT
+========================================================= */
+
+.hero,
+.hero .carousel,
+.hero .carousel-inner,
+.hero .carousel-item {
+
+    height: clamp(
+        var(--hero-height-min),
+        var(--hero-height-vh),
+        var(--hero-height-max)
+    );
+}
+
+
+/* =========================================================
+   HERO CAROUSEL
+========================================================= */
+
+.hero .carousel {
+
+    position: relative;
+
+    width: var(--hero-width);
+}
+
+
+/* =========================================================
+   HERO CAROUSEL INNER
+========================================================= */
+
+.hero .carousel-inner {
+
+    width: var(--hero-width);
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   HERO SLIDE
+========================================================= */
+
+.hero .carousel-item {
+
+    position: relative;
+
+    overflow: hidden;
+
+    width: var(--hero-width);
+}
+
+
+/* =========================================================
+   HERO IMAGE
+========================================================= */
+
+.hero-slide-img {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: var(--hero-width);
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    object-position: center;
+}
+
+
+/* =========================================================
+   HERO OVERLAY
+========================================================= */
+
+.hero-background-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: var(--hero-overlay-z-index);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   TABLET HERO
+   577px - 992px
+========================================================= */
+
+@media (min-width: 577px) and (max-width: 992px) {
+
+    .hero,
+    .hero .carousel,
+    .hero .carousel-inner,
+    .hero .carousel-item {
+
+        height: clamp(
+            var(--hero-tablet-height-min),
+            var(--hero-tablet-height-vh),
+            var(--hero-tablet-height-max)
+        );
+    }
+}
+
+
+/* =========================================================
+   MOBILE HERO
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .hero,
+    .hero .carousel,
+    .hero .carousel-inner,
+    .hero .carousel-item {
+
+        height: clamp(
+            var(--hero-mobile-height-min),
+            var(--hero-mobile-height-vh),
+            var(--hero-mobile-height-max)
+        );
+    }
+}
+
+
+/* =========================================================
+   MOBILE 576px
+========================================================= */
+
+@media (max-width: 576px) {
+
+    .hero,
+    .hero .carousel,
+    .hero .carousel-inner,
+    .hero .carousel-item {
+
+        height: clamp(
+            var(--hero-mobile-sm-height-min),
+            var(--hero-mobile-sm-height-vh),
+            var(--hero-mobile-sm-height-max)
+        );
+    }
+}
+
+
+/* =========================================================
+   MOBILE 500px
+========================================================= */
+
+@media (max-width: 500px) {
+
+    .hero,
+    .hero .carousel,
+    .hero .carousel-inner,
+    .hero .carousel-item {
+
+        height: clamp(
+            var(--hero-mobile-xs-height-min),
+            var(--hero-mobile-xs-height-vh),
+            var(--hero-mobile-xs-height-max)
+        );
+    }
+}

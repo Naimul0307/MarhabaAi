@@ -1,129 +1,167 @@
 @extends('layouts.app')
 
 @section('content')
+<section class="section-3 py-5">
+</section>
+<section class="section-2 py-5">
+    <div class="container py-2">
 
-<!-- PAGE TITLE -->
-<div class="page-title">
-    <div class="container">
-        <h1>{{ $category->name }}</h1>
+        <div class="about-block">
+
+            <h1 class="title-color mb-4 text-center">
+                Our <span>{{ $category->name }}</span>
+            </h1>
+
+            <div class="divider-container text-center">
+                <div class="divider mb-3"></div>
+            </div>
+
+            <div class="mt-2 mb-3 text-muted">
+                {{ $category->name }} RENTAL DUBAI
+            </div>
+
+            <div class="text-muted">
+               Smarter engagement. Better experiences. Sharper insights — all powered by AI that helps brands and agencies grow.
+            </div>
+        </div>
+
     </div>
-</div>
-<!-- END PAGE TITLE -->
+</section>
 
-
-<!-- LATEST PROJECTS -->
-<section class="latest-projects section-padding">
+<section class="section-6 py-5">
 
     <div class="container">
 
-        <div class="portfolio gallery-grid">
+        @foreach($category->subCategories as $subCategory)
 
-            <div class="row">
+            @if($subCategory->services->count())
 
-                <!-- FILTER BUTTONS -->
-                @if($subCategories->count() > 0)
+                <div class="category-service-section">
 
-                    <ul class="portfolio-sorting gallery-button list-inline text-center">
+                <div class="category-service-heading">
+                    <h3>{{ $subCategory->name }}</h3>
 
-                        <li>
-                            <a href="#"
-                               data-group="all"
-                               class="filter-btn active">
-                                All
-                            </a>
-                        </li>
+                    @if($subCategory->description)
+                        <p class="category-description">
+                            {{ $subCategory->description }}
+                        </p>
+                    @endif
 
-                        @foreach($subCategories as $subCategory)
-
-                            <li>
-                                <a href="#"
-                                   data-group="subcategory-{{ $subCategory->id }}"
-                                   class="filter-btn">
-                                    {{ $subCategory->name }}
-                                </a>
-                            </li>
-
-                        @endforeach
-
-                    </ul>
-
-                @endif
+                    <div class="divider-container">
+                        <div class="divider mb-3"></div>
+                    </div>
+                </div>
 
 
-                <!-- SUBCATEGORY GRID -->
-                <div id="lightBox" class="gallery-wrapper">
+                    <div class="services-slider-wrapper">
 
-                    @if($subCategories->count() > 0)
+                        <div class="services-slider">
 
-                        <ul class="portfolio-items courses list-unstyled" id="grid">
+                            @foreach($subCategory->services as $service)
 
-                            @foreach($subCategories as $subCategory)
+                                <div class="service-slide">
 
-                                <li
-                                    class="col-md-3 col-sm-6"
-                                    data-groups='["subcategory-{{ $subCategory->id }}"]'
-                                >
-                                    <figure class="portfolio-item gallery-caption grid">
+                                    <div class="card border-0 text-center service-card">
 
-                                        <div class="inner">
-                                            @if($subCategory->image)
-                                               <a href="{{ route('subcategory.index', $subCategory->slug) }}"class="fancybox">
-                                                    <img
-                                                        src="{{ asset('uploads/sub_categories/thumb/large/' . $subCategory->image) }}"
-                                                        alt="{{ $subCategory->name }}"
-                                                        class="img img-responsive"
-                                                    >
-                                                </a>
+                                        <a
+                                            class="service-card-image-link"
+                                            href="{{ route('service.detail', $service->slug) }}"
+                                            aria-label="View {{ $service->name }}"
+                                        >
+
+                                            @if(!empty($service->image))
+
+                                                <img
+                                                    src="{{ asset('uploads/services/thumb/large/' . $service->image) }}"
+                                                    class="card-img-top"
+                                                    alt="{{ $service->name }}"
+                                                    width="400"
+                                                    height="300"
+                                                    loading="lazy"
+                                                    decoding="async">
+
                                             @else
-                                               <a href="{{ route('subcategory.index', $subCategory->slug) }}" class="fancybox">
-                                                    <img
-                                                        src="{{ asset('assets/images/latest-projects/img-1.jpg') }}"
-                                                        alt="{{ $subCategory->name }}"
-                                                        class="img img-responsive"
-                                                    >
-                                                </a>
+
+                                                <img
+                                                    src="{{ asset('uploads/services/thumb/large/caption-cam.webp') }}"
+                                                    class="card-img-top"
+                                                    alt="{{ $service->name }}"
+                                                    width="400"
+                                                    height="300"
+                                                    loading="lazy"
+                                                    decoding="async">
+
                                             @endif
+
+                                        </a>
+
+
+                                        <div class="card-body p-3">
+
+                                            <div class="service-subcategory-name">
+                                                {{ $subCategory->name }}
+                                            </div>
+
+                                            <h4 class="card-title mt-2">
+
+                                                <a href="{{ route('service.detail', $service->slug) }}">
+                                                    {{ $service->name }}
+                                                </a>
+
+                                            </h4>
+
+                                            <div class="content pt-2">
+
+                                                <p class="card-text">
+                                                    {{ $service->short_desc ?: '' }}
+                                                </p>
+
+                                            </div>
+
+                                            <a
+                                                href="{{ route('service.detail', $service->slug) }}"
+                                                class="service-action-btn"
+                                            >
+
+                                                <span>See In Action</span>
+
+                                                <i class="fa-solid fa-angle-right"></i>
+
+                                            </a>
+
                                         </div>
 
-                                        <div class="project-title">
-                                            <h3>
-                                                <a href="{{ route('subcategory.index', $subCategory->slug) }}">
-                                                    {{ $subCategory->name }}
-                                                </a>
-                                            </h3>
-                                        </div>
-                                    </figure>
-                                </li>
+                                    </div>
+
+                                </div>
 
                             @endforeach
 
-                        </ul>
-
-                    @else
-
-                        <!-- NO RECORD FOUND -->
-                        <div class="text-center" style="padding: 50px 0;">
-
-                            <h3>No Record Found</h3>
-
-                            <p>
-                                No subcategories are available for
-                                <strong>{{ $category->name }}</strong>.
-                            </p>
-
                         </div>
 
-                    @endif
+                    </div>
+
+
+                    {{-- SUBCATEGORY PAGE BUTTON --}}
+
+                <div class="selected-category-action">
+                    <a
+                       href="{{ route('subcategory.index', $subCategory->slug) }}"
+                        class="category-page-btn"
+                    >
+                        <span>View {{ $subCategory->name }}</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
 
                 </div>
 
-            </div>
+            @endif
 
-        </div>
+        @endforeach
 
     </div>
 
 </section>
-<!-- END LATEST PROJECTS -->
 
 @endsection

@@ -7,14 +7,16 @@ function fixSlickAccessibility(slider) {
     const focusable =
         'a[href], button, input, select, textarea, area[href], iframe, [tabindex], [contenteditable="true"], audio[controls], video[controls], summary';
 
-    const hiddenSlides = slider.find('.slick-slide[aria-hidden="true"]');
+    const hiddenSlides =
+        slider.find('.slick-slide[aria-hidden="true"]');
 
-    const visibleSlides = slider.find('.slick-slide[aria-hidden="false"]');
+    const visibleSlides =
+        slider.find('.slick-slide[aria-hidden="false"]');
 
 
-    /* -----------------------------------------
-       Hidden slides
-    ----------------------------------------- */
+    /* =====================================================
+       HIDDEN SLIDES
+    ===================================================== */
 
     hiddenSlides
         .attr({
@@ -29,9 +31,9 @@ function fixSlickAccessibility(slider) {
         });
 
 
-    /* -----------------------------------------
-       Visible slides
-    ----------------------------------------- */
+    /* =====================================================
+       VISIBLE SLIDES
+    ===================================================== */
 
     visibleSlides
         .removeAttr('tabindex inert')
@@ -47,6 +49,10 @@ function fixSlickAccessibility(slider) {
 ========================================================= */
 
 function runSlickAccessibilityFix(slider) {
+
+    if (!slider || !slider.length) {
+        return;
+    }
 
     fixSlickAccessibility(slider);
 
@@ -72,7 +78,31 @@ $(document).ready(function () {
 
 
     /* =====================================================
-       SLICK OPTIONS
+       COMMON ARROWS
+    ===================================================== */
+
+    const previousArrow = `
+        <button
+            type="button"
+            class="slick-prev"
+            aria-label="Previous">
+            <i class="fa-solid fa-angle-left"></i>
+        </button>
+    `;
+
+
+    const nextArrow = `
+        <button
+            type="button"
+            class="slick-next"
+            aria-label="Next">
+            <i class="fa-solid fa-angle-right"></i>
+        </button>
+    `;
+
+
+    /* =====================================================
+       MAIN SERVICE SLIDER OPTIONS
     ===================================================== */
 
     const sliderOptions = {
@@ -99,38 +129,9 @@ $(document).ready(function () {
 
         adaptiveHeight: false,
 
+        prevArrow: previousArrow,
 
-        /* ---------------------------------------------
-           PREVIOUS ARROW
-        --------------------------------------------- */
-
-        prevArrow: `
-            <button
-                type="button"
-                class="slick-prev"
-                aria-label="Previous service">
-                <i class="fa-solid fa-angle-left"></i>
-            </button>
-        `,
-
-
-        /* ---------------------------------------------
-           NEXT ARROW
-        --------------------------------------------- */
-
-        nextArrow: `
-            <button
-                type="button"
-                class="slick-next"
-                aria-label="Next service">
-                <i class="fa-solid fa-angle-right"></i>
-            </button>
-        `,
-
-
-        /* ---------------------------------------------
-           RESPONSIVE
-        --------------------------------------------- */
+        nextArrow: nextArrow,
 
         responsive: [
 
@@ -166,7 +167,7 @@ $(document).ready(function () {
 
 
     /* =====================================================
-       INITIALIZE SLIDERS
+       INITIALIZE MAIN SLIDERS
     ===================================================== */
 
     const sliders = $(
@@ -174,249 +175,452 @@ $(document).ready(function () {
     );
 
 
-    sliders
-        .on(
-            'init beforeChange afterChange reInit breakpoint setPosition',
-            function () {
+    if (sliders.length) {
+
+        sliders
+            .on(
+                'init beforeChange afterChange reInit breakpoint setPosition',
+                function () {
+
+                    runSlickAccessibilityFix(
+                        $(this)
+                    );
+
+                }
+            )
+            .slick(sliderOptions);
+
+
+        /* =================================================
+           PAGE LOAD ACCESSIBILITY
+        ================================================= */
+
+        window.addEventListener('load', function () {
+
+            sliders.each(function () {
 
                 runSlickAccessibilityFix(
                     $(this)
                 );
-            }
-        )
-        .slick(sliderOptions);
 
-
-    /* =====================================================
-       PAGE LOAD ACCESSIBILITY
-    ===================================================== */
-
-    window.addEventListener('load', function () {
-
-        sliders.each(function () {
-
-            runSlickAccessibilityFix(
-                $(this)
-            );
+            });
 
         });
 
-    });
+    }
 
 
     /* =====================================================
        SERVICE CATEGORY FILTER
     ===================================================== */
 
-    const serviceSlider = $('.services-slider');
+    const serviceSlider =
+        $('.services-slider');
 
-    const filterButtons = $('.filter-btn');
+    const filterButtons =
+        $('.filter-btn');
 
-    const categoryPageButton = $('#categoryPageButton');
+    const categoryPageButton =
+        $('#categoryPageButton');
 
     const categoryPageButtonText =
         $('#categoryPageButtonText');
 
 
-    /* -----------------------------------------
-       Make sure service slider exists
-    ----------------------------------------- */
-
     if (
-        !serviceSlider.length ||
-        !filterButtons.length
+        serviceSlider.length &&
+        filterButtons.length
     ) {
-        return;
-    }
-
-
-    /* =====================================================
-       CATEGORY FILTER CLICK
-    ===================================================== */
-
-    filterButtons.on('click', function (event) {
-
-        event.preventDefault();
-
-
-        const button = $(this);
-
-        const selectedCategory =
-            button.data('category');
-
-
-        /* -----------------------------------------
-           Active button
-        ----------------------------------------- */
-
-        filterButtons.removeClass('active');
-
-        button.addClass('active');
 
 
         /* =================================================
-           ALL SERVICES
+           FILTER CLICK
         ================================================= */
 
-        if (selectedCategory === 'all') {
+        filterButtons.on('click', function (event) {
+
+            event.preventDefault();
+
+            const button = $(this);
+
+            const selectedCategory =
+                button.data('category');
+
+
+            /* ---------------------------------------------
+               ACTIVE BUTTON
+            --------------------------------------------- */
+
+            filterButtons.removeClass('active');
+
+            button.addClass('active');
+
+
+            /* =================================================
+               ALL SERVICES
+            ================================================= */
+
+            if (selectedCategory === 'all') {
+
+                serviceSlider.slick(
+                    'slickUnfilter'
+                );
+
+
+                if (categoryPageButton.length) {
+
+                    categoryPageButton.attr(
+                        'href',
+                        categoryPageButton.data(
+                            'all-url'
+                        ) || '/categories'
+                    );
+
+                }
+
+
+                if (categoryPageButtonText.length) {
+
+                    categoryPageButtonText.text(
+                        'View All Categories'
+                    );
+
+                }
+
+
+                runSlickAccessibilityFix(
+                    serviceSlider
+                );
+
+                return;
+            }
+
+
+            /* =================================================
+               SELECTED CATEGORY
+            ================================================= */
 
             serviceSlider.slick(
                 'slickUnfilter'
             );
 
 
-            /* -------------------------------------
-               Category page button
-            ------------------------------------- */
+            serviceSlider.slick(
+                'slickFilter',
+                '[data-category="' +
+                    selectedCategory +
+                '"]'
+            );
 
-            if (categoryPageButton.length) {
+
+            /* ---------------------------------------------
+               CATEGORY URL
+            --------------------------------------------- */
+
+            const categoryUrl =
+                button.attr('data-category-url');
+
+
+            if (
+                categoryUrl &&
+                categoryPageButton.length
+            ) {
 
                 categoryPageButton.attr(
                     'href',
-                    $('#categoryPageButton').data(
-                        'all-url'
-                    ) || '/categories'
+                    categoryUrl
                 );
 
             }
+
+
+            /* ---------------------------------------------
+               CATEGORY NAME
+            --------------------------------------------- */
+
+            const categoryName =
+                $.trim(button.text());
 
 
             if (categoryPageButtonText.length) {
 
                 categoryPageButtonText.text(
-                    'View All Categories'
+                    'View ' +
+                    categoryName +
+                    ' Services'
                 );
+
             }
 
 
-            /* -------------------------------------
-               Accessibility
-            ------------------------------------- */
+            /* ---------------------------------------------
+               ACCESSIBILITY
+            --------------------------------------------- */
 
-            runSlickAccessibilityFix(
-                serviceSlider
+            setTimeout(function () {
+
+                runSlickAccessibilityFix(
+                    serviceSlider
+                );
+
+            }, 50);
+
+        });
+
+
+        /* =================================================
+           CATEGORY PAGE BUTTON
+        ================================================= */
+
+        if (categoryPageButton.length) {
+
+            categoryPageButton.attr(
+                'data-all-url',
+                '/categories'
             );
 
-
-            return;
         }
 
 
         /* =================================================
-           SELECTED CATEGORY
+           INITIAL STATE
         ================================================= */
 
-        serviceSlider.slick(
-            'slickUnfilter'
-        );
+        const firstButton =
+            $('.filter-btn.active').first();
 
 
-        serviceSlider.slick(
-            'slickFilter',
-            '[data-category="' +
-                selectedCategory +
-            '"]'
-        );
+        if (firstButton.length) {
+
+            const initialCategory =
+                firstButton.data('category');
 
 
-        /* -----------------------------------------
-           Category URL
-        ----------------------------------------- */
+            if (initialCategory === 'all') {
 
-        const categoryUrl =
-            button.attr('data-category-url');
+                if (categoryPageButton.length) {
+
+                    categoryPageButton.attr(
+                        'href',
+                        '/categories'
+                    );
+
+                }
 
 
-        if (
-            categoryUrl &&
-            categoryPageButton.length
-        ) {
+                if (categoryPageButtonText.length) {
 
-            categoryPageButton.attr(
-                'href',
-                categoryUrl
-            );
+                    categoryPageButtonText.text(
+                        'View All Categories'
+                    );
+
+                }
+
+            }
+
         }
 
-
-        /* -----------------------------------------
-           Category name
-        ----------------------------------------- */
-
-        const categoryName =
-            $.trim(button.text());
-
-
-        if (categoryPageButtonText.length) {
-
-            categoryPageButtonText.text(
-                'View ' +
-                categoryName +
-                ' Services'
-            );
-        }
-
-
-        /* -----------------------------------------
-           Accessibility
-        ----------------------------------------- */
-
-        setTimeout(function () {
-
-            runSlickAccessibilityFix(
-                serviceSlider
-            );
-
-        }, 50);
-
-    });
-
-
-    /* =====================================================
-       CATEGORY PAGE BUTTON
-    ===================================================== */
-
-    if (categoryPageButton.length) {
-
-        categoryPageButton.attr(
-            'data-all-url',
-            '/categories'
-        );
     }
 
 
     /* =====================================================
-       INITIAL STATE
+       DETAIL PAGE GALLERY SLIDER
     ===================================================== */
 
-    const firstButton =
-        $('.filter-btn.active').first();
+    const gallerySlider =
+        $('.service-gallery-slider');
 
 
-    if (firstButton.length) {
+    if (gallerySlider.length) {
 
-        const initialCategory =
-            firstButton.data('category');
+        gallerySlider
+            .on(
+                'init beforeChange afterChange reInit breakpoint setPosition',
+                function () {
+
+                    runSlickAccessibilityFix(
+                        $(this)
+                    );
+
+                }
+            )
+            .slick({
+
+                dots: false,
+
+                infinite: true,
+
+                speed: 500,
+
+                slidesToShow: 4,
+
+                slidesToScroll: 1,
+
+                autoplay: true,
+
+                autoplaySpeed: 3000,
+
+                pauseOnHover: true,
+
+                pauseOnFocus: true,
+
+                accessibility: true,
+
+                adaptiveHeight: false,
+
+                prevArrow: `
+                    <button
+                        type="button"
+                        class="slick-prev"
+                        aria-label="Previous gallery image">
+                        <i class="fa-solid fa-angle-left"></i>
+                    </button>
+                `,
+
+                nextArrow: `
+                    <button
+                        type="button"
+                        class="slick-next"
+                        aria-label="Next gallery image">
+                        <i class="fa-solid fa-angle-right"></i>
+                    </button>
+                `,
+
+                responsive: [
+
+                    {
+                        breakpoint: 1024,
+
+                        settings: {
+                            slidesToShow: 3
+                        }
+                    },
+
+                    {
+                        breakpoint: 768,
+
+                        settings: {
+                            slidesToShow: 2
+                        }
+                    },
+
+                    {
+                        breakpoint: 576,
+
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    }
+
+                ]
+
+            });
 
 
-        if (initialCategory === 'all') {
+        runSlickAccessibilityFix(
+            gallerySlider
+        );
 
-            if (categoryPageButton.length) {
+    }
 
-                categoryPageButton.attr(
-                    'href',
-                    '/categories'
-                );
-            }
 
-            if (categoryPageButtonText.length) {
+    /* =====================================================
+       DETAIL PAGE VIDEO SLIDER
+    ===================================================== */
 
-                categoryPageButtonText.text(
-                    'View All Categories'
-                );
-            }
+    const videoSlider =
+        $('.additional-videos-slider');
 
-        }
+
+    if (videoSlider.length) {
+
+        videoSlider
+            .on(
+                'init beforeChange afterChange reInit breakpoint setPosition',
+                function () {
+
+                    runSlickAccessibilityFix(
+                        $(this)
+                    );
+
+                }
+            )
+            .slick({
+
+                dots: false,
+
+                infinite: true,
+
+                speed: 500,
+
+                slidesToShow: 4,
+
+                slidesToScroll: 1,
+
+                autoplay: true,
+
+                autoplaySpeed: 3000,
+
+                pauseOnHover: true,
+
+                pauseOnFocus: true,
+
+                accessibility: true,
+
+                adaptiveHeight: false,
+
+                prevArrow: `
+                    <button
+                        type="button"
+                        class="slick-prev"
+                        aria-label="Previous video">
+                        <i class="fa-solid fa-angle-left"></i>
+                    </button>
+                `,
+
+                nextArrow: `
+                    <button
+                        type="button"
+                        class="slick-next"
+                        aria-label="Next video">
+                        <i class="fa-solid fa-angle-right"></i>
+                    </button>
+                `,
+
+                responsive: [
+
+                    {
+                        breakpoint: 1024,
+
+                        settings: {
+                            slidesToShow: 3
+                        }
+                    },
+
+                    {
+                        breakpoint: 768,
+
+                        settings: {
+                            slidesToShow: 2
+                        }
+                    },
+
+                    {
+                        breakpoint: 576,
+
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    }
+
+                ]
+
+            });
+
+
+        runSlickAccessibilityFix(
+            videoSlider
+        );
 
     }
 
@@ -424,121 +628,407 @@ $(document).ready(function () {
 
 
 /* =========================================================
-   FACTS IN NUMBERS - COUNTER
+   VIDEO MODAL
 ========================================================= */
 
-document.addEventListener('DOMContentLoaded', function () {
+function openVideoModal(videoUrl)
+{
 
-    const factsSection = document.querySelector('.facts-section');
+    const modal =
+        document.getElementById('videoModal');
 
-    if (!factsSection) {
+    const iframe =
+        document.getElementById('videoModalIframe');
+
+
+    if (
+        !modal ||
+        !iframe ||
+        !videoUrl
+    ) {
         return;
     }
 
 
-    const counters = factsSection.querySelectorAll('.counter-number');
+    /* =====================================================
+       PAUSE VIDEO SLIDER
+    ===================================================== */
 
-    let hasAnimated = false;
-
-
-    function animateCounters() {
-
-        if (hasAnimated) {
-            return;
-        }
-
-        hasAnimated = true;
+    const videoSlider =
+        $('.additional-videos-slider');
 
 
-        counters.forEach(function (counter) {
+    if (
+        videoSlider.length &&
+        videoSlider.hasClass('slick-initialized')
+    ) {
 
-            const target = parseInt(
-                counter.getAttribute('data-target'),
-                10
-            );
-
-            const duration = 1800;
-
-            const startTime = performance.now();
-
-
-            function updateCounter(currentTime) {
-
-                const elapsed = currentTime - startTime;
-
-                const progress = Math.min(
-                    elapsed / duration,
-                    1
-                );
-
-
-                /*
-                 * Ease-out effect
-                 * Starts fast and slows near final number
-                 */
-                const easeOut = 1 - Math.pow(
-                    1 - progress,
-                    3
-                );
-
-
-                const currentValue = Math.floor(
-                    easeOut * target
-                );
-
-
-                counter.textContent = currentValue.toLocaleString();
-
-
-                if (progress < 1) {
-
-                    requestAnimationFrame(updateCounter);
-
-                } else {
-
-                    counter.textContent =
-                        target.toLocaleString();
-
-                }
-
-            }
-
-
-            requestAnimationFrame(updateCounter);
-
-        });
+        videoSlider.slick(
+            'slickPause'
+        );
 
     }
 
 
     /* =====================================================
-       DETECT WHEN SECTION ENTERS VIEW
-    ====================================================== */
+       STOP GALLERY AUTOPLAY TOO
+       This prevents other page sliders moving
+       while user watches the video.
+    ===================================================== */
 
-    const observer = new IntersectionObserver(
-        function (entries) {
+    const gallerySlider =
+        $('.service-gallery-slider');
 
-            entries.forEach(function (entry) {
 
-                if (entry.isIntersecting) {
+    if (
+        gallerySlider.length &&
+        gallerySlider.hasClass('slick-initialized')
+    ) {
 
-                    animateCounters();
+        gallerySlider.slick(
+            'slickPause'
+        );
 
-                    observer.unobserve(
-                        factsSection
-                    );
+    }
 
-                }
 
-            });
+    /* =====================================================
+       YOUTUBE URL
+    ===================================================== */
 
-        },
-        {
-            threshold: 0.25
-        }
+    let playUrl = videoUrl;
+
+
+    if (playUrl.includes('?')) {
+
+        playUrl += '&autoplay=1';
+
+    } else {
+
+        playUrl += '?autoplay=1';
+
+    }
+
+
+    /* =====================================================
+       LOAD VIDEO IN MODAL
+    ===================================================== */
+
+    iframe.src = playUrl;
+
+
+    modal.classList.add('active');
+
+    modal.setAttribute(
+        'aria-hidden',
+        'false'
+    );
+
+    document.body.classList.add(
+        'video-modal-open'
+    );
+
+}
+
+
+/* =========================================================
+   CLOSE VIDEO MODAL
+========================================================= */
+
+function closeVideoModal()
+{
+
+    const modal =
+        document.getElementById('videoModal');
+
+    const iframe =
+        document.getElementById('videoModalIframe');
+
+
+    if (
+        !modal ||
+        !iframe
+    ) {
+        return;
+    }
+
+
+    /* =====================================================
+       STOP VIDEO
+    ===================================================== */
+
+    iframe.src = '';
+
+
+    /* =====================================================
+       CLOSE MODAL
+    ===================================================== */
+
+    modal.classList.remove('active');
+
+    modal.setAttribute(
+        'aria-hidden',
+        'true'
+    );
+
+    document.body.classList.remove(
+        'video-modal-open'
     );
 
 
-    observer.observe(factsSection);
+    /* =====================================================
+       RESUME VIDEO SLIDER
+    ===================================================== */
 
-});
+    const videoSlider =
+        $('.additional-videos-slider');
+
+
+    if (
+        videoSlider.length &&
+        videoSlider.hasClass('slick-initialized')
+    ) {
+
+        videoSlider.slick(
+            'slickPlay'
+        );
+
+    }
+
+
+    /* =====================================================
+       RESUME GALLERY SLIDER
+    ===================================================== */
+
+    const gallerySlider =
+        $('.service-gallery-slider');
+
+
+    if (
+        gallerySlider.length &&
+        gallerySlider.hasClass('slick-initialized')
+    ) {
+
+        gallerySlider.slick(
+            'slickPlay'
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   ESC KEY
+========================================================= */
+
+document.addEventListener(
+    'keydown',
+    function(event) {
+
+        if (event.key === 'Escape') {
+
+            closeVideoModal();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   ENTER / SPACE FOR VIDEO CARDS
+========================================================= */
+
+document.addEventListener(
+    'keydown',
+    function(event) {
+
+        const target =
+            event.target.closest(
+                '.service-video-card, .main-video-card'
+            );
+
+
+        if (!target) {
+            return;
+        }
+
+
+        if (
+            event.key === 'Enter' ||
+            event.key === ' '
+        ) {
+
+            event.preventDefault();
+
+            target.click();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   FACTS IN NUMBERS - COUNTER
+========================================================= */
+
+document.addEventListener(
+    'DOMContentLoaded',
+    function() {
+
+        const factsSection =
+            document.querySelector(
+                '.facts-section'
+            );
+
+
+        if (!factsSection) {
+            return;
+        }
+
+
+        const counters =
+            factsSection.querySelectorAll(
+                '.counter-number'
+            );
+
+
+        let hasAnimated = false;
+
+
+        function animateCounters()
+        {
+
+            if (hasAnimated) {
+                return;
+            }
+
+
+            hasAnimated = true;
+
+
+            counters.forEach(
+                function(counter) {
+
+                    const target =
+                        parseInt(
+                            counter.getAttribute(
+                                'data-target'
+                            ),
+                            10
+                        );
+
+
+                    const duration = 1800;
+
+                    const startTime =
+                        performance.now();
+
+
+                    function updateCounter(
+                        currentTime
+                    )
+                    {
+
+                        const elapsed =
+                            currentTime -
+                            startTime;
+
+
+                        const progress =
+                            Math.min(
+                                elapsed /
+                                duration,
+                                1
+                            );
+
+
+                        const easeOut =
+                            1 -
+                            Math.pow(
+                                1 - progress,
+                                3
+                            );
+
+
+                        const currentValue =
+                            Math.floor(
+                                easeOut *
+                                target
+                            );
+
+
+                        counter.textContent =
+                            currentValue.toLocaleString();
+
+
+                        if (
+                            progress < 1
+                        ) {
+
+                            requestAnimationFrame(
+                                updateCounter
+                            );
+
+                        } else {
+
+                            counter.textContent =
+                                target.toLocaleString();
+
+                        }
+
+                    }
+
+
+                    requestAnimationFrame(
+                        updateCounter
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =================================================
+           INTERSECTION OBSERVER
+        ================================================= */
+
+        const observer =
+            new IntersectionObserver(
+                function(entries) {
+
+                    entries.forEach(
+                        function(entry) {
+
+                            if (
+                                entry.isIntersecting
+                            ) {
+
+                                animateCounters();
+
+                                observer.unobserve(
+                                    factsSection
+                                );
+
+                            }
+
+                        }
+                    );
+
+                },
+                {
+                    threshold: 0.25
+                }
+            );
+
+
+        observer.observe(
+            factsSection
+        );
+
+    }
+);
+

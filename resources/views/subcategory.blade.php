@@ -1,126 +1,160 @@
 @extends('layouts.app')
 
 @section('content')
+<section class="section-3 py-5">
+</section>
+<section class="section-2 py-5">
+    <div class="container py-2">
 
-<!-- start page-title-wrapper -->
-<div class="page-title">
-    <div class="container">
-        <h1>{{ $subCategory->name }}</h1>
+        <div class="about-block">
+
+            <h1 class="title-color mb-4 text-center">
+                Our <span>{{ $subCategory->name }}</span>
+            </h1>
+
+            <div class="divider-container text-center">
+                <div class="divider mb-3"></div>
+            </div>
+
+            <div class="mt-2 mb-3 text-muted">
+                {{ $subCategory->name }} RENTAL DUBAI
+            </div>
+
+            <div class="text-muted">
+               Smarter engagement. Better experiences. Sharper insights — all powered by AI that helps brands and agencies grow.
+            </div>
+        </div>
+
     </div>
-</div>
-<!-- end page-title-wrapper -->
+</section>
 
 
-<!-- start of latest-projects -->
-<section class="latest-projects section-padding">
+<section class="section-6 py-5">
 
     <div class="container">
+                <div class="category-service-heading">
+                    <h3>{{ $subCategory->name }}</h3>
 
-        <div class="portfolio gallery-grid">
+                    @if($subCategory->description)
+                        <p class="category-description">
+                            {{ $subCategory->description }}
+                        </p>
+                    @endif
 
-            <div class="row">
+                    <div class="divider-container">
+                        <div class="divider mb-3"></div>
+                    </div>
+                </div>
+        @if($services->count() > 0)
 
-                @if($services->count() > 0)
+            <div class="subcategory-services-grid">
 
-                    <!-- SERVICE GRID -->
-                    <div id="lightBox" class="gallery-wrapper">
+                @foreach($services as $service)
 
-                        <ul class="portfolio-items courses list-unstyled" id="grid">
+                    <div class="subcategory-service-item">
 
-                            @foreach($services as $service)
+                        <div class="card border-0 text-center service-card">
 
-                                <li
-                                    class="col-md-3 col-sm-6"
-                                    data-groups='["all"]'
+                            <a
+                                class="service-card-image-link"
+                                href="{{ route('service.detail', $service->slug) }}"
+                                aria-label="View {{ $service->name }}"
+                            >
+
+                                @if(!empty($service->image))
+
+                                    <img
+                                        src="{{ asset('uploads/services/thumb/large/' . $service->image) }}"
+                                        class="card-img-top"
+                                        alt="{{ $service->name }}"
+                                        width="400"
+                                        height="300"
+                                        loading="lazy"
+                                        decoding="async">
+
+                                @else
+
+                                    <img
+                                        src="{{ asset('uploads/services/thumb/large/caption-cam.webp') }}"
+                                        class="card-img-top"
+                                        alt="{{ $service->name }}"
+                                        width="400"
+                                        height="300"
+                                        loading="lazy"
+                                        decoding="async">
+
+                                @endif
+
+                            </a>
+
+
+                            <div class="card-body p-3">
+
+                                <div class="service-subcategory-name">
+                                    {{ $subCategory->name }}
+                                </div>
+
+
+                                <h4 class="card-title mt-2">
+
+                                    <a href="{{ route('service.detail', $service->slug) }}">
+                                        {{ $service->name }}
+                                    </a>
+
+                                </h4>
+
+
+                                @if(!empty($service->short_desc))
+
+                                    <div class="content pt-2">
+
+                                        <p class="card-text">
+                                            {{ $service->short_desc }}
+                                        </p>
+
+                                    </div>
+
+                                @endif
+
+
+                                <a
+                                    href="{{ route('service.detail', $service->slug) }}"
+                                    class="service-action-btn"
                                 >
 
-                                    <figure class="portfolio-item gallery-caption grid">
+                                    <span>See In Action</span>
 
-                                        <!-- SERVICE IMAGE -->
-                                        <div class="inner">
+                                    <i class="fa-solid fa-angle-right"></i>
 
-                                            @if(!empty($service->image))
+                                </a>
 
-                                                <a
-                                                    href="{{ route('service.detail', $service->slug) }}"
-                                                    class="fancybox"
-                                                >
-                                                    <img
-                                                        src="{{ asset('uploads/services/thumb/large/' . $service->image) }}"
-                                                        alt="{{ $service->name }}"
-                                                        class="img img-responsive"
-                                                    >
-                                                </a>
-
-                                            @else
-
-                                                <a  href="{{ route('service.detail', $service->slug) }}">
-                                                    <img
-                                                        src="{{ asset('assets/images/latest-projects/img-1.jpg') }}"
-                                                        alt="{{ $service->name }}"
-                                                        class="img img-responsive"
-                                                    >
-                                                </a>
-
-                                            @endif
-
-                                        </div>
-                                        <!-- END SERVICE IMAGE -->
-
-
-                                        <!-- SERVICE TITLE -->
-                                        <div class="project-title">
-
-                                            <h3>
-                                                <a  href="{{ route('service.detail', $service->slug) }}">
-                                                    {{ $service->name }}
-                                                </a>
-                                            </h3>
-
-                                        </div>
-                                        <!-- END SERVICE TITLE -->
-
-                                    </figure>
-
-                                </li>
-
-                            @endforeach
-
-                        </ul>
-                        <!-- end portfolio grid -->
-
-                    </div>
-                    <!-- end gallery-wrapper -->
-
-
-                @else
-
-                    <!-- NO SERVICES FOUND -->
-
-                    <div class="col-md-12 text-center">
-
-                        <div style="padding: 80px 0;">
-
-                            <h3>No Services Found</h3>
-
-                            <p>
-                                No services are available in
-                                <strong>{{ $subCategory->name }}</strong>.
-                            </p>
+                            </div>
 
                         </div>
 
                     </div>
 
-                @endif
+                @endforeach
 
             </div>
 
-        </div>
+        @else
+
+            <div class="no-services-found text-center">
+
+                <h3>No Services Found</h3>
+
+                <p>
+                    No services are available in
+                    <strong>{{ $subCategory->name }}</strong>.
+                </p>
+
+            </div>
+
+        @endif
 
     </div>
 
 </section>
-<!-- end of latest-projects -->
 
 @endsection
