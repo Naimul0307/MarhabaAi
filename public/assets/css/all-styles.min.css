@@ -370,7 +370,7 @@
 
     --service-short-padding: 25px 10px;
     --service-short-title-size: 30px;
-    --service-short-description-size: 17px;
+    --service-short-description-size: 20px;
 
     --service-full-description-margin-top: 25px;
     --service-full-description-margin-bottom: 50px;
@@ -2586,7 +2586,7 @@ select {
 
     gap: 8px;
 
-    margin-top: 20px;
+    margin-top: 30px !important;
 
     padding: var(--service-card-button-padding);
 
@@ -2824,7 +2824,7 @@ select {
 .service-short-description {
     margin-bottom: 25px;
 
-    color: #000820;
+    color: var(--black);
 
     font-size: var(--service-short-description-size);
 
@@ -2834,16 +2834,16 @@ select {
 .service-short-description p,
 .service-short-description strong,
 .service-short-description b {
-    color: #000820;
+    color: var(--black);
 }
 
 .service-category,
 .service-subcategory {
     margin-top: 12px;
 
-    color: #000820;
+    color: var(--black);
 
-    font-size: 16px;
+    font-size: 20px;
 }
 
 .service-category strong,
@@ -2871,7 +2871,7 @@ select {
 .description-content {
     color: var(--white);
 
-    font-size: 16px;
+    font-size: 30px;
 
     line-height: var(--line-height-content);
 }
@@ -3171,8 +3171,7 @@ select {
     transform:
         translate(-50%, -50%)
         scale(1.12);
-
-    background: rgba(212, 175, 55, 0.16);
+    background: var(--white-faint);
 }
 
 .service-video-play i {
@@ -3213,14 +3212,14 @@ select {
 
 .service-gallery-slider .slick-prev:hover i,
 .additional-videos-slider .slick-prev:hover i {
-    color: wheat;
+    color: var(--white);
 
     transform: translateX(-3px);
 }
 
 .service-gallery-slider .slick-next:hover i,
 .additional-videos-slider .slick-next:hover i {
-    color: wheat;
+    color: var(--white);
 
     transform: translateX(3px);
 }
@@ -4030,13 +4029,13 @@ body.video-modal-open {
 
     gap: 8px;
 
-    margin-top: 15px;
+    margin-top: 30px !important;
 
     padding: 0;
 
     border: 0;
 
-    background: transparent;
+    background: var();
 
     color: var(--white);
 

@@ -109,16 +109,12 @@ body.mobile-menu-open {
 ========================================================= */
 
 .hero-background-overlay {
-
     position: absolute;
-
     inset: 0;
-
     z-index: var(--hero-overlay-z-index);
-
     pointer-events: none;
+    background: rgba(0, 0, 0, 0.25);
 }
-
 
 /* =========================================================
    TABLET HERO

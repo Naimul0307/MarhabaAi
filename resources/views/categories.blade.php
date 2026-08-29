@@ -108,7 +108,7 @@
                                                     href="{{ route('service.detail', $service->slug) }}"
                                                     class="service-action-btn"
                                                 >
-                                                    <span>See In Action</span>
+                                                    <span>Discover More Details</span>
                                                     <i class="fa-solid fa-angle-right"></i>
                                                 </a>
 
@@ -130,7 +130,7 @@
                             href="{{ route('category.detail', $category->slug) }}"
                             class="category-page-btn"
                         >
-                            <span>View {{ $category->name }}</span>
+                            <span>Discover More {{ $category->name }}</span>
                             <i class="fa-solid fa-arrow-right"></i>
                         </a>
                     </div>

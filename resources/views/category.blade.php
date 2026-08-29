@@ -123,7 +123,7 @@
                                                 class="service-action-btn"
                                             >
 
-                                                <span>See In Action</span>
+                                                <span>Discover More Details</span>
 
                                                 <i class="fa-solid fa-angle-right"></i>
 
@@ -149,7 +149,7 @@
                        href="{{ route('subcategory.index', $subCategory->slug) }}"
                         class="category-page-btn"
                     >
-                        <span>View {{ $subCategory->name }}</span>
+                        <span>Discover More {{ $subCategory->name }}</span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>

@@ -122,7 +122,7 @@
                                     class="service-action-btn"
                                 >
 
-                                    <span>See In Action</span>
+                                    <span>Discover More Details</span>
 
                                     <i class="fa-solid fa-angle-right"></i>
 
