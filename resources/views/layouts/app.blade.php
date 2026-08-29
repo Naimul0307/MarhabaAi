@@ -270,63 +270,6 @@
 
         });
     </script>
-
-
-    {{-- ========================================================= --}}
-    {{-- HERO CAROUSEL --}}
-    {{-- ========================================================= --}}
-
-    <script>
-
-        window.addEventListener('load', function () {
-
-            setTimeout(function () {
-
-                const heroCarousel =
-                    document.querySelector('#heroCarousel');
-
-                if (heroCarousel) {
-
-                    new bootstrap.Carousel(heroCarousel, {
-                        interval: 4000,
-                        ride: 'carousel'
-                    });
-
-                }
-
-            }, 3000);
-
-        });
-
-
-        window.addEventListener('load', function () {
-
-            const heroCarousel =
-                document.querySelector('#heroCarousel');
-
-            if (!heroCarousel ||
-                typeof bootstrap === 'undefined') {
-
-                return;
-
-            }
-
-            setTimeout(function () {
-
-                heroCarousel.classList.add('carousel-fade');
-
-                new bootstrap.Carousel(heroCarousel, {
-                    interval: 4000,
-                    ride: 'carousel'
-                });
-
-            }, 1500);
-
-        });
-
-    </script>
-
-
     @stack('extraJs')
 
 </body>

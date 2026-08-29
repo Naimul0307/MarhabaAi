@@ -4,11 +4,17 @@
 
 function fixSlickAccessibility(slider) {
 
+    if (!slider || !slider.length) {
+        return;
+    }
+
     const focusable =
         'a[href], button, input, select, textarea, area[href], iframe, [tabindex], [contenteditable="true"], audio[controls], video[controls], summary';
 
+
     const hiddenSlides =
         slider.find('.slick-slide[aria-hidden="true"]');
+
 
     const visibleSlides =
         slider.find('.slick-slide[aria-hidden="false"]');
@@ -41,11 +47,12 @@ function fixSlickAccessibility(slider) {
         .removeAttr(
             'tabindex aria-hidden data-slick-a11y-hidden'
         );
+
 }
 
 
 /* =========================================================
-   RUN ACCESSIBILITY FIX
+   RUN SLICK ACCESSIBILITY FIX
 ========================================================= */
 
 function runSlickAccessibilityFix(slider) {
@@ -54,19 +61,30 @@ function runSlickAccessibilityFix(slider) {
         return;
     }
 
+
     fixSlickAccessibility(slider);
 
+
     requestAnimationFrame(function () {
+
         fixSlickAccessibility(slider);
+
     });
 
-    setTimeout(function () {
-        fixSlickAccessibility(slider);
-    }, 100);
 
     setTimeout(function () {
+
         fixSlickAccessibility(slider);
+
+    }, 100);
+
+
+    setTimeout(function () {
+
+        fixSlickAccessibility(slider);
+
     }, 500);
+
 }
 
 
@@ -102,7 +120,7 @@ $(document).ready(function () {
 
 
     /* =====================================================
-       MAIN SERVICE SLIDER OPTIONS
+       MAIN SLIDER OPTIONS
     ===================================================== */
 
     const sliderOptions = {
@@ -163,6 +181,7 @@ $(document).ready(function () {
             }
 
         ]
+
     };
 
 
@@ -191,10 +210,6 @@ $(document).ready(function () {
             .slick(sliderOptions);
 
 
-        /* =================================================
-           PAGE LOAD ACCESSIBILITY
-        ================================================= */
-
         window.addEventListener('load', function () {
 
             sliders.each(function () {
@@ -217,11 +232,14 @@ $(document).ready(function () {
     const serviceSlider =
         $('.services-slider');
 
+
     const filterButtons =
         $('.filter-btn');
 
+
     const categoryPageButton =
         $('#categoryPageButton');
+
 
     const categoryPageButtonText =
         $('#categoryPageButtonText');
@@ -233,23 +251,18 @@ $(document).ready(function () {
     ) {
 
 
-        /* =================================================
-           FILTER CLICK
-        ================================================= */
-
         filterButtons.on('click', function (event) {
 
             event.preventDefault();
 
-            const button = $(this);
+
+            const button =
+                $(this);
+
 
             const selectedCategory =
                 button.data('category');
 
-
-            /* ---------------------------------------------
-               ACTIVE BUTTON
-            --------------------------------------------- */
 
             filterButtons.removeClass('active');
 
@@ -257,7 +270,7 @@ $(document).ready(function () {
 
 
             /* =================================================
-               ALL SERVICES
+               ALL
             ================================================= */
 
             if (selectedCategory === 'all') {
@@ -297,7 +310,7 @@ $(document).ready(function () {
 
 
             /* =================================================
-               SELECTED CATEGORY
+               CATEGORY
             ================================================= */
 
             serviceSlider.slick(
@@ -308,17 +321,15 @@ $(document).ready(function () {
             serviceSlider.slick(
                 'slickFilter',
                 '[data-category="' +
-                    selectedCategory +
+                selectedCategory +
                 '"]'
             );
 
 
-            /* ---------------------------------------------
-               CATEGORY URL
-            --------------------------------------------- */
-
             const categoryUrl =
-                button.attr('data-category-url');
+                button.attr(
+                    'data-category-url'
+                );
 
 
             if (
@@ -334,12 +345,10 @@ $(document).ready(function () {
             }
 
 
-            /* ---------------------------------------------
-               CATEGORY NAME
-            --------------------------------------------- */
-
             const categoryName =
-                $.trim(button.text());
+                $.trim(
+                    button.text()
+                );
 
 
             if (categoryPageButtonText.length) {
@@ -352,10 +361,6 @@ $(document).ready(function () {
 
             }
 
-
-            /* ---------------------------------------------
-               ACCESSIBILITY
-            --------------------------------------------- */
 
             setTimeout(function () {
 
@@ -396,7 +401,9 @@ $(document).ready(function () {
                 firstButton.data('category');
 
 
-            if (initialCategory === 'all') {
+            if (
+                initialCategory === 'all'
+            ) {
 
                 if (categoryPageButton.length) {
 
@@ -424,7 +431,7 @@ $(document).ready(function () {
 
 
     /* =====================================================
-       DETAIL PAGE GALLERY SLIDER
+       DETAIL GALLERY SLIDER
     ===================================================== */
 
     const gallerySlider =
@@ -525,7 +532,7 @@ $(document).ready(function () {
 
 
     /* =====================================================
-       DETAIL PAGE VIDEO SLIDER
+       DETAIL VIDEO SLIDER
     ===================================================== */
 
     const videoSlider =
@@ -635,10 +642,15 @@ function openVideoModal(videoUrl)
 {
 
     const modal =
-        document.getElementById('videoModal');
+        document.getElementById(
+            'videoModal'
+        );
+
 
     const iframe =
-        document.getElementById('videoModalIframe');
+        document.getElementById(
+            'videoModalIframe'
+        );
 
 
     if (
@@ -646,7 +658,9 @@ function openVideoModal(videoUrl)
         !iframe ||
         !videoUrl
     ) {
+
         return;
+
     }
 
 
@@ -660,7 +674,9 @@ function openVideoModal(videoUrl)
 
     if (
         videoSlider.length &&
-        videoSlider.hasClass('slick-initialized')
+        videoSlider.hasClass(
+            'slick-initialized'
+        )
     ) {
 
         videoSlider.slick(
@@ -671,9 +687,7 @@ function openVideoModal(videoUrl)
 
 
     /* =====================================================
-       STOP GALLERY AUTOPLAY TOO
-       This prevents other page sliders moving
-       while user watches the video.
+       PAUSE GALLERY
     ===================================================== */
 
     const gallerySlider =
@@ -682,7 +696,9 @@ function openVideoModal(videoUrl)
 
     if (
         gallerySlider.length &&
-        gallerySlider.hasClass('slick-initialized')
+        gallerySlider.hasClass(
+            'slick-initialized'
+        )
     ) {
 
         gallerySlider.slick(
@@ -696,33 +712,43 @@ function openVideoModal(videoUrl)
        YOUTUBE URL
     ===================================================== */
 
-    let playUrl = videoUrl;
+    let playUrl =
+        videoUrl;
 
 
-    if (playUrl.includes('?')) {
+    if (
+        playUrl.includes('?')
+    ) {
 
-        playUrl += '&autoplay=1';
+        playUrl +=
+            '&autoplay=1';
 
     } else {
 
-        playUrl += '?autoplay=1';
+        playUrl +=
+            '?autoplay=1';
 
     }
 
 
     /* =====================================================
-       LOAD VIDEO IN MODAL
+       LOAD VIDEO
     ===================================================== */
 
-    iframe.src = playUrl;
+    iframe.src =
+        playUrl;
 
 
-    modal.classList.add('active');
+    modal.classList.add(
+        'active'
+    );
+
 
     modal.setAttribute(
         'aria-hidden',
         'false'
     );
+
 
     document.body.classList.add(
         'video-modal-open'
@@ -739,37 +765,41 @@ function closeVideoModal()
 {
 
     const modal =
-        document.getElementById('videoModal');
+        document.getElementById(
+            'videoModal'
+        );
+
 
     const iframe =
-        document.getElementById('videoModalIframe');
+        document.getElementById(
+            'videoModalIframe'
+        );
 
 
     if (
         !modal ||
         !iframe
     ) {
+
         return;
+
     }
 
 
-    /* =====================================================
-       STOP VIDEO
-    ===================================================== */
-
-    iframe.src = '';
+    iframe.src =
+        '';
 
 
-    /* =====================================================
-       CLOSE MODAL
-    ===================================================== */
+    modal.classList.remove(
+        'active'
+    );
 
-    modal.classList.remove('active');
 
     modal.setAttribute(
         'aria-hidden',
         'true'
     );
+
 
     document.body.classList.remove(
         'video-modal-open'
@@ -786,7 +816,9 @@ function closeVideoModal()
 
     if (
         videoSlider.length &&
-        videoSlider.hasClass('slick-initialized')
+        videoSlider.hasClass(
+            'slick-initialized'
+        )
     ) {
 
         videoSlider.slick(
@@ -797,7 +829,7 @@ function closeVideoModal()
 
 
     /* =====================================================
-       RESUME GALLERY SLIDER
+       RESUME GALLERY
     ===================================================== */
 
     const gallerySlider =
@@ -806,7 +838,9 @@ function closeVideoModal()
 
     if (
         gallerySlider.length &&
-        gallerySlider.hasClass('slick-initialized')
+        gallerySlider.hasClass(
+            'slick-initialized'
+        )
     ) {
 
         gallerySlider.slick(
@@ -826,7 +860,9 @@ document.addEventListener(
     'keydown',
     function(event) {
 
-        if (event.key === 'Escape') {
+        if (
+            event.key === 'Escape'
+        ) {
 
             closeVideoModal();
 
@@ -837,7 +873,7 @@ document.addEventListener(
 
 
 /* =========================================================
-   ENTER / SPACE FOR VIDEO CARDS
+   ENTER / SPACE VIDEO CARDS
 ========================================================= */
 
 document.addEventListener(
@@ -851,7 +887,9 @@ document.addEventListener(
 
 
         if (!target) {
+
             return;
+
         }
 
 
@@ -885,7 +923,9 @@ document.addEventListener(
 
 
         if (!factsSection) {
+
             return;
+
         }
 
 
@@ -895,18 +935,22 @@ document.addEventListener(
             );
 
 
-        let hasAnimated = false;
+        let hasAnimated =
+            false;
 
 
         function animateCounters()
         {
 
             if (hasAnimated) {
+
                 return;
+
             }
 
 
-            hasAnimated = true;
+            hasAnimated =
+                true;
 
 
             counters.forEach(
@@ -921,7 +965,9 @@ document.addEventListener(
                         );
 
 
-                    const duration = 1800;
+                    const duration =
+                        1800;
+
 
                     const startTime =
                         performance.now();
@@ -1032,3 +1078,74 @@ document.addEventListener(
     }
 );
 
+
+/* =========================================================
+   HERO CAROUSEL
+========================================================= */
+
+window.addEventListener(
+    'load',
+    function () {
+
+        const heroCarousel =
+            document.querySelector('#heroCarousel');
+
+
+        if (!heroCarousel) {
+
+            return;
+
+        }
+
+
+        const slides =
+            Array.from(
+                heroCarousel.querySelectorAll('.carousel-item')
+            );
+
+
+        if (slides.length < 2) {
+
+            return;
+
+        }
+
+
+        let currentIndex =
+            0;
+
+
+        slides.forEach(function (slide, index) {
+
+            slide.style.position = 'absolute';
+            slide.style.top = '0';
+            slide.style.left = '0';
+            slide.style.width = '100%';
+            slide.style.height = '100%';
+            slide.style.transition = 'opacity 0.8s ease-in-out';
+            slide.style.opacity = (index === 0) ? '1' : '0';
+            slide.style.zIndex = (index === 0) ? '2' : '1';
+
+        });
+
+
+        heroCarousel
+            .querySelector('.carousel-inner')
+            .style.position = 'relative';
+
+
+        setInterval(function () {
+
+            slides[currentIndex].style.opacity = '0';
+            slides[currentIndex].style.zIndex = '1';
+
+            currentIndex =
+                (currentIndex + 1) % slides.length;
+
+            slides[currentIndex].style.opacity = '1';
+            slides[currentIndex].style.zIndex = '2';
+
+        }, 4000);
+
+    }
+);

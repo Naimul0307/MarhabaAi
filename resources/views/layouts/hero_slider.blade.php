@@ -5,10 +5,7 @@
     <div
         id="heroCarousel"
         class="carousel slide"
-        data-bs-ride="carousel"
-        data-bs-interval="1500"
-        data-bs-pause="false"
-        data-bs-touch="true">
+        data-bs-interval="4000">
 
         <div class="carousel-inner">
 
@@ -29,10 +26,7 @@
                         width="1440"
                         height="600">
 
-                    <div
-                        class="hero-background-overlay"
-                        aria-hidden="true">
-                    </div>
+                    <div class="hero-background-overlay"></div>
 
                 </div>
 
@@ -43,29 +37,15 @@
     </div>
 
 </section>
-
 <section class="section-2 py-5">
-
     <div class="container py-2">
-
         <div class="about-block">
-
-            <h2 class="title-color">
-                WHY CHOOSE <span> MARHABA AI </span>
-            </h2>
-
+            <h2 class="title-color">WHY CHOOSE <span> MARHABA AI </span></h2>
             <div class="divider-container">
                 <div class="divider mb-3"></div>
             </div>
-
-            <div class="text-muted">
-                Smarter engagement. Better experiences. Sharper insights —
-                all powered by AI that helps brands and agencies grow.
-            </div>
-
+            <div class="text-muted">Smarter engagement. Better experiences. Sharper insights — all powered by AI that helps brands and agencies grow.</div>
         </div>
-
     </div>
 </section>
-
 @endif
