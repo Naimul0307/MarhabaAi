@@ -1,0 +1,54 @@
+
+
+/* =========================================================
+   64. WHATSAPP BUTTON
+========================================================= */
+
+.whatsapp-button {
+    position: fixed;
+
+    right: var(--whatsapp-right);
+    bottom: var(--whatsapp-bottom);
+
+    z-index: 1000;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: var(--whatsapp-padding);
+
+    border: none;
+
+    border-radius: var(--whatsapp-radius);
+
+    background-color: var(--whatsapp-bg);
+
+    color: var(--white);
+
+    font-size: 16px;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 0 10px var(--shadow-black-medium);
+
+    transition:
+        background-color var(--transition-normal),
+        transform var(--transition-normal);
+}
+
+.whatsapp-button:hover {
+    background-color: var(--whatsapp-hover);
+
+    color: var(--white);
+
+    transform: translateY(-2px);
+}
+
+.whatsapp-button img {
+    width: var(--whatsapp-icon-size);
+    height: var(--whatsapp-icon-size);
+
+    margin-right: 10px;
+}

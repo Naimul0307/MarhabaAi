@@ -119,7 +119,7 @@
                                             <a href="{{ route('service.detail', $service->slug) }}"
                                                class="service-action-btn">
 
-                                                <span>Discover More Details</span>
+                                                <span>Discover More</span>
                                                 <i class="fa-solid fa-angle-right"></i>
 
                                             </a>

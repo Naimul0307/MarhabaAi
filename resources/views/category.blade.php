@@ -1,30 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="section-3 py-5">
-</section>
-<section class="section-2 py-5">
+<section class="about-section py-5">
     <div class="container py-2">
-
         <div class="about-block">
-
-            <h1 class="title-color mb-4 text-center">
-                Our <span>{{ $category->name }}</span>
+            <h1 class="title-color">
+                 Our <span>{{ $category->name }}</span>
             </h1>
 
-            <div class="divider-container text-center">
+            <div class="divider-container">
                 <div class="divider mb-3"></div>
             </div>
 
-            <div class="mt-2 mb-3 text-muted">
-                {{ $category->name }} RENTAL DUBAI
-            </div>
-
             <div class="text-muted">
-               Smarter engagement. Better experiences. Sharper insights — all powered by AI that helps brands and agencies grow.
+                Smarter engagement. Better experiences. Sharper insights <br>— all powered by AI that helps brands and agencies grow.
             </div>
         </div>
-
     </div>
 </section>
 
@@ -123,7 +114,7 @@
                                                 class="service-action-btn"
                                             >
 
-                                                <span>Discover More Details</span>
+                                                <span>Discover More</span>
 
                                                 <i class="fa-solid fa-angle-right"></i>
 
@@ -149,7 +140,7 @@
                        href="{{ route('subcategory.index', $subCategory->slug) }}"
                         class="category-page-btn"
                     >
-                        <span>Discover More {{ $subCategory->name }}</span>
+                        <span>Discover More</span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
@@ -163,5 +154,5 @@
     </div>
 
 </section>
-
+<div class="services-section-divider"></div>
 @endsection

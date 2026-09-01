@@ -4,19 +4,14 @@
 
 .desktop-nav {
     position: fixed;
-
-    top: var(--space-0);
-    left: var(--space-0);
+    top: 0;
+    left: 0;
 
     width: 100%;
 
     z-index: 9999;
 
-    background: var(--navbar-bg);
-
-    transition:
-        background-color var(--navbar-transition),
-        box-shadow var(--navbar-transition);
+    background: var( --white);
 
     pointer-events: none;
 }
@@ -32,7 +27,6 @@
     min-height: var(--navbar-height);
 
     display: flex;
-
     align-items: center;
 
     box-sizing: border-box;
@@ -40,27 +34,13 @@
     padding: var(--navbar-padding);
 
     position: relative;
-
     z-index: 10000;
 
-    background: var(--navbar-bg);
+    background: var( --white);
 
-    transition:
-        background-color var(--navbar-transition),
-        box-shadow var(--navbar-transition);
+    box-shadow: none;
 
     pointer-events: auto;
-}
-
-
-/* =========================================================
-   DESKTOP SCROLLED
-========================================================= */
-
-.desktop-nav .nav-bar.scrolled {
-    background: var(--navbar-scrolled-bg);
-
-    box-shadow: var(--navbar-shadow);
 }
 
 
@@ -72,10 +52,17 @@
     flex-shrink: 0;
 
     display: flex;
-
     align-items: center;
 
     position: relative;
+}
+
+.desktop-nav .logo a {
+    display: block;
+
+    position: relative;
+
+    line-height: var(--line-height-tight);
 }
 
 .desktop-nav .logo-img {
@@ -86,116 +73,15 @@
     max-width: 100%;
 
     height: auto;
-}
 
-.desktop-nav .logo a {
-    position: relative;
-
-    display: block;
-
-    line-height: var(--line-height-tight);
-}
-
-
-/* Default logo */
-
-.desktop-nav .logo-default {
     opacity: 1;
-
     visibility: visible;
-
-    transition:
-        opacity var(--navbar-transition),
-        visibility var(--navbar-transition);
-}
-
-
-/* Scrolled logo */
-
-.desktop-nav .logo-scrolled {
-    position: absolute;
-
-    top: var(--space-0);
-    left: var(--space-0);
-
-    opacity: 0;
-
-    visibility: hidden;
-
-    transition:
-        opacity var(--navbar-transition),
-        visibility var(--navbar-transition);
-}
-
-
-/* Scrolled state */
-
-.desktop-nav .nav-bar.scrolled .logo-default {
-    opacity: 0;
-
-    visibility: hidden;
-}
-
-.desktop-nav .nav-bar.scrolled .logo-scrolled {
-    opacity: 1;
-
-    visibility: visible;
-}
-
-
-/* =========================================================
-   DESKTOP CONTACT
-========================================================= */
-
-.nav-contact {
-    display: flex;
-
-    align-items: center;
-
-    gap: var(--navbar-contact-gap);
-
-    margin-left: auto;
-
-    margin-right: var(--navbar-contact-margin-right);
-
-    flex-shrink: 1;
-}
-
-.nav-contact a {
-    display: flex;
-
-    align-items: center;
-
-    gap: var(--navbar-contact-icon-gap);
-
-    color: var(--navbar-text);
-
-    text-decoration: none;
-
-    font-size: var(--navbar-contact-font-size);
-
-    white-space: nowrap;
-
-    transition:
-        color var(--navbar-hover-transition),
-        transform var(--navbar-hover-transition);
-}
-
-.desktop-nav .nav-bar.scrolled .nav-contact a {
-    color: var(--navbar-scrolled-text);
-}
-
-
-/* Contact hover */
-
-.nav-contact a:hover,
-.desktop-nav .nav-bar.scrolled .nav-contact a:hover {
-    color: var(--navbar-hover-color);
 }
 
 
 /* =========================================================
    DESKTOP MENU
+   MENU STAYS ON RIGHT SIDE
 ========================================================= */
 
 .desktop-nav .menu {
@@ -205,9 +91,9 @@
 
     gap: var(--navbar-menu-gap);
 
-    margin: var(--space-0);
+    margin: 0 0 0 auto;
 
-    padding: var(--space-0);
+    padding: 0;
 
     list-style: none;
 
@@ -219,7 +105,9 @@
 }
 
 
-/* Menu links */
+/* =========================================================
+   DESKTOP MENU LINKS
+========================================================= */
 
 .desktop-nav .menu li a {
     position: relative;
@@ -228,7 +116,7 @@
 
     padding: var(--navbar-menu-link-padding);
 
-    color: var(--navbar-text);
+    color: var(--black);
 
     text-decoration: none;
 
@@ -243,15 +131,8 @@
 }
 
 
-/* Scrolled menu */
-
-.desktop-nav .nav-bar.scrolled .menu li a {
-    color: var(--navbar-scrolled-text);
-}
-
-
 /* =========================================================
-   MENU UNDERLINE
+   DESKTOP MENU UNDERLINE
 ========================================================= */
 
 .desktop-nav .menu li a::after {
@@ -259,9 +140,9 @@
 
     position: absolute;
 
-    left: var(--space-0);
+    left: 0;
 
-    bottom: var(--space-0);
+    bottom: 0;
 
     width: var(--navbar-underline-width);
 
@@ -274,7 +155,9 @@
 }
 
 
-/* Menu hover */
+/* =========================================================
+   DESKTOP MENU HOVER
+========================================================= */
 
 .desktop-nav .menu li a:hover {
     color: var(--navbar-hover-color);
@@ -285,21 +168,8 @@
 }
 
 
-/* Scrolled hover */
-
-.desktop-nav .nav-bar.scrolled .menu li a:hover {
-    color: var(--navbar-hover-color);
-}
-
-.desktop-nav .nav-bar.scrolled .menu li a:hover::after {
-    width: 100%;
-
-    background: var(--navbar-hover-color);
-}
-
-
 /* =========================================================
-   ACTIVE MENU
+   DESKTOP ACTIVE MENU
 ========================================================= */
 
 .desktop-nav .menu li a[aria-current="page"] {
@@ -312,19 +182,9 @@
     background: var(--navbar-hover-color);
 }
 
-.desktop-nav .nav-bar.scrolled .menu li a[aria-current="page"] {
-    color: var(--navbar-hover-color);
-}
-
-.desktop-nav .nav-bar.scrolled .menu li a[aria-current="page"]::after {
-    width: 100%;
-
-    background: var(--navbar-hover-color);
-}
-
 
 /* =========================================================
-   DESKTOP LANGUAGE
+   DESKTOP LANGUAGE SELECTOR
 ========================================================= */
 
 .language-selector {
@@ -335,6 +195,11 @@
     flex-shrink: 0;
 }
 
+
+/* =========================================================
+   DESKTOP LANGUAGE BUTTON
+========================================================= */
+
 .language-toggle {
     display: flex;
 
@@ -342,11 +207,11 @@
 
     gap: var(--navbar-language-gap);
 
-    border: var(--space-0);
+    border: 0;
 
-    background: var(--navbar-bg);
+    background: var( --white) !important;
 
-    color: var(--navbar-text);
+    color: var(--black);
 
     padding: var(--navbar-language-padding);
 
@@ -359,22 +224,20 @@
 }
 
 
-/* Scrolled language */
+/* =========================================================
+   DESKTOP LANGUAGE HOVER
+========================================================= */
 
-.desktop-nav .nav-bar.scrolled .language-toggle {
-    color: var(--navbar-scrolled-text);
-}
-
-
-/* Language hover */
-
-.language-toggle:hover,
-.desktop-nav .nav-bar.scrolled .language-toggle:hover {
+.language-toggle:hover {
     color: var(--navbar-hover-color);
+
+    background: var( --white) !important;
 }
 
 
-/* Language arrow */
+/* =========================================================
+   DESKTOP LANGUAGE ARROW
+========================================================= */
 
 .language-arrow {
     font-size: var(--navbar-language-arrow-size);
@@ -389,7 +252,7 @@
 
 
 /* =========================================================
-   LANGUAGE DROPDOWN
+   DESKTOP LANGUAGE DROPDOWN
 ========================================================= */
 
 .language-dropdown {
@@ -397,7 +260,7 @@
 
     top: calc(100% + var(--navbar-dropdown-offset));
 
-    right: var(--space-0);
+    right: 0;
 
     min-width: var(--navbar-dropdown-min-width);
 
@@ -423,16 +286,23 @@
     z-index: var(--navbar-dropdown-z-index);
 }
 
+
+/* =========================================================
+   DESKTOP LANGUAGE DROPDOWN OPEN
+========================================================= */
+
 .language-selector.open .language-dropdown {
     opacity: 1;
 
     visibility: visible;
 
-    transform: translateY(var(--space-0));
+    transform: translateY(0);
 }
 
 
-/* Language option */
+/* =========================================================
+   DESKTOP LANGUAGE OPTIONS
+========================================================= */
 
 .language-option {
     position: relative;
@@ -452,11 +322,21 @@
         color var(--transition-fast);
 }
 
+
+/* =========================================================
+   DESKTOP LANGUAGE OPTION HOVER
+========================================================= */
+
 .language-option:hover {
     background: var(--navbar-dropdown-hover-bg);
 
     color: var(--navbar-dropdown-hover-text);
 }
+
+
+/* =========================================================
+   DESKTOP ACTIVE LANGUAGE
+========================================================= */
 
 .language-option.active {
     background: var(--navbar-dropdown-active-bg);
@@ -479,31 +359,21 @@
         padding-right: var(--navbar-1400-padding-x);
     }
 
-    .desktop-nav .logo-img {
-        width: var(--navbar-logo-width);
-    }
-
-    .nav-contact {
-        gap: var(--navbar-1400-contact-gap);
-
-        margin-right: var(--navbar-1400-contact-margin-right);
-    }
-
-    .nav-contact a {
-        font-size: var(--navbar-1400-contact-font-size);
-    }
 
     .desktop-nav .menu {
         gap: var(--navbar-1400-menu-gap);
     }
 
+
     .desktop-nav .menu li a {
         font-size: var(--navbar-1400-menu-font-size);
     }
 
+
     .language-selector {
         margin-left: var(--navbar-1400-language-margin-left);
     }
+
 }
 
 
@@ -519,37 +389,26 @@
         padding-right: var(--navbar-1200-padding-x);
     }
 
-    .desktop-nav .logo-img {
-        width: var(--navbar-logo-width);
-    }
-
-    .nav-contact {
-        gap: var(--navbar-1200-contact-gap);
-
-        margin-right: var(--navbar-1200-contact-margin-right);
-    }
-
-    .nav-contact a {
-        font-size: var(--navbar-1200-contact-font-size);
-
-        gap: var(--navbar-1200-contact-icon-gap);
-    }
 
     .desktop-nav .menu {
         gap: var(--navbar-1200-menu-gap);
     }
 
+
     .desktop-nav .menu li a {
         font-size: var(--navbar-1200-menu-font-size);
     }
+
 
     .language-selector {
         margin-left: var(--navbar-1200-language-margin-left);
     }
 
+
     .language-toggle {
         font-size: var(--navbar-1200-language-font-size);
     }
+
 }
 
 
@@ -565,35 +424,26 @@
         padding-right: var(--navbar-1000-padding-x);
     }
 
-    .desktop-nav .logo-img {
-        width: var(--navbar-logo-width);
-    }
-
-    .nav-contact {
-        gap: var(--navbar-1000-contact-gap);
-
-        margin-right: var(--navbar-1000-contact-margin-right);
-    }
-
-    .nav-contact a {
-        font-size: var(--navbar-1000-contact-font-size);
-    }
 
     .desktop-nav .menu {
         gap: var(--navbar-1000-menu-gap);
     }
 
+
     .desktop-nav .menu li a {
         font-size: var(--navbar-1000-menu-font-size);
     }
+
 
     .language-selector {
         margin-left: var(--navbar-1000-language-margin-left);
     }
 
+
     .language-toggle {
         font-size: var(--navbar-1000-language-font-size);
     }
+
 }
 
 
@@ -603,31 +453,20 @@
 
 @media (max-width: 900px) {
 
-    .desktop-nav .logo-img {
-        width: var(--navbar-logo-width);
-    }
-
-    .nav-contact {
-        gap: var(--navbar-900-contact-gap);
-
-        margin-right: var(--navbar-900-contact-margin-right);
-    }
-
-    .nav-contact a {
-        font-size: var(--navbar-900-contact-font-size);
-    }
-
     .desktop-nav .menu {
         gap: var(--navbar-900-menu-gap);
     }
+
 
     .desktop-nav .menu li a {
         font-size: var(--navbar-900-menu-font-size);
     }
 
+
     .language-toggle {
         font-size: var(--navbar-900-language-font-size);
     }
+
 }
 
 
@@ -646,32 +485,38 @@
 
 @media (max-width: 768px) {
 
-    /* Hide desktop */
+    /* =====================================================
+       HIDE DESKTOP NAVBAR
+    ====================================================== */
 
     .desktop-nav {
         display: none;
     }
 
 
-    /* Show mobile */
+    /* =====================================================
+       SHOW MOBILE NAVBAR
+    ====================================================== */
 
     .mobile-nav {
         display: block;
 
         position: fixed;
 
-        top: var(--space-0);
-        left: var(--space-0);
+        top: 0;
+        left: 0;
 
         width: 100%;
 
         z-index: 9999;
 
-        background: var(--navbar-bg);
+        background: var( --white);
     }
 
 
-    /* Mobile nav bar */
+    /* =====================================================
+       MOBILE NAVBAR BAR
+    ====================================================== */
 
     .mobile-nav .nav-bar {
         width: 100%;
@@ -692,24 +537,13 @@
 
         box-sizing: border-box;
 
-        background: var(--navbar-bg);
-
-        transition:
-            background-color var(--navbar-transition),
-            box-shadow var(--navbar-transition);
+        background: var( --white);
     }
 
 
-    /* Mobile scrolled */
-
-    .mobile-nav .nav-bar.scrolled {
-        background: var(--navbar-scrolled-bg);
-
-        box-shadow: var(--navbar-shadow);
-    }
-
-
-    /* Mobile logo */
+    /* =====================================================
+       MOBILE LOGO
+    ====================================================== */
 
     .mobile-nav .logo {
         flex-shrink: 0;
@@ -721,6 +555,16 @@
         position: relative;
     }
 
+
+    .mobile-nav .logo a {
+        display: block;
+
+        position: relative;
+
+        line-height: var(--line-height-tight);
+    }
+
+
     .mobile-nav .logo-img {
         display: block;
 
@@ -729,55 +573,7 @@
         max-width: 100%;
 
         height: auto;
-    }
 
-    .mobile-nav .logo a {
-        position: relative;
-
-        display: block;
-
-        line-height: var(--line-height-tight);
-    }
-
-
-    /* Default mobile logo */
-
-    .mobile-nav .logo-default {
-        opacity: 1;
-
-        visibility: visible;
-
-        transition:
-            opacity var(--navbar-transition),
-            visibility var(--navbar-transition);
-    }
-
-
-    /* Scrolled mobile logo */
-
-    .mobile-nav .logo-scrolled {
-        position: absolute;
-
-        top: var(--space-0);
-        left: var(--space-0);
-
-        opacity: 0;
-
-        visibility: hidden;
-
-        transition:
-            opacity var(--navbar-transition),
-            visibility var(--navbar-transition);
-    }
-
-
-    .mobile-nav .nav-bar.scrolled .logo-default {
-        opacity: 0;
-
-        visibility: hidden;
-    }
-
-    .mobile-nav .nav-bar.scrolled .logo-scrolled {
         opacity: 1;
 
         visibility: visible;
@@ -786,15 +582,15 @@
 
     /* =====================================================
        MOBILE MENU BUTTON
-    ===================================================== */
+    ====================================================== */
 
     .menu-toggle,
     .close-menu {
-        border: var(--space-0);
+        border: 0;
 
-        background: var(--navbar-bg);
+        background: var( --white);
 
-        color: var(--navbar-text);
+        color: var(--black);
 
         font-size: var(--mobile-menu-button-size);
 
@@ -812,20 +608,15 @@
     }
 
 
-    /* Mobile scrolled button */
-
-    .mobile-nav .nav-bar.scrolled .menu-toggle,
-    .mobile-nav .nav-bar.scrolled .close-menu {
-        color: var(--navbar-scrolled-text);
-    }
-
-
-    /* Mobile hover */
+    /* =====================================================
+       MOBILE BUTTON HOVER
+    ====================================================== */
 
     .menu-toggle:hover,
     .close-menu:hover {
         color: var(--navbar-hover-color);
     }
+
 
     .menu-toggle:active,
     .close-menu:active {
@@ -833,7 +624,9 @@
     }
 
 
-    /* Close button */
+    /* =====================================================
+       CLOSE BUTTON
+    ====================================================== */
 
     .close-menu {
         display: none;
@@ -842,12 +635,12 @@
 
     /* =====================================================
        MOBILE SIDEBAR
-    ===================================================== */
+    ====================================================== */
 
     .mobile-nav .menu {
         position: fixed;
 
-        top: var(--space-0);
+        top: 0;
 
         right: -100%;
 
@@ -857,13 +650,13 @@
 
         height: 100vh;
 
-        margin: var(--space-0);
+        margin: 0;
 
         padding: var(--mobile-menu-padding);
 
         list-style: none;
 
-        background: var(--navbar-sidebar-bg);
+        background: var(--black);
 
         overflow-y: auto;
 
@@ -876,29 +669,34 @@
     }
 
 
-    /* Sidebar open */
+    /* =====================================================
+       SIDEBAR OPEN
+    ====================================================== */
 
     .mobile-nav .menu.show-menu {
-        right: var(--space-0);
+        right: 0;
     }
 
 
     /* =====================================================
        MOBILE MENU ITEMS
-    ===================================================== */
+    ====================================================== */
 
     .mobile-nav .menu > li {
         position: relative;
 
-        margin: var(--space-0);
+        margin: 0;
 
-        padding: var(--space-0);
+        padding: 0;
+
+        background: var(--black);
     }
 
 
     /* =====================================================
-       MOBILE LINKS
-    ===================================================== */
+       MOBILE MENU LINKS
+       WHITE TEXT
+    ====================================================== */
 
     .mobile-nav .menu > li > a {
         position: relative;
@@ -915,7 +713,9 @@
 
         padding: var(--mobile-menu-link-padding);
 
-        color: var(--navbar-text);
+        color: var( --white);
+
+        background: var(--black);
 
         text-decoration: none;
 
@@ -929,14 +729,17 @@
     }
 
 
-    /* Mobile hover line */
+    /* =====================================================
+       MOBILE LINK UNDERLINE
+       GOLD
+    ====================================================== */
 
     .mobile-nav .menu > li > a::before {
         content: "";
 
         position: absolute;
 
-        left: var(--space-0);
+        left: 0;
 
         bottom: var(--mobile-menu-underline-bottom);
 
@@ -951,15 +754,21 @@
     }
 
 
-    /* Mobile hover */
+    /* =====================================================
+       MOBILE LINK HOVER
+       GOLD
+    ====================================================== */
 
     .mobile-nav .menu > li > a:hover,
     .mobile-nav .menu > li > a:focus,
     .mobile-nav .menu > li > a:active {
         color: var(--navbar-hover-color);
 
+        background: var(--black);
+
         padding-left: var(--mobile-menu-link-hover-padding-left);
     }
+
 
     .mobile-nav .menu > li > a:hover::before,
     .mobile-nav .menu > li > a:focus::before,
@@ -969,13 +778,20 @@
         );
     }
 
-    /* Mobile active */
+
+    /* =====================================================
+       MOBILE ACTIVE LINK
+       GOLD
+    ====================================================== */
 
     .mobile-nav .menu > li > a[aria-current="page"] {
         color: var(--navbar-hover-color);
 
+        background: var(--black);
+
         padding-left: var(--mobile-menu-link-hover-padding-left);
     }
+
 
     .mobile-nav .menu > li > a[aria-current="page"]::before {
         width: calc(
@@ -987,18 +803,9 @@
 
 
     /* =====================================================
-       MOBILE CONTACT
-    ===================================================== */
-
-    .mobile-nav .menu > li > a[aria-label="Email us"],
-    .mobile-nav .menu > li > a[aria-label="Call us"] {
-        font-size: var(--mobile-contact-font-size);
-    }
-
-
-    /* =====================================================
-       MOBILE LANGUAGE
-    ===================================================== */
+       MOBILE LANGUAGE SECTION
+       BLACK BACKGROUND
+    ====================================================== */
 
     .mobile-language-item {
         margin-top: var(--mobile-language-margin-top);
@@ -1006,10 +813,15 @@
         border-top: var(--mobile-language-border);
 
         padding-top: var(--mobile-language-padding-top) !important;
+
+        background: var(--black);
     }
 
 
-    /* Mobile language button */
+    /* =====================================================
+       MOBILE LANGUAGE BUTTON
+       WHITE TEXT
+    ====================================================== */
 
     .mobile-language-toggle {
         position: relative;
@@ -1022,11 +834,11 @@
 
         justify-content: space-between;
 
-        border: var(--space-0);
+        border: 0;
 
-        background: var(--navbar-bg);
+        background: var(--black);
 
-        color: var(--navbar-text);
+        color: var( --white);
 
         padding: var(--mobile-menu-link-padding);
 
@@ -1044,12 +856,58 @@
     }
 
 
+    /* =====================================================
+       LANGUAGE LEFT CONTENT
+    ====================================================== */
+
+    .mobile-language-toggle > span {
+        display: flex;
+
+        align-items: center;
+
+        gap: var(--mobile-language-gap);
+    }
+
+
+    /* =====================================================
+       LANGUAGE ICON
+    ====================================================== */
+
+    .mobile-language-toggle i {
+        color: inherit;
+    }
+
+
+    /* =====================================================
+       LANGUAGE ARROW
+    ====================================================== */
+
+    .mobile-language-arrow {
+        font-size: var(--navbar-language-arrow-size);
+
+        color: inherit;
+
+        transition:
+            transform var(--transition-fast);
+    }
+
+
+    .mobile-language-item.open .mobile-language-arrow {
+        transform: rotate(180deg);
+    }
+
+
+    /* =====================================================
+       LANGUAGE BUTTON UNDERLINE
+       GOLD
+    ====================================================== */
+
     .mobile-language-toggle::before {
         content: "";
 
         position: absolute;
 
-        left: var(--space-0);
+        left: 0;
 
         bottom: var(--mobile-menu-underline-bottom);
 
@@ -1064,13 +922,21 @@
     }
 
 
+    /* =====================================================
+       LANGUAGE HOVER
+       GOLD
+    ====================================================== */
+
     .mobile-language-toggle:hover,
     .mobile-language-toggle:focus,
     .mobile-language-toggle:active {
         color: var(--navbar-hover-color);
 
+        background: var(--black);
+
         padding-left: var(--mobile-menu-link-hover-padding-left);
     }
+
 
     .mobile-language-toggle:hover::before,
     .mobile-language-toggle:focus::before,
@@ -1080,13 +946,20 @@
         );
     }
 
-    /* Language open */
+
+    /* =====================================================
+       LANGUAGE OPEN
+       GOLD
+    ====================================================== */
 
     .mobile-language-item.open .mobile-language-toggle {
         color: var(--navbar-hover-color);
 
+        background: var(--black);
+
         padding-left: var(--mobile-menu-link-hover-padding-left);
     }
+
 
     .mobile-language-item.open .mobile-language-toggle::before {
         width: calc(
@@ -1097,41 +970,28 @@
     }
 
 
-    .mobile-language-toggle > span {
-        display: flex;
-
-        align-items: center;
-
-        gap: var(--mobile-language-gap);
-    }
-
-
-    .mobile-language-arrow {
-        font-size: var(--navbar-language-arrow-size);
-
-        transition:
-            transform var(--transition-fast);
-    }
-
-    .mobile-language-item.open .mobile-language-arrow {
-        transform: rotate(180deg);
-    }
-
-
     /* =====================================================
        MOBILE LANGUAGE DROPDOWN
-    ===================================================== */
+    ====================================================== */
 
     .mobile-language-dropdown {
         display: none;
 
         padding: var(--mobile-language-dropdown-padding);
+
+        background: var(--black);
     }
+
 
     .mobile-language-item.open .mobile-language-dropdown {
         display: block;
     }
 
+
+    /* =====================================================
+       MOBILE LANGUAGE OPTIONS
+       WHITE TEXT
+    ====================================================== */
 
     .mobile-language-option {
         position: relative;
@@ -1140,7 +1000,9 @@
 
         padding: var(--mobile-language-option-padding);
 
-        color: var(--mobile-language-option-color);
+        color: var( --white);
+
+        background: var(--black);
 
         text-decoration: none;
 
@@ -1151,6 +1013,11 @@
             padding-left var(--transition-fast);
     }
 
+
+    /* =====================================================
+       LANGUAGE OPTION UNDERLINE
+       GOLD
+    ====================================================== */
 
     .mobile-language-option::after {
         content: "";
@@ -1172,13 +1039,21 @@
     }
 
 
+    /* =====================================================
+       LANGUAGE OPTION HOVER
+       GOLD
+    ====================================================== */
+
     .mobile-language-option:hover,
     .mobile-language-option:focus,
     .mobile-language-option:active {
         color: var(--navbar-hover-color);
 
+        background: var(--black);
+
         padding-left: var(--mobile-menu-link-hover-padding-left);
     }
+
 
     .mobile-language-option:hover::after,
     .mobile-language-option:focus::after,
@@ -1189,13 +1064,21 @@
     }
 
 
+    /* =====================================================
+       ACTIVE LANGUAGE
+       GOLD
+    ====================================================== */
+
     .mobile-language-option.active {
         color: var(--navbar-hover-color);
+
+        background: var(--black);
 
         padding-left: var(--mobile-menu-link-hover-padding-left);
 
         font-weight: var(--font-weight-semibold);
     }
+
 
     .mobile-language-option.active::after {
         width: calc(
@@ -1204,6 +1087,7 @@
 
         background: var(--navbar-hover-color);
     }
+
 }
 
 
@@ -1219,14 +1103,17 @@
         padding: var(--mobile-576-padding);
     }
 
+
     .mobile-nav .logo-img {
         width: var(--mobile-576-logo-width);
     }
+
 
     .menu-toggle,
     .close-menu {
         font-size: var(--mobile-576-menu-button-size);
     }
+
 
     .mobile-nav .menu {
         width: var(--mobile-576-menu-width);
@@ -1236,6 +1123,7 @@
         padding-right: var(--mobile-576-menu-horizontal-padding);
     }
 
+
     .mobile-nav .menu > li > a {
         font-size: var(--mobile-576-link-font-size);
 
@@ -1244,9 +1132,11 @@
         padding-bottom: var(--mobile-576-link-padding-y);
     }
 
+
     .mobile-language-toggle {
         font-size: var(--mobile-576-link-font-size);
     }
+
 }
 
 
@@ -1262,14 +1152,17 @@
         padding: var(--mobile-400-padding);
     }
 
+
     .mobile-nav .logo-img {
         width: var(--mobile-400-logo-width);
     }
+
 
     .menu-toggle,
     .close-menu {
         font-size: var(--mobile-400-menu-button-size);
     }
+
 
     .mobile-nav .menu {
         width: var(--mobile-400-menu-width);
@@ -1279,24 +1172,14 @@
         padding-right: var(--mobile-400-menu-horizontal-padding);
     }
 
+
     .mobile-nav .menu > li > a {
         font-size: var(--mobile-400-link-font-size);
     }
 
+
     .mobile-language-toggle {
         font-size: var(--mobile-400-link-font-size);
     }
-}
 
-/* =========================================================
-   TOUCH INTERACTION
-========================================================= */
-
-.mobile-nav .menu > li > a,
-.mobile-language-toggle,
-.mobile-language-option,
-.footer-menu a,
-.footer-contact-link {
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
 }

@@ -1,0 +1,130 @@
+
+/* =========================================================
+   58. FACTS IN NUMBERS
+========================================================= */
+
+.facts-section {
+    position: relative;
+
+    padding: var(--facts-padding-y) 0;
+
+    background: var(--body-color);
+
+    overflow: hidden;
+}
+
+.facts-heading {
+    margin-bottom: var(--facts-heading-margin-bottom);
+
+    text-align: center;
+}
+
+.facts-heading h2 {
+    margin: 0 0 18px;
+
+    color: var(--white);
+
+    font-size: var(--facts-heading-size);
+    font-weight: var(--font-weight-extrabold);
+
+    line-height: var(--line-height-heading);
+}
+
+.facts-heading h2 span {
+    color: var(--primary-gold);
+}
+
+.facts-row {
+    display: flex;
+
+    align-items: stretch;
+    justify-content: center;
+}
+
+.fact-item {
+    position: relative;
+
+    height: 100%;
+
+    padding: var(--fact-item-padding);
+
+    text-align: center;
+
+    border-right: 1px solid var(--border-gold-light);
+
+    transition: transform var(--transition-normal);
+}
+
+.facts-row > div:last-child .fact-item {
+    border-right: 0;
+}
+
+.fact-number {
+    display: flex;
+
+    align-items: baseline;
+    justify-content: center;
+
+    min-height: var(--fact-number-min-height);
+
+    color: var(--white);
+
+    font-size: var(--fact-number-size);
+    font-weight: var(--font-weight-black);
+
+    line-height: var(--line-height-tight);
+}
+
+.counter-number {
+    display: inline-block;
+}
+
+.counter-suffix {
+    margin-left: 3px;
+
+    color: var(--primary-gold);
+
+    font-size: var(--fact-suffix-size);
+    font-weight: var(--font-weight-extrabold);
+}
+
+.fact-item h3 {
+    margin: 15px 0 10px;
+
+    color: var(--primary-gold);
+
+    font-size: var(--fact-title-size);
+    font-weight: var(--font-weight-semibold);
+
+    line-height: 1.3;
+}
+
+.fact-line {
+    width: var(--fact-line-width);
+    height: var(--fact-line-height);
+
+    margin: 15px auto 25px;
+
+    background: var(--primary-gold);
+}
+
+.fact-item p {
+    max-width: 280px;
+
+    margin: 0 auto;
+
+    color: var(--white);
+
+    font-size: var(--fact-description-size);
+
+    line-height: var(--line-height-loose);
+}
+
+.fact-item:hover {
+    transform: translateY(-5px);
+}
+
+.fact-item:hover .fact-number {
+    color: var(--white);
+}
+

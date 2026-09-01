@@ -1,174 +1,200 @@
 /* =========================================================
-MOBILE MENU BODY LOCK
+   MOBILE MENU BODY LOCK
 ========================================================= */
 
 body.mobile-menu-open {
-overflow: hidden;
+    overflow: hidden;
 }
 
+
 /* =========================================================
-HERO
+   HERO
 ========================================================= */
 
 .hero {
-position: relative;
-width: 100%;
-margin: 0;
-padding: 0;
-overflow: hidden;
-z-index: 1;
+    position: relative;
+    width: 100%;
+    margin: var(--navbar-height) 0 0 0;
+    padding: 0;
+    overflow: hidden;
+    z-index: 1;
 }
 
+
 /* =========================================================
-HERO CAROUSEL
+   HERO CAROUSEL
 ========================================================= */
 
 .hero .carousel {
-position: relative;
-width: 100%;
-height: clamp(
-var(--hero-height-min, 400px),
-var(--hero-height-vh, 42vw),
-var(--hero-height-max, 600px)
-);
+    position: relative;
+
+    width: 100%;
+
+    height: clamp(
+        var(--hero-height-min, 400px),
+        var(--hero-height-vh, 42vw),
+        var(--hero-height-max, 600px)
+    );
 }
 
+
 /* =========================================================
-CAROUSEL INNER
+   CAROUSEL INNER
 ========================================================= */
 
 .hero .carousel-inner {
-width: 100%;
-height: 100%;
-overflow: hidden;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
+
 /* =========================================================
-CAROUSEL ITEM
+   CAROUSEL ITEM
 ========================================================= */
 
 .hero .carousel-item {
-position: relative;
-width: 100%;
-height: 100%;
-overflow: hidden;
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
 }
 
+
 /* =========================================================
-HERO IMAGE
+   HERO IMAGE
 ========================================================= */
 
 .hero-slide-img {
-display: block;
+    display: block;
 
+    width: 100%;
+    height: 100%;
 
-width: 100%;
-height: 100%;
-
-object-fit: cover;
-object-position: center center;
-
-
+    object-fit: cover;
+    object-position: center center;
 }
 
+
 /* =========================================================
-HERO OVERLAY
+   HERO OVERLAY
 ========================================================= */
 
 .hero-background-overlay {
-position: absolute;
+    position: absolute;
 
+    inset: 0;
 
-inset: 0;
+    z-index: 2;
 
-z-index: 2;
-
-pointer-events: none;
-
-background: rgba(0, 0, 0, 0.45);
-
-
+    pointer-events: none;
 }
 
+
 /* =========================================================
-CAROUSEL TRANSITION
+   CAROUSEL TRANSITION
 ========================================================= */
 
 .hero .carousel-fade .carousel-item {
-transition: opacity 0.8s ease-in-out;
+    transition: opacity 0.8s ease-in-out;
 }
 
+
 /* =========================================================
-TABLET
-577px - 992px
+   TABLET
+   577px - 992px
 ========================================================= */
 
 @media (min-width: 577px) and (max-width: 992px) {
 
+    .hero {
+        margin-top: var(--navbar-height);
+    }
 
-.hero .carousel {
-    height: clamp(
-        var(--hero-tablet-height-min, 350px),
-        var(--hero-tablet-height-vh, 50vw),
-        var(--hero-tablet-height-max, 550px)
-    );
+    .hero .carousel {
+        height: clamp(
+            var(--hero-tablet-height-min, 350px),
+            var(--hero-tablet-height-vh, 50vw),
+            var(--hero-tablet-height-max, 550px)
+        );
+    }
+
 }
 
-
-}
 
 /* =========================================================
-MOBILE
+   MOBILE
+   max-width: 768px
 ========================================================= */
 
 @media (max-width: 768px) {
 
+    .hero {
+        margin-top: var(--mobile-navbar-height);
+    }
 
-.hero .carousel {
-    height: clamp(
-        var(--hero-mobile-height-min, 300px),
-        var(--hero-mobile-height-vh, 65vw),
-        var(--hero-mobile-height-max, 500px)
-    );
+    .hero .carousel {
+        height: clamp(
+            var(--hero-mobile-height-min, 300px),
+            var(--hero-mobile-height-vh, 65vw),
+            var(--hero-mobile-height-max, 500px)
+        );
+    }
+
 }
 
-
-}
 
 /* =========================================================
-SMALL MOBILE
-576px
+   SMALL MOBILE
+   max-width: 576px
 ========================================================= */
 
 @media (max-width: 576px) {
 
+    .hero {
+        margin-top: var(--mobile-576-height);
+    }
 
-.hero .carousel {
-    height: clamp(
-        var(--hero-mobile-sm-height-min, 280px),
-        var(--hero-mobile-sm-height-vh, 70vw),
-        var(--hero-mobile-sm-height-max, 450px)
-    );
+    .hero .carousel {
+        height: clamp(
+            var(--hero-mobile-sm-height-min, 280px),
+            var(--hero-mobile-sm-height-vh, 70vw),
+            var(--hero-mobile-sm-height-max, 450px)
+        );
+    }
+
 }
 
-
-}
 
 /* =========================================================
-EXTRA SMALL MOBILE
-500px
+   EXTRA SMALL MOBILE
+   max-width: 500px
 ========================================================= */
 
 @media (max-width: 500px) {
 
+    .hero .carousel {
+        height: clamp(
+            var(--hero-mobile-xs-height-min, 250px),
+            var(--hero-mobile-xs-height-vh, 72vw),
+            var(--hero-mobile-xs-height-max, 400px)
+        );
+    }
 
-.hero .carousel {
-    height: clamp(
-        var(--hero-mobile-xs-height-min, 250px),
-        var(--hero-mobile-xs-height-vh, 72vw),
-        var(--hero-mobile-xs-height-max, 400px)
-    );
 }
 
+
+/* =========================================================
+   VERY SMALL MOBILE
+   max-width: 400px
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .hero {
+        margin-top: var(--mobile-400-height);
+    }
 
 }

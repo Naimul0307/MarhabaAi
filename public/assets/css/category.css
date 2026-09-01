@@ -1,0 +1,99 @@
+/* =========================================================
+   CATEGORY FILTER
+========================================================= */
+
+.category-filter-wrapper {
+    width: 100%;
+    margin-bottom: var(--category-filter-margin-bottom);
+    text-align: center;
+}
+
+
+/* =========================================================
+   PORTFOLIO SORTING
+========================================================= */
+
+.portfolio-sorting {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+    gap: var(--category-filter-gap);
+
+    margin: 20px 0 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+
+/* =========================================================
+   PORTFOLIO SORTING ITEM
+========================================================= */
+
+.portfolio-sorting li {
+    display: inline-block;
+
+    margin: 0;
+    padding: 0;
+}
+
+
+/* =========================================================
+   FILTER BUTTON
+========================================================= */
+
+.filter-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: var(--filter-button-min-height);
+
+    padding: var(--filter-button-padding);
+
+    border:
+        var(--filter-button-border-width)
+        solid
+        var(--border-color);
+
+    border-radius: var(--filter-button-radius);
+
+    background: transparent;
+    color: var(--black);
+
+    font-size: var(--filter-button-font-size);
+    font-weight: var(--font-weight-semibold);
+
+    cursor: pointer;
+
+    transition:
+        background-color var(--transition-normal),
+        color var(--transition-normal),
+        border-color var(--transition-normal),
+        transform var(--transition-normal);
+}
+
+
+/* =========================================================
+   FILTER BUTTON - ACTIVE / HOVER / FOCUS
+========================================================= */
+
+.filter-btn:hover,
+.filter-btn:focus-visible,
+.filter-btn.active {
+    border-color: var(--primary-gold);
+    background-color: var(--primary-gold);
+    color: var(--text-dark);
+}
+
+
+/* =========================================================
+   FILTER BUTTON - HOVER / FOCUS MOVEMENT
+========================================================= */
+
+.filter-btn:hover,
+.filter-btn:focus-visible {
+    transform: translateY(-2px);
+}

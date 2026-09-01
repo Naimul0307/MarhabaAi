@@ -3,82 +3,38 @@
     {{-- =========================================================
         DESKTOP NAVIGATION
     ========================================================== --}}
+
     <nav class="desktop-nav" aria-label="Desktop navigation">
 
         <div class="nav-bar">
 
-            {{-- LOGO --}}
+            {{-- =====================================================
+                LOGO
+            ====================================================== --}}
+
             <div class="logo">
+
                 <a href="{{ route('home') }}">
 
-                    {{-- Default logo --}}
                     <img
                         src="{{ asset('assets/logo.png') }}"
                         alt="Marhaba AI"
-                        class="logo-img logo-default"
-                        width="160"
-                        height="auto">
-
-                    {{-- Scrolled logo --}}
-                    <img
-                        src="{{ asset('assets/logo-scroll.png') }}"
-                        alt="Marhaba AI"
-                        class="logo-img logo-scrolled"
+                        class="logo-img"
                         width="160"
                         height="auto">
 
                 </a>
-            </div>
-
-            {{-- SETTINGS --}}
-            @php
-                $settings = getSettings();
-            @endphp
-
-
-            {{-- CONTACT --}}
-            <div class="nav-contact">
-
-                @if(!empty($settings) && $settings->email)
-
-                    <a
-                        href="mailto:{{ $settings->email }}"
-                        aria-label="Email us">
-
-                        <i
-                            class="fa fa-envelope"
-                            aria-hidden="true">
-                        </i>
-
-                        <span>{{ $settings->email }}</span>
-
-                    </a>
-
-                @endif
-
-
-                @if(!empty($settings) && $settings->phone)
-
-                    <a
-                        href="tel:{{ $settings->phone }}"
-                        aria-label="Call us">
-
-                        <i
-                            class="fa fa-volume-control-phone"
-                            aria-hidden="true">
-                        </i>
-
-                        <span>{{ $settings->phone }}</span>
-
-                    </a>
-
-                @endif
 
             </div>
 
 
-            {{-- DESKTOP MENU --}}
+            {{-- =====================================================
+                DESKTOP MENU
+            ====================================================== --}}
+
             <ul class="menu" role="list">
+
+                {{-- THE INSIDE --}}
 
                 <li>
 
@@ -95,6 +51,8 @@
                 </li>
 
 
+                {{-- WHAT WE DO --}}
+
                 <li>
 
                     <a
@@ -109,6 +67,8 @@
 
                 </li>
 
+
+                {{-- CONNECT --}}
 
                 <li>
 
@@ -127,7 +87,10 @@
             </ul>
 
 
-            {{-- LANGUAGE --}}
+            {{-- =====================================================
+                LANGUAGE
+            ====================================================== --}}
+
             <div class="language-selector">
 
                 <button
@@ -138,7 +101,9 @@
 
                     <i class="fas fa-globe"></i>
 
-                    <span>EN</span>
+                    <span>
+                        EN
+                    </span>
 
                     <i class="fas fa-chevron-down language-arrow"></i>
 
@@ -177,35 +142,37 @@
     {{-- =========================================================
         MOBILE NAVIGATION
     ========================================================== --}}
-    <nav class="mobile-nav" aria-label="Mobile navigation">
+
+    <nav
+        class="mobile-nav"
+        aria-label="Mobile navigation">
 
         <div class="nav-bar">
 
-            {{-- MOBILE LOGO --}}
+            {{-- =================================================
+                MOBILE LOGO
+            ================================================== --}}
+
             <div class="logo">
+
                 <a href="{{ route('home') }}">
 
-                    {{-- Default logo --}}
                     <img
                         src="{{ asset('assets/logo.png') }}"
                         alt="Marhaba AI"
-                        class="logo-img logo-default"
-                        width="160"
-                        height="auto">
-
-                    {{-- Scrolled logo --}}
-                    <img
-                        src="{{ asset('assets/logo-scroll.png') }}"
-                        alt="Marhaba AI"
-                        class="logo-img logo-scrolled"
+                        class="logo-img"
                         width="160"
                         height="auto">
 
                 </a>
+
             </div>
 
 
-            {{-- OPEN BUTTON --}}
+            {{-- =================================================
+                OPEN MENU BUTTON
+            ================================================== --}}
+
             <button
                 class="menu-toggle"
                 id="menu-toggle"
@@ -222,7 +189,10 @@
             </button>
 
 
-            {{-- CLOSE BUTTON --}}
+            {{-- =================================================
+                CLOSE MENU BUTTON
+            ================================================== --}}
+
             <button
                 class="close-menu"
                 id="close-menu"
@@ -239,64 +209,20 @@
         </div>
 
 
-        {{-- MOBILE SIDEBAR --}}
+        {{-- =====================================================
+            MOBILE SIDEBAR
+        ====================================================== --}}
+
         <ul
             class="menu"
             id="mobile-menu"
             role="list">
 
 
-            {{-- EMAIL --}}
-            @if(!empty($settings) && $settings->email)
+            {{-- =================================================
+                THE INSIDE
+            ================================================== --}}
 
-                <li>
-
-                    <a
-                        href="mailto:{{ $settings->email }}"
-                        aria-label="Email us">
-
-                        <span>
-                            {{ $settings->email }}
-                        </span>
-
-                        <i
-                            class="fa fa-envelope"
-                            aria-hidden="true">
-                        </i>
-
-                    </a>
-
-                </li>
-
-            @endif
-
-
-            {{-- PHONE --}}
-            @if(!empty($settings) && $settings->phone)
-
-                <li>
-
-                    <a
-                        href="tel:{{ $settings->phone }}"
-                        aria-label="Call us">
-
-                        <span>
-                            {{ $settings->phone }}
-                        </span>
-
-                        <i
-                            class="fa fa-volume-control-phone"
-                            aria-hidden="true">
-                        </i>
-
-                    </a>
-
-                </li>
-
-            @endif
-
-
-            {{-- HOME --}}
             <li>
 
                 <a
@@ -312,7 +238,10 @@
             </li>
 
 
-            {{-- SERVICES --}}
+            {{-- =================================================
+                WHAT WE DO
+            ================================================== --}}
+
             <li>
 
                 <a
@@ -328,7 +257,10 @@
             </li>
 
 
-            {{-- CONTACT --}}
+            {{-- =================================================
+                CONNECT
+            ================================================== --}}
+
             <li>
 
                 <a
@@ -344,7 +276,10 @@
             </li>
 
 
-            {{-- MOBILE LANGUAGE --}}
+            {{-- =================================================
+                MOBILE LANGUAGE
+            ================================================== --}}
+
             <li class="mobile-language-item">
 
                 <button

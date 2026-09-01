@@ -1,0 +1,522 @@
+/* =========================================================
+   63. CONTACT PAGE
+========================================================= */
+
+.contact-section {
+    padding: var(--contact-section-padding);
+
+    background: var(--light-bg);
+}
+
+
+/* =========================================================
+   CONTACT ROW
+   GAP BETWEEN CONTACT INFO AND CONTACT FORM
+========================================================= */
+
+.contact-section > .container > .row {
+    --contact-column-gap: 60px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    column-gap: var(--contact-column-gap);
+
+    margin-left: 0;
+    margin-right: 0;
+}
+
+
+/* =========================================================
+   CONTACT INFO COLUMN
+========================================================= */
+
+.contact-section > .container > .row > .col-md-7 {
+    flex: 0 0 calc(
+        58.333333% - (var(--contact-column-gap) / 2)
+    );
+
+    max-width: calc(
+        58.333333% - (var(--contact-column-gap) / 2)
+    );
+}
+
+
+/* =========================================================
+   CONTACT FORM COLUMN
+========================================================= */
+
+.contact-section > .container > .row > .col-md-5 {
+    flex: 0 0 calc(
+        41.666667% - (var(--contact-column-gap) / 2)
+    );
+
+    max-width: calc(
+        41.666667% - (var(--contact-column-gap) / 2)
+    );
+}
+
+
+/* =========================================================
+   ORIGINAL CONTACT WRAP
+========================================================= */
+
+.contact-wrap {
+    max-width: var(--contact-max-width);
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns: 0.9fr 1.1fr;
+
+    gap: var(--contact-gap);
+
+    align-items: center;
+}
+
+
+/* =========================================================
+   CONTACT LEFT
+========================================================= */
+
+.contact-left {
+    color: var(--light-text);
+}
+
+
+/* =========================================================
+   CONTACT EYEBROW
+========================================================= */
+
+.contact-eyebrow {
+    display: inline-block;
+
+    margin-bottom: 14px;
+
+    color: var(--primary-gold-dark);
+
+    font-size: 14px;
+
+    font-weight: var(--font-weight-bold);
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   CONTACT TITLE
+========================================================= */
+
+.contact-left h2 {
+    margin: 0 0 18px;
+
+    font-size: var(--contact-title-size);
+
+    line-height: 1.15;
+
+    font-weight: var(--font-weight-extrabold);
+}
+
+
+/* =========================================================
+   CONTACT DESCRIPTION
+========================================================= */
+
+.contact-left p {
+    max-width: 420px;
+
+    margin: 0;
+
+    color: var(--light-text-secondary);
+
+    font-size: var(--contact-description-size);
+
+    line-height: var(--line-height-loose);
+}
+
+
+/* =========================================================
+   CONTACT INFO
+========================================================= */
+
+.contact-info h4 {
+    margin-top: 0;
+
+    margin-bottom: 20px;
+
+    font-size: 24px;
+
+    font-weight: var(--font-weight-extrabold);
+
+    line-height: 1.2;
+}
+
+
+.info-item {
+    margin-bottom: 20px;
+
+    color: var(--light-text-secondary);
+
+    line-height: var(--line-height-loose);
+}
+
+
+/* =========================================================
+   CONTACT MAP
+========================================================= */
+
+.contact-map {
+    width: 100%;
+
+    margin-top: 25px;
+
+    overflow: hidden;
+
+    border-radius: var(--contact-form-radius);
+}
+
+
+.contact-map iframe {
+    display: block;
+
+    width: 100%;
+
+    max-width: 100%;
+
+    border: 0;
+}
+
+
+/* =========================================================
+   CONTACT FORM
+========================================================= */
+
+.contact-form {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: var(--contact-form-padding);
+
+    background: var(--white);
+
+    border-radius: var(--contact-form-radius);
+
+    box-shadow:
+        0 18px 45px var(--box-shadow);
+}
+
+
+/* =========================================================
+   CONTACT FORM TITLE
+========================================================= */
+
+.contact-form h4 {
+    margin-top: 0;
+
+    margin-bottom: 20px;
+
+    color: var(--light-text);
+
+    font-size: 24px;
+
+    font-weight: var(--font-weight-extrabold);
+
+    line-height: 1.2;
+}
+
+
+/* =========================================================
+   FORM GROUP
+========================================================= */
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   FORM LABEL
+========================================================= */
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--light-label);
+
+    font-size: 14px;
+
+    font-weight: var(--font-weight-bold);
+}
+
+
+/* =========================================================
+   FORM INPUTS
+========================================================= */
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: var(--contact-input-padding);
+
+    border: 1px solid var(--light-border);
+
+    border-radius: var(--contact-input-radius);
+
+    outline: none;
+
+    background: var(--white);
+
+    color: var(--light-text);
+
+    font-size: 15px;
+
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+
+/* =========================================================
+   FORM INPUT FOCUS
+========================================================= */
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-gold-dark);
+
+    box-shadow: var(--focus-gold-shadow);
+}
+
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+.form-group textarea {
+    resize: vertical;
+}
+
+
+/* =========================================================
+   CONTACT BUTTON
+========================================================= */
+
+.contact-form button {
+    width: 100%;
+
+    padding: var(--contact-button-padding);
+
+    border: 0;
+
+    border-radius: var(--contact-input-radius);
+
+    background: var(--light-text);
+
+    color: var(--white);
+
+    font-size: 15px;
+
+    font-weight: var(--font-weight-extrabold);
+
+    cursor: pointer;
+
+    transition:
+        background var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+
+/* =========================================================
+   CONTACT BUTTON HOVER
+========================================================= */
+
+.contact-form button:hover {
+    background: var(--primary-gold);
+
+    transform: translateY(-1px);
+}
+
+
+/* =====================================================
+   CONTACT SUBMIT LOADER
+===================================================== */
+
+.submit-loader {
+    display: none;
+
+    width: var(--contact-loader-size);
+    height: var(--contact-loader-size);
+
+    margin-left: var(--contact-loader-margin-left);
+
+    border:
+        var(--contact-loader-border-width)
+        solid
+        var(--contact-loader-border-color);
+
+    border-top-color: var(--contact-loader-top-color);
+
+    border-radius: var(--radius-circle);
+
+    animation:
+        contactSpin
+        var(--contact-loader-animation-duration)
+        linear
+        infinite;
+
+    vertical-align: var(--contact-loader-vertical-align);
+}
+
+
+#submit.is-loading .submit-loader {
+    display: inline-block;
+}
+
+
+#submit.is-loading .submit-text {
+    opacity: var(--contact-button-loading-opacity);
+}
+
+
+#submit:disabled {
+    opacity: var(--contact-button-disabled-opacity);
+
+    cursor: not-allowed;
+}
+
+
+/* =====================================================
+   CONTACT STATUS MESSAGE
+===================================================== */
+
+.contact-status {
+    display: none;
+
+    margin-bottom: var(--contact-status-margin-bottom);
+
+    padding: var(--contact-status-padding);
+
+    border-radius: var(--contact-status-radius);
+
+    font-size: var(--contact-status-font-size);
+
+    line-height: var(--contact-status-line-height);
+}
+
+
+.contact-status.success {
+    display: block;
+
+    background: var(--contact-status-success-bg);
+
+    color: var(--contact-status-success-color);
+
+    border: 1px solid var(--contact-status-success-border);
+}
+
+
+.contact-status.error {
+    display: block;
+
+    background: var(--contact-status-error-bg);
+
+    color: var(--contact-status-error-color);
+
+    border: 1px solid var(--contact-status-error-border);
+}
+
+
+/* =====================================================
+   CONTACT FIELD ERROR MESSAGES
+===================================================== */
+
+.message-error,
+.email-error,
+.name-error,
+.phone-error {
+    display: block;
+
+    margin-top: var(--contact-error-margin-top);
+
+    color: var(--contact-error-color);
+
+    font-size: var(--contact-error-font-size);
+
+    line-height: var(--contact-error-line-height);
+}
+
+
+/* =====================================================
+   CONTACT LOADER ANIMATION
+===================================================== */
+
+@keyframes contactSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 991px) {
+
+    .contact-section > .container > .row {
+        --contact-column-gap: 40px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+
+    .contact-section > .container > .row {
+        display: flex;
+
+        flex-direction: column;
+
+        row-gap: 40px;
+
+        column-gap: 0;
+    }
+
+
+    .contact-section > .container > .row > .col-md-7,
+    .contact-section > .container > .row > .col-md-5 {
+        width: 100%;
+
+        flex: 0 0 100%;
+
+        max-width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 576px) {
+
+    .contact-section > .container > .row {
+        row-gap: 30px;
+    }
+
+}

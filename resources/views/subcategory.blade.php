@@ -1,33 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="section-3 py-5">
-</section>
-<section class="section-2 py-5">
+<section class="about-section py-5">
     <div class="container py-2">
-
         <div class="about-block">
-
-            <h1 class="title-color mb-4 text-center">
-                Our <span>{{ $subCategory->name }}</span>
+            <h1 class="title-color">
+                 Our <span>{{ $subCategory->name }}</span>
             </h1>
 
-            <div class="divider-container text-center">
+            <div class="divider-container">
                 <div class="divider mb-3"></div>
             </div>
 
-            <div class="mt-2 mb-3 text-muted">
-                {{ $subCategory->name }} RENTAL DUBAI
-            </div>
-
             <div class="text-muted">
-               Smarter engagement. Better experiences. Sharper insights — all powered by AI that helps brands and agencies grow.
+                Smarter engagement. Better experiences. Sharper insights <br>— all powered by AI that helps brands and agencies grow.
             </div>
         </div>
-
     </div>
 </section>
-
 
 <section class="section-6 py-5">
 
@@ -122,7 +112,7 @@
                                     class="service-action-btn"
                                 >
 
-                                    <span>Discover More Details</span>
+                                    <span>Discover More</span>
 
                                     <i class="fa-solid fa-angle-right"></i>
 
@@ -156,5 +146,5 @@
     </div>
 
 </section>
-
+<div class="services-section-divider"></div>
 @endsection

@@ -1,9 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="section-3 py-5">
-</section>
-
 <section class="service-detail-section">
 
     <div class="container">
@@ -443,5 +440,5 @@ function getYoutubeVideoId($url)
 
 @endphp
 
-
+<div class="services-section-divider"></div>
 @endsection

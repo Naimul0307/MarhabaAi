@@ -26,12 +26,12 @@
 
                                 @if($review->image)
 
-                                    <img
-                                        src="{{ asset('uploads/reviews/' . $review->image) }}"
-                                        alt="{{ $review->name }}"
-                                        width="48"
-                                        height="48"
-                                        loading="lazy">
+                                <img
+                                    src="{{ asset('uploads/reviews/thumb/large/' . $review->image) }}"
+                                    alt="{{ $review->name }}"
+                                    width="48"
+                                    height="48"
+                                    loading="lazy">
 
                                 @else
 

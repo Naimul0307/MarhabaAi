@@ -1,22 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="section-3 py-5">
-</section>
-
-<section class="section-2 py-5">
+<section class="about-section py-5">
     <div class="container py-2">
         <div class="about-block">
-            <h1 class="title-color mb-4 text-center">
-                Connect <span>Us</span>
+            <h1 class="title-color">
+                 Let's<span> Connect</span>
             </h1>
 
-            <div class="divider-container text-center">
+            <div class="divider-container">
                 <div class="divider mb-3"></div>
             </div>
 
             <div class="text-muted">
-                Smarter engagement. Better experiences. Sharper insights — all powered by AI that helps brands and agencies grow.
+                Smarter engagement. Better experiences. Sharper insights <br> — all powered by AI that helps brands and agencies grow.
             </div>
         </div>
     </div>
@@ -145,66 +142,10 @@
         </div>
     </div>
 </section>
-
+<div class="services-section-divider"></div>
 @endsection
 
 @push('extraJs')
-
-<style>
-.submit-loader {
-    display: none;
-    width: 18px;
-    height: 18px;
-    margin-left: 8px;
-    border: 2px solid rgba(255, 255, 255, 0.45);
-    border-top-color: #ffffff;
-    border-radius: 50%;
-    animation: contactSpin 0.75s linear infinite;
-    vertical-align: -4px;
-}
-
-#submit.is-loading .submit-loader {
-    display: inline-block;
-}
-
-#submit.is-loading .submit-text {
-    opacity: 0.9;
-}
-
-#submit:disabled {
-    opacity: 0.8;
-    cursor: not-allowed;
-}
-
-.contact-status {
-    display: none;
-    margin-bottom: 20px;
-    padding: 12px 15px;
-    border-radius: 4px;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-.contact-status.success {
-    display: block;
-    background: #e8f7ee;
-    color: #198754;
-    border: 1px solid #b7e4c7;
-}
-
-.contact-status.error {
-    display: block;
-    background: #fdecec;
-    color: #dc3545;
-    border: 1px solid #f5c2c7;
-}
-
-@keyframes contactSpin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-</style>
 
 <script>
 $(document).ready(function () {

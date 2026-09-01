@@ -37,14 +37,20 @@
     </div>
 
 </section>
-<section class="section-2 py-5">
+<section class="about-section py-5">
     <div class="container py-2">
         <div class="about-block">
-            <h2 class="title-color">WHY CHOOSE <span> MARHABA AI </span></h2>
+            <h2 class="title-color">
+                <span>Smarter engagement. Better experiences. Sharper insights</span>
+            </h2>
+
             <div class="divider-container">
                 <div class="divider mb-3"></div>
             </div>
-            <div class="text-muted">Smarter engagement. Better experiences. Sharper insights — all powered by AI that helps brands and agencies grow.</div>
+
+            <div class="text-muted">
+                — all powered by AI that helps brands and agencies grow.
+            </div>
         </div>
     </div>
 </section>

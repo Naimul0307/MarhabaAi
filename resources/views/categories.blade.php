@@ -1,17 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="section-3 py-5">
-</section>
-<section class="section-2 py-5">
+<section class="about-section py-5">
     <div class="container py-2">
         <div class="about-block">
-            <h1 class="title-color mb-4 text-center">All <span>CATEGORIES</span></h1>
-            <div class="divider-container text-center">
+            <h1 class="title-color">
+                <span>Smarter engagement. Better experiences. Sharper insights</span>
+            </h1>
+
+            <div class="divider-container">
                 <div class="divider mb-3"></div>
             </div>
-            <div class="mt-2 mb-3 text-muted">ALL CATEGORIES RENTAL DUBAI</div>
-            <div class="text-muted">Smarter engagement. Better experiences. Sharper insights — all powered by AI that helps brands and agencies grow.</div>
+
+            <div class="text-muted">
+                — all powered by AI that helps brands and agencies grow.
+            </div>
         </div>
     </div>
 </section>
@@ -31,7 +34,9 @@
                 <div class="category-service-section">
 
                 <div class="category-service-heading">
-                    <h3>{{ $category->name }}</h3>
+                    <h3 class="category-title">
+                        {!! str_replace('AI', '<span>AI</span>', $category->name) !!}
+                    </h3>
                     @if(!empty($category->description))
                         <div class="category-description">
                             {!! $category->description !!}
@@ -108,7 +113,7 @@
                                                     href="{{ route('service.detail', $service->slug) }}"
                                                     class="service-action-btn"
                                                 >
-                                                    <span>Discover More Details</span>
+                                                    <span>Discover More</span>
                                                     <i class="fa-solid fa-angle-right"></i>
                                                 </a>
 
@@ -130,7 +135,7 @@
                             href="{{ route('category.detail', $category->slug) }}"
                             class="category-page-btn"
                         >
-                            <span>Discover More {{ $category->name }}</span>
+                            <span>Discover More</span>
                             <i class="fa-solid fa-arrow-right"></i>
                         </a>
                     </div>
@@ -144,4 +149,5 @@
     </div>
 </section>
 
+<div class="services-section-divider"></div>
 @endsection

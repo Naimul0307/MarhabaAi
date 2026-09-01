@@ -1,0 +1,78 @@
+.about-section {
+    background-color: var(--body-color);
+}
+
+.about-section .about-block {
+    text-align: center;
+}
+
+.about-section .title-color {
+    color: var(--primary-gold);
+    text-align: center;
+    font-size: 46px;
+    margin-bottom: 20px;
+    font-weight: var(--font-weight-normal);
+}
+
+.about-section .title-color span {
+    color: var(--white);
+}
+
+.about-section .divider-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-section .divider {
+    width: var(--divider-width);
+    height: var(--divider-height);
+    background-color: var(--primary-gold);
+}
+
+.about-section .text-muted {
+    color: var(--white);
+    font-size: var(--about-muted-size );
+    text-align: center;
+}
+
+
+/* =========================================================
+   ABOUT RESPONSIVE
+========================================================= */
+
+@media (min-width: 1000px) and (max-width: 1200px) {
+    .about-section .text-muted {
+        font-size: 20px;
+    }
+
+    .about-section .title-color {
+        font-size: 40px;
+    }
+}
+
+@media (min-width: 700px) and (max-width: 999px) {
+    .about-section .text-muted {
+        font-size: 18px;
+    }
+
+    .about-section .title-color {
+        font-size: 30px;
+    }
+
+    .about-section .about-block {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .about-section .title-color {
+        font-size: 40px;
+    }
+}
+
+@media (max-width: 576px) {
+    .about-section .title-color {
+        font-size: 32px;
+    }
+}

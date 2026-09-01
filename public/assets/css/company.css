@@ -1,0 +1,88 @@
+.section-5{
+display: flex;
+justify-content: center;
+align-items: center;
+text-align: center;
+background-color: var(--body-color);
+}
+
+.section-5 .title-color {
+color: var(--primary-gold);
+}
+
+.section-5 .title-color span {
+color: var(--white);
+}
+
+.section-5 .companies-slider {
+position: relative;
+width: 100%;
+}
+
+.section-5 .companies-slider > div {
+padding-left: var(--space-2);
+padding-right: var(--space-2);
+}
+
+.section-5 .supporter-logo {
+display: flex;
+align-items: center;
+justify-content: center;
+width: 100%;
+}
+
+.section-5 .supporter-logo img {
+display: block;
+width: 100%;
+max-width: 100%;
+height: auto;
+object-fit: contain;
+}
+
+@media (max-width: 1200px) {
+.section-5.slick-prev {
+left: -20px;
+}
+
+
+.section-5 .slick-next {
+    right: -20px;
+}
+
+}
+
+@media (max-width: 768px) {
+.section-5 .slick-prev,
+.section-5 .slick-next {
+width: var(--slick-mobile-arrow-size);
+height: var(--slick-mobile-arrow-size);
+}
+
+
+.section-5 .slick-prev i,
+.section-5 .slick-next i {
+    font-size: var(--slick-mobile-icon-size);
+}
+
+
+}
+
+@media (max-width: 576px) {
+.section-5 .slick-prev {
+left: -8px;
+}
+
+
+.section-5 .slick-next {
+    right: -8px;
+}
+
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+.section-5 .companies-slider .slick-slide img {
+transition: none;
+transform: none;
+}
+}

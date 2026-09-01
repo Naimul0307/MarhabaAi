@@ -125,22 +125,29 @@
                         </iframe>
                     </div>
                 </div>
-
             </div>
 
-            <div class="footer-btm py-4 mt-5">
+        </div>
+        <div class="footer-btm-divider"></div>
+        <div class="container">
+            <div class="footer-btm py-4 mt-0">
                 <div class="row align-items-center justify-content-between">
                     <div class="col-lg-6">
                         @if(!empty($settings) && $settings->copy)
-                        <div class="copyright">
-                            <a href="# class="custom-link" aria-label="Visit our website">{{ $settings->copy }}</a>
-                        </div>
+                            <div class="copyright">
+                                <a href="#" class="custom-link" aria-label="Visit our website">
+                                    {{ $settings->copy }}
+                                </a>
+                            </div>
                         @endif
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-lg-4">
-                        <a class="backtop scroll-top-to reveal" href="#top" aria-label="Back to top">
+                        <a class="backtop scroll-top-to reveal"
+                           href="#top"
+                           aria-label="Back to top">
                             <i class="icofont-long-arrow-up" aria-hidden="true"></i>
                         </a>
                     </div>
