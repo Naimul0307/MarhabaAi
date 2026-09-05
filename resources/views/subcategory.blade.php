@@ -13,7 +13,7 @@
             </div>
 
             <div class="text-muted">
-                Smarter engagement. Better experiences. Sharper insights <br>— all powered by AI that helps brands and agencies grow.
+                Smarter engagement. Better experiences. Sharper insights.
             </div>
         </div>
     </div>

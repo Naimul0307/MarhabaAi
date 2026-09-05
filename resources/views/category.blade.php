@@ -5,15 +5,28 @@
     <div class="container py-2">
         <div class="about-block">
             <h1 class="title-color">
-                 Our <span>{{ $category->name }}</span>
+                <span>
+                    {{ $category->subCategories
+                        ->filter(fn ($subCategory) => $subCategory->services->isNotEmpty())
+                        ->map(function ($subCategory) {
+                            return trim(
+                                preg_replace(
+                                    '/\b(Experience|Engage|Insights)\b/i',
+                                    '',
+                                    $subCategory->name
+                                )
+                            );
+                        })
+                        ->filter()
+                        ->implode('. ') }}
+                </span>
             </h1>
-
             <div class="divider-container">
                 <div class="divider mb-3"></div>
             </div>
 
             <div class="text-muted">
-                Smarter engagement. Better experiences. Sharper insights <br>— all powered by AI that helps brands and agencies grow.
+                — helping brands and agencies grow.
             </div>
         </div>
     </div>

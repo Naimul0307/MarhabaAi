@@ -60,6 +60,42 @@ class HomeController extends Controller
 
         /*
         |--------------------------------------------------------------------------
+        | ALL HOME SERVICES
+        |--------------------------------------------------------------------------
+        |
+        | Flatten all services from all categories/subcategories
+        | and sort them globally by latest service first.
+        |
+        */
+
+        $homeServices = $categories
+            ->flatMap(function ($category) {
+
+                return $category->subCategories
+                    ->flatMap(function ($subCategory) use ($category) {
+
+                        return $subCategory->services->map(function ($service) use (
+                            $category,
+                            $subCategory
+                        ) {
+
+                            $service->home_category = $category;
+
+                            $service->home_subcategory = $subCategory;
+
+                            return $service;
+
+                        });
+
+                    });
+
+            })
+            ->sortByDesc('id')
+            ->values();
+
+
+        /*
+        |--------------------------------------------------------------------------
         | Home Page
         |--------------------------------------------------------------------------
         */
@@ -69,6 +105,8 @@ class HomeController extends Controller
             'heroSlides' => $heroSlides,
 
             'categories' => $categories,
+
+            'homeServices' => $homeServices,
 
 
             /*
@@ -106,3 +144,4 @@ class HomeController extends Controller
         ]);
     }
 }
+

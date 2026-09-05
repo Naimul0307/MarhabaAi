@@ -14,7 +14,20 @@ class CategoriesController extends Controller
     {
         $categories = Category::where('status', 1)
             ->with([
-                'subCategories.services'
+                'subCategories' => function ($query) {
+
+                    // Subcategories: oldest first
+                    $query->orderBy('id', 'asc')
+                        ->with([
+                            'services' => function ($query) {
+
+                                // Services: latest first
+                                $query->orderBy('id', 'desc');
+
+                            }
+                        ]);
+
+                }
             ])
             ->orderBy('id', 'desc')
             ->get();
@@ -23,11 +36,6 @@ class CategoriesController extends Controller
 
             'categories' => $categories,
 
-            /*
-            |--------------------------------------------------------------------------
-            | Page Controls
-            |--------------------------------------------------------------------------
-            */
             'isCategoriesPage' => true,
 
             'isCategoryPage' => false,
@@ -38,12 +46,6 @@ class CategoriesController extends Controller
 
             'showHomeSliders' => false,
 
-
-            /*
-            |--------------------------------------------------------------------------
-            | SEO
-            |--------------------------------------------------------------------------
-            */
             'meta_title' =>
                 'Marhaba Ai | Event Services in Dubai',
 
@@ -55,7 +57,6 @@ class CategoriesController extends Controller
         ]);
     }
 
-
     /**
      * Display a single category.
      */
@@ -64,7 +65,20 @@ class CategoriesController extends Controller
         $category = Category::where('slug', $slug)
             ->where('status', 1)
             ->with([
-                'subCategories.services'
+                'subCategories' => function ($query) {
+
+                    // Latest subcategory first
+                    $query->orderBy('id', 'desc')
+                        ->with([
+                            'services' => function ($query) {
+
+                                // Latest service first
+                                $query->orderBy('id', 'desc');
+
+                            }
+                        ]);
+
+                }
             ])
             ->firstOrFail();
 
@@ -75,12 +89,6 @@ class CategoriesController extends Controller
 
             'subCategories' => $category->subCategories,
 
-
-            /*
-            |--------------------------------------------------------------------------
-            | Page Controls
-            |--------------------------------------------------------------------------
-            */
             'isCategoriesPage' => false,
 
             'isCategoryPage' => true,
@@ -91,12 +99,6 @@ class CategoriesController extends Controller
 
             'showHomeSliders' => false,
 
-
-            /*
-            |--------------------------------------------------------------------------
-            | SEO
-            |--------------------------------------------------------------------------
-            */
             'meta_title' =>
                 $category->meta_title
                 ?? $category->name,
@@ -113,4 +115,5 @@ class CategoriesController extends Controller
                 ?? 'MIRROR BOOTH, PHOTO BOOTH, VIDEOS BOOTH, MAGAZIN BOOTH, EVENT SERVICES, DUBAI, UAE',
         ]);
     }
+
 }

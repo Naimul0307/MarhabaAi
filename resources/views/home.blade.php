@@ -45,102 +45,97 @@
 
         </div>
 
+
         <div class="services-slider-wrapper">
 
             <div class="services-slider">
 
-                @foreach($categories as $category)
+                @foreach($homeServices as $service)
 
                     @php
-                        $categoryServices = $category->subCategories
-                            ->flatMap(fn ($subCategory) => $subCategory->services);
+                        $category = $service->home_category;
+                        $subCategory = $service->home_subcategory;
                     @endphp
 
-                    @if($categoryServices->isNotEmpty())
+                    <div class="service-slide"
+                        data-category="category-{{ $category->id }}"
+                        data-subcategory="subcategory-{{ $subCategory->id }}">
 
-                        @foreach($category->subCategories as $subCategory)
+                        <div class="card border-0 text-center service-card">
 
-                            @foreach($subCategory->services as $service)
+                            <a class="service-card-image-link"
+                            href="{{ route('service.detail', $service->slug) }}"
+                            aria-label="View {{ $service->name }}">
 
-                                <div class="service-slide"
-                                     data-category="category-{{ $category->id }}"
-                                     data-subcategory="subcategory-{{ $subCategory->id }}">
+                                @if(!empty($service->image))
 
-                                    <div class="card border-0 text-center service-card">
+                                    <img
+                                        src="{{ asset('uploads/services/thumb/large/' . $service->image) }}"
+                                        class="card-img-top"
+                                        alt="{{ $service->name }}"
+                                        width="400"
+                                        height="300"
+                                        loading="lazy"
+                                        decoding="async">
 
-                                        <a class="service-card-image-link"
-                                           href="{{ route('service.detail', $service->slug) }}"
-                                           aria-label="View {{ $service->name }}">
+                                @else
 
-                                            @if(!empty($service->image))
+                                    <img
+                                        src="{{ asset('uploads/services/thumb/large/caption-cam.webp') }}"
+                                        class="card-img-top"
+                                        alt="{{ $service->name }}"
+                                        width="400"
+                                        height="300"
+                                        loading="lazy"
+                                        decoding="async">
 
-                                                <img
-                                                    src="{{ asset('uploads/services/thumb/large/' . $service->image) }}"
-                                                    class="card-img-top"
-                                                    alt="{{ $service->name }}"
-                                                    width="400"
-                                                    height="300"
-                                                    loading="lazy"
-                                                    decoding="async">
+                                @endif
 
-                                            @else
+                            </a>
 
-                                                <img
-                                                    src="{{ asset('uploads/services/thumb/large/caption-cam.webp') }}"
-                                                    class="card-img-top"
-                                                    alt="{{ $service->name }}"
-                                                    width="400"
-                                                    height="300"
-                                                    loading="lazy"
-                                                    decoding="async">
+                            <div class="card-body p-3">
 
-                                            @endif
+                                <div class="service-subcategory-name">
+                                    {{ $subCategory->name }}
+                                </div>
 
-                                        </a>
+                                <h4 class="card-title mt-2">
 
-                                        <div class="card-body p-3">
+                                    <a href="{{ route('service.detail', $service->slug) }}">
+                                        {{ $service->name }}
+                                    </a>
 
-                                            <div class="service-subcategory-name">
-                                                {{ $subCategory->name }}
-                                            </div>
+                                </h4>
 
-                                            <h4 class="card-title mt-2">
-                                                <a href="{{ route('service.detail', $service->slug) }}">
-                                                    {{ $service->name }}
-                                                </a>
-                                            </h4>
+                                <div class="content pt-2">
 
-                                            <div class="content pt-2">
-                                                <p class="card-text">
-                                                    {{ $service->short_desc ?: '' }}
-                                                </p>
-                                            </div>
-
-                                            <a href="{{ route('service.detail', $service->slug) }}"
-                                               class="service-action-btn">
-
-                                                <span>Discover More</span>
-                                                <i class="fa-solid fa-angle-right"></i>
-
-                                            </a>
-
-                                        </div>
-
-                                    </div>
+                                    <p class="card-text">
+                                        {{ $service->short_desc ?: '' }}
+                                    </p>
 
                                 </div>
 
-                            @endforeach
+                                <a href="{{ route('service.detail', $service->slug) }}"
+                                class="service-action-btn">
 
-                        @endforeach
+                                    <span>Discover More</span>
 
-                    @endif
+                                    <i class="fa-solid fa-angle-right"></i>
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
 
                 @endforeach
 
             </div>
 
         </div>
+
 
         <div class="selected-category-action">
 
@@ -149,7 +144,7 @@
                id="category-page-button">
 
                 <span id="category-page-button-text">
-                    Discover More Categories
+                    Discover More
                 </span>
 
                 <i class="fa-solid fa-arrow-right"></i>
@@ -201,7 +196,7 @@
                     <div class="fact-line"></div>
 
                     <p>
-                        Successfully completed projects
+                        Successfully completed projects and
                         delivered with quality and attention
                         to detail.
                     </p>

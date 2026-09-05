@@ -5,776 +5,852 @@
 :root {
 
     /* =====================================================
-       FONT
-    ===================================================== */
+           FONT
+        ===================================================== */
 
     --font-primary: 'Patrick Hand', cursive;
 
-    --bs-body-font-family: var(--font-primary);
     --bs-body-font-size: 1rem;
+
     --bs-body-font-weight: 400;
+
     --bs-body-line-height: 1.5;
 
 
     /* =====================================================
-       BOOTSTRAP / LAYOUT
-    ===================================================== */
+           BOOTSTRAP / LAYOUT
+        ===================================================== */
 
     --bs-gutter-x: 1.5rem;
+
     --bs-gutter-y: 0;
 
     --container-sm: 540px;
+
     --container-md: 720px;
+
     --container-lg: 960px;
+
     --container-xl: 1140px;
+
     --container-xxl: 1320px;
 
 
     /* =====================================================
-       PRIMARY COLORS
-    ===================================================== */
+           PRIMARY COLORS
+        ===================================================== */
 
     --primary-gold: rgb(245, 198, 69);
 
+
     /* =====================================================
-       BASIC COLORS
-    ===================================================== */
+           BASIC COLORS
+        ===================================================== */
 
     --black: #000000;
+
     --white: #ffffff;
+
     --text-dark: #000000;
+
     --body-color: #000000;
+
     --body-bg: #ffffff;
 
+
     /* =====================================================
-       LIGHT COLORS
-    ===================================================== */
+           LIGHT COLORS
+        ===================================================== */
 
     --light-bg: #f6f8fb;
+
     --light-text: #172033;
+
     --light-text-secondary: #5f6878;
+
     --light-label: #263247;
+
     --light-border: #d9dee8;
 
 
     /* =====================================================
-       GRADIENTS
-    ===================================================== */
+           GRADIENTS
+        ===================================================== */
 
     --gradient-start: #171717;
+
     --gradient-middle: #0d0d0d;
+
     --gradient-end: #050505;
 
     --gradient-dark-start: #1b1e23;
-    --gradient-dark-middle: #15171b;
-    --gradient-dark-end: #101114;
 
-    --gradient-section-start: #20242a;
-    --gradient-section-middle: #0c0d0f;
-    --gradient-section-end: #050505;
+    --gradient-dark-middle: #15171b;
+
+    --gradient-dark-end: #101114;
 
 
     /* =====================================================
-       BORDERS
-    ===================================================== */
+           BORDERS
+        ===================================================== */
 
     --border-color: rgb(228, 170, 13);
 
     --border-gold-light: rgba(255, 196, 0, 0.87);
+
     --border-gold-medium: rgba(212, 175, 55, 0.45);
+
     --border-gold-strong: rgba(212, 175, 55, 0.65);
 
     --box-shadow: rgba(25, 35, 60, 0.1);
 
 
-
     /* =====================================================
-       BLACK / OVERLAY
-    ===================================================== */
+           BLACK / OVERLAY
+        ===================================================== */
 
     --black-overlay-light: rgba(0, 0, 0, 0.08);
+
     --black-overlay-medium: rgba(0, 0, 0, 0.25);
-    --black-overlay-dark: rgba(0, 0, 0, 0.70);
+
     --black-overlay-darker: rgba(0, 0, 0, 0.78);
+
     --black-overlay-heavy: rgba(0, 0, 0, 0.88);
 
-    --shadow-black-light: rgba(0, 0, 0, 0.28);
     --shadow-black-medium: rgba(0, 0, 0, 0.30);
-    --shadow-black-heavy: rgba(0, 0, 0, 0.40);
 
 
     /* =====================================================
-       WHATSAPP
-    ===================================================== */
+           WHATSAPP
+        ===================================================== */
 
     --whatsapp-bg: #2c665f;
+
     --whatsapp-hover: #499990;
 
 
     /* =====================================================
-       SHADOWS
-    ===================================================== */
-
-    --card-shadow:
-        0 12px 35px var(--shadow-black-light);
-
-    --card-hover-shadow:
-        0 18px 45px var(--shadow-black-heavy),
-        0 0 25px var(--primary-gold-faint);
+           SHADOWS
+        ===================================================== */
 
     --focus-gold-shadow:
-        0 0 0 4px rgba(212, 160, 23, 0.14);
+            0 0 0 4px rgba(212, 160, 23, 0.14);
 
 
     /* =====================================================
-       TYPOGRAPHY SCALE
-    ===================================================== */
+           TYPOGRAPHY SCALE
+        ===================================================== */
 
-    --font-size-xs: 0.75rem;
     --font-size-sm: 0.875rem;
-    --font-size-base: 1rem;
-    --font-size-md: 1.125rem;
-    --font-size-lg: 1.25rem;
+
     --font-size-xl: 1.5rem;
-    --font-size-2xl: 1.75rem;
-    --font-size-3xl: 2rem;
-    --font-size-4xl: 2.5rem;
-    --font-size-5xl: 3rem;
-    --font-size-6xl: 3.5rem;
 
 
     /* =====================================================
-       FONT WEIGHTS
-    ===================================================== */
+           FONT WEIGHTS
+        ===================================================== */
 
     --font-weight-normal: 400;
+
     --font-weight-medium: 500;
+
     --font-weight-semibold: 600;
+
     --font-weight-bold: 700;
+
     --font-weight-extrabold: 800;
+
     --font-weight-black: 900;
 
 
     /* =====================================================
-       LINE HEIGHTS
-    ===================================================== */
+           LINE HEIGHTS
+        ===================================================== */
 
     --line-height-tight: 1;
+
     --line-height-heading: 1.2;
+
     --line-height-normal: 1.5;
-    --line-height-relaxed: 1.65;
+
     --line-height-loose: 1.7;
+
     --line-height-content: 1.8;
 
 
     /* =====================================================
-       SPACING
-    ===================================================== */
+           SPACING
+        ===================================================== */
 
     --space-0: 0;
-    --space-1: 0.25rem;
-    --space-2: 0.5rem;
-    --space-3: 1rem;
-    --space-4: 1.5rem;
-    --space-5: 6rem;
 
-    --space-6: 4rem;
-    --space-7: 5rem;
-    --space-8: 6rem;
+    --space-1: 0.25rem;
+
+    --space-2: 0.5rem;
+
+    --space-3: 1rem;
+
+    --space-4: 1.5rem;
+
+    --space-5: 6rem;
 
 
     /* =====================================================
-       RADIUS
-    ===================================================== */
+           RADIUS
+        ===================================================== */
 
     --radius-sm: 4px;
+
     --radius-md: 6px;
-    --radius-lg: 8px;
-    --radius-xl: 12px;
-    --radius-2xl: 14px;
-    --radius-3xl: 20px;
-    --radius-pill: 50px;
+
     --radius-circle: 50%;
 
 
     /* =====================================================
-       TRANSITIONS
-    ===================================================== */
+           TRANSITIONS
+        ===================================================== */
 
     --transition-fast: 0.2s ease;
+
     --transition-normal: 0.3s ease;
+
     --transition-medium: 0.4s ease;
+
     --transition-slow: 0.5s ease;
 
 
     /* =====================================================
-       BUTTON
-    ===================================================== */
-
-    --button-font-size: 1.05rem;
-    --button-padding-y: 12px;
-    --button-padding-x: 26px;
-
-
-    /* =====================================================
-       DIVIDER
-    ===================================================== */
+           DIVIDER
+        ===================================================== */
 
     --divider-width: 400px;
+
     --divider-height: 5px;
 
 
     /* =====================================================
-       GENERAL SECTIONS
-    ===================================================== */
+          About
+        ===================================================== */
 
-    --section-light-bg: var(--light-bg);
-
-
-    /* =====================================================
-      About
-    ===================================================== */
-    --about-text-size : 20px;
     --about-muted-size : 25px;
 
 
     /* =====================================================
-       SECTION 8
-    ===================================================== */
+           SECTION 8
+        ===================================================== */
 
     --section-8-image-margin-bottom: 1.5rem;
+
     --section-8-image-radius: 8px;
 
 
     /* =====================================================
-       CARD
-    ===================================================== */
+           CARD
+        ===================================================== */
 
     --card-padding: 1rem;
+
     --card-border-width: 1px;
+
     --card-radius: 0.25rem;
 
     --card-title-size: 25px;
+
     --card-title-height: 2.5em;
 
     --card-text-size: 18px;
+
     --card-text-height: 6em;
 
 
     /* =====================================================
-       SERVICE CARD
-    ===================================================== */
+           SERVICE CARD
+        ===================================================== */
 
     --service-card-border-width: 3px;
+
     --service-card-radius: 20px;
+
     --service-card-hover-y: -6px;
 
     --service-card-image-height: 250px;
 
     --service-card-body-min-height: 250px;
+
     --service-card-body-padding: 20px 18px 22px;
 
     --service-card-top-line-left: 18px;
+
     --service-card-top-line-width: 45px;
+
     --service-card-top-line-height: 2px;
 
     --service-card-subcategory-size: 11px;
+
     --service-card-title-size: 22px;
+
     --service-card-description-size: 16px;
 
     --service-card-button-padding: 10px 22px;
+
     --service-card-button-radius: 4px;
 
 
     /* =====================================================
-       SERVICE CARD DECORATION
-    ===================================================== */
+           SERVICE CARD DECORATION
+        ===================================================== */
 
     --service-decoration-top: -80px;
+
     --service-decoration-right: -90px;
+
     --service-decoration-width: 230px;
+
     --service-decoration-height: 300px;
+
     --service-decoration-rotation: 22deg;
 
     --service-decoration-bottom: -100px;
+
     --service-decoration-left: -100px;
+
     --service-decoration-bottom-height: 260px;
+
     --service-decoration-border-width: 2px;
+
     --service-decoration-bottom-rotation: -28deg;
 
 
     /* =====================================================
-       SERVICE DETAIL
-    ===================================================== */
+           SERVICE DETAIL
+        ===================================================== */
 
     --service-detail-padding-y: 100px;
+
     --service-main-row-margin-bottom: 45px;
 
     --main-media-height: 400px;
 
     --service-short-padding: 25px 10px;
+
     --service-short-title-size: 30px;
+
     --service-short-description-size: 20px;
 
     --service-full-description-margin-top: 25px;
+
     --service-full-description-margin-bottom: 50px;
+
     --service-full-description-title-size: 28px;
 
 
     /* =====================================================
-       SERVICE MEDIA
-    ===================================================== */
+           SERVICE MEDIA
+        ===================================================== */
 
     --service-media-section-margin-y: 55px;
+
     --service-media-heading-margin-bottom: 20px;
+
     --service-media-heading-size: 40px;
 
     --service-media-card-height: 250px;
+
     --service-media-card-radius: 20px;
 
     --service-media-decoration-top: -70px;
+
     --service-media-decoration-right: -80px;
+
     --service-media-decoration-width: 180px;
+
     --service-media-decoration-height: 230px;
+
     --service-media-decoration-rotation: 22deg;
 
     --service-media-bottom-line-height: 3px;
 
 
     /* =====================================================
-       VIDEO
-    ===================================================== */
+           VIDEO
+        ===================================================== */
 
     --video-play-button-size: 62px;
+
     --video-play-button-border-width: 2px;
 
     --main-video-play-size: 70px;
 
     --video-overlay-light: var(--black-overlay-light);
+
     --video-overlay-hover: var(--black-overlay-medium);
 
 
     /* =====================================================
-       VIDEO MODAL
-    ===================================================== */
+           VIDEO MODAL
+        ===================================================== */
 
     --video-modal-padding: 30px;
+
     --video-modal-content-width: min(1000px, 95vw);
+
     --video-modal-content-padding: 12px;
+
     --video-modal-radius: 20px;
+
     --video-modal-wrapper-radius: 12px;
 
     --video-modal-close-size: 38px;
+
     --video-modal-close-top: -45px;
 
 
     /* =====================================================
-       CATEGORY
-    ===================================================== */
+           CATEGORY
+        ===================================================== */
 
     --category-filter-margin-bottom: 35px;
+
     --category-filter-gap: 10px;
 
     --filter-button-min-height: 42px;
+
     --filter-button-padding: 9px 20px;
+
     --filter-button-border-width: 2px;
+
     --filter-button-radius: 30px;
+
     --filter-button-font-size: 14px;
 
     --category-button-padding: 10px 22px;
+
     --category-button-radius: 22px;
+
     --category-button-font-size: 15px;
 
 
     /* =====================================================
-       SLICK
-    ===================================================== */
+           SLICK
+        ===================================================== */
 
     --slick-arrow-size: 42px;
+
     --slick-arrow-left: -28px;
+
     --slick-arrow-right: -28px;
+
     --slick-icon-size: 36px;
 
     --slick-mobile-arrow-size: 40px;
+
     --slick-mobile-icon-size: 30px;
 
 
     /* =====================================================
-       REVIEWS
-    ===================================================== */
+           REVIEWS
+        ===================================================== */
 
     --reviews-wrapper-padding: 10px 5px 20px;
+
     --review-slide-padding: 12px;
 
     --review-card-min-height: 330px;
+
     --review-card-padding: 28px 26px;
+
     --review-card-radius: 14px;
+
     --review-card-border-width: 3px;
 
     --review-avatar-size: 52px;
+
     --review-author-gap: 13px;
 
     --review-author-margin-bottom: 18px;
+
     --review-stars-margin-bottom: 18px;
 
     --review-text-size: 15px;
+
     --review-text-line-height: 1.75;
 
     --review-quote-size: 110px;
 
 
     /* =====================================================
-       FACTS
-    ===================================================== */
+           FACTS
+        ===================================================== */
 
     --facts-padding-y: 90px;
+
     --facts-heading-margin-bottom: 55px;
+
     --facts-heading-size: 46px;
 
     --fact-item-padding: 15px 35px 10px;
+
     --fact-number-size: 64px;
+
     --fact-number-min-height: 85px;
+
     --fact-suffix-size: 40px;
 
     --fact-title-size: 22px;
+
     --fact-description-size: 15px;
 
     --fact-line-width: 35px;
+
     --fact-line-height: 3px;
 
 
     /* =====================================================
-       SUBCATEGORY
-    ===================================================== */
+           SUBCATEGORY
+        ===================================================== */
 
     --subcategory-grid-gap: 30px;
+
     --subcategory-image-height: 300px;
 
     --subcategory-body-padding: 15px;
 
-    --subcategory-title-size: 25px;
-    --subcategory-description-size: 14px;
-
 
     /* =====================================================
-    CONTACT
-    ===================================================== */
+        CONTACT
+        ===================================================== */
 
     --contact-section-padding: 80px 20px;
+
     --contact-max-width: 1120px;
+
     --contact-gap: 48px;
 
     --contact-title-size: 42px;
+
     --contact-description-size: 17px;
 
     --contact-form-padding: 34px;
+
     --contact-form-radius: 8px;
 
     --contact-input-padding: 13px 14px;
+
     --contact-input-radius: 6px;
 
     --contact-button-padding: 14px 18px;
 
 
     /* =====================================================
-    CONTACT VALIDATION / STATUS
-    ===================================================== */
+        CONTACT VALIDATION / STATUS
+        ===================================================== */
 
     --contact-loader-size: 18px;
+
     --contact-loader-border-width: 2px;
+
     --contact-loader-border-color: rgba(255, 255, 255, 0.45);
+
     --contact-loader-top-color: #ffffff;
+
     --contact-loader-margin-left: 8px;
+
     --contact-loader-vertical-align: -4px;
+
     --contact-loader-animation-duration: 0.75s;
 
     --contact-status-margin-bottom: 20px;
+
     --contact-status-padding: 12px 15px;
+
     --contact-status-radius: 4px;
+
     --contact-status-font-size: 14px;
+
     --contact-status-line-height: 1.5;
 
     --contact-status-success-bg: #e8f7ee;
+
     --contact-status-success-color: #198754;
+
     --contact-status-success-border: #b7e4c7;
 
     --contact-status-error-bg: #fdecec;
+
     --contact-status-error-color: #dc3545;
+
     --contact-status-error-border: #f5c2c7;
 
 
     /* =====================================================
-    CONTACT FIELD ERRORS
-    ===================================================== */
+        CONTACT FIELD ERRORS
+        ===================================================== */
 
     --contact-error-color: #dc3545;
+
     --contact-error-font-size: 14px;
+
     --contact-error-line-height: 1.4;
+
     --contact-error-margin-top: 5px;
 
 
     /* =====================================================
-    CONTACT BUTTON LOADING
-    ===================================================== */
+        CONTACT BUTTON LOADING
+        ===================================================== */
 
     --contact-button-loading-opacity: 0.9;
+
     --contact-button-disabled-opacity: 0.8;
 
+
     /* =====================================================
-       WHATSAPP
-    ===================================================== */
+           WHATSAPP
+        ===================================================== */
 
     --whatsapp-right: 20px;
+
     --whatsapp-bottom: 20px;
+
     --whatsapp-padding: 10px 20px;
+
     --whatsapp-radius: 50px;
+
     --whatsapp-icon-size: 40px;
 
 
     /* =====================================================
-       PRELOADER
-    ===================================================== */
+           FOOTER
+        ===================================================== */
 
-    --preloader-background: var(--black-overlay-dark);
-    --preloader-z-index: 9999;
+    --footer-padding-top: 50px;
+
+    --footer-padding-bottom: 25px;
 
 
     /* =====================================================
-       FOOTER
-    ===================================================== */
+        NAVBAR
+        ===================================================== */
 
-    --footer-padding-top: 50px;
-    --footer-padding-bottom: 25px;
-
-    --footer-social-size: 60px;
-    --footer-social-icon-size: 40px;
-        /* =====================================================
-    NAVBAR
-    ===================================================== */
-
-    /* Navbar layout */
     --navbar-height: 60px;
+
     --navbar-padding: 15px 30px;
-    --navbar-padding-left: 30px;
-    --navbar-padding-right: 30px;
-
-    /* Navbar colors */
-    --navbar-bg: transparent;
-    --navbar-scrolled-bg: var(--white);
-
-    --navbar-text: var(--white);
-    --navbar-scrolled-text: var(--black);
 
     --navbar-hover-color: var(--primary-gold);
 
-    --navbar-sidebar-bg: rgba(0, 0, 0, 0.97);
-
-    /* Navbar shadow */
-    --navbar-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
     --navbar-dropdown-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 
-    /* Navbar transition */
     --navbar-transition: var(--transition-normal);
+
     --navbar-hover-transition: var(--transition-fast);
 
-    /* Logo */
     --navbar-logo-width: 300px;
 
-    /* Desktop contact */
-    --navbar-contact-gap: 30px;
-    --navbar-contact-margin-right: 35px;
-    --navbar-contact-font-size: 18px;
-    --navbar-contact-icon-gap: 8px;
-
-    /* Desktop menu */
     --navbar-menu-gap: 25px;
+
     --navbar-menu-link-padding: 8px 0;
+
     --navbar-menu-font-size: 16px;
+
     --navbar-menu-font-weight: var(--font-weight-medium);
 
-    /* Menu underline */
     --navbar-underline-width: 0;
+
     --navbar-underline-height: 2px;
 
-    /* Language selector */
     --navbar-language-margin-left: 20px;
+
     --navbar-language-gap: 7px;
+
     --navbar-language-padding: 8px 0;
+
     --navbar-language-font-size: 15px;
+
     --navbar-language-arrow-size: 10px;
 
-    /* Language dropdown */
-    --navbar-dropdown-top: 8px;
     --navbar-dropdown-min-width: 130px;
+
     --navbar-dropdown-radius: var(--radius-sm);
+
     --navbar-dropdown-padding: 6px 0;
+
     --navbar-dropdown-offset: 8px;
+
     --navbar-dropdown-z-index: 2000;
 
     --navbar-dropdown-text: #333333;
+
     --navbar-dropdown-hover-bg: var(--primary-gold);
+
     --navbar-dropdown-hover-text: var(--black);
+
     --navbar-dropdown-active-bg: #f3f3f3;
+
     --navbar-dropdown-active-text: var(--primary-gold);
 
-    /* Mobile navbar */
     --mobile-navbar-height: 50px;
+
     --mobile-navbar-padding: 10px 20px;
 
-    /* Mobile menu button */
     --mobile-menu-button-size: 26px;
+
     --mobile-menu-button-padding: 5px;
 
-    /* Mobile sidebar */
     --mobile-menu-width: 82%;
+
     --mobile-menu-max-width: 360px;
+
     --mobile-menu-padding: 90px 25px 30px;
+
     --mobile-menu-transition: 0.35s ease;
 
-    /* Mobile menu links */
     --mobile-menu-link-padding: 15px 5px;
+
     --mobile-menu-link-font-size: 17px;
+
     --mobile-menu-link-font-weight: var(--font-weight-medium);
+
     --mobile-menu-link-hover-padding-left: 15px;
 
-    /* Mobile underline */
     --mobile-menu-underline-bottom: 7px;
+
     --mobile-menu-underline-height: 2px;
 
-    /* Mobile contact */
-    --mobile-contact-font-size: 14px;
-
-    /* Mobile language */
     --mobile-language-margin-top: 10px;
+
     --mobile-language-border: 1px solid rgba(255, 255, 255, 0.15);
+
     --mobile-language-padding-top: 10px;
+
     --mobile-language-gap: 9px;
 
-    /* Mobile language dropdown */
     --mobile-language-dropdown-padding: 5px 0 8px 15px;
+
     --mobile-language-option-padding: 11px 10px;
+
     --mobile-language-option-font-size: 15px;
-    --mobile-language-option-color: #cccccc;
 
-    /* Mobile breakpoints */
-    --navbar-breakpoint-mobile: 768px;
-    --navbar-breakpoint-small: 576px;
-    --navbar-breakpoint-extra-small: 400px;
-
-    /* 1400px */
     --navbar-1400-padding-x: 25px;
-    --navbar-1400-contact-gap: 20px;
-    --navbar-1400-contact-margin-right: 25px;
-    --navbar-1400-contact-font-size: 17px;
+
     --navbar-1400-menu-gap: 20px;
+
     --navbar-1400-menu-font-size: 15px;
+
     --navbar-1400-language-margin-left: 15px;
 
-    /* 1200px */
     --navbar-1200-padding-x: 20px;
-    --navbar-1200-contact-gap: 15px;
-    --navbar-1200-contact-margin-right: 20px;
-    --navbar-1200-contact-font-size: 15px;
-    --navbar-1200-contact-icon-gap: 5px;
+
     --navbar-1200-menu-gap: 15px;
+
     --navbar-1200-menu-font-size: 14px;
+
     --navbar-1200-language-margin-left: 10px;
+
     --navbar-1200-language-font-size: 14px;
 
-    /* 1000px */
     --navbar-1000-padding-x: 15px;
-    --navbar-1000-contact-gap: 10px;
-    --navbar-1000-contact-margin-right: 15px;
-    --navbar-1000-contact-font-size: 13px;
+
     --navbar-1000-menu-gap: 12px;
+
     --navbar-1000-menu-font-size: 13px;
+
     --navbar-1000-language-margin-left: 8px;
+
     --navbar-1000-language-font-size: 13px;
 
-    /* 900px */
-    --navbar-900-contact-gap: 8px;
-    --navbar-900-contact-margin-right: 10px;
-    --navbar-900-contact-font-size: 12px;
     --navbar-900-menu-gap: 10px;
+
     --navbar-900-menu-font-size: 12px;
+
     --navbar-900-language-font-size: 12px;
 
-    /* 576px */
     --mobile-576-height: 30px;
+
     --mobile-576-padding: 8px 15px;
+
     --mobile-576-logo-width: 200px;
+
     --mobile-576-menu-button-size: 24px;
+
     --mobile-576-menu-width: 85%;
+
     --mobile-576-menu-horizontal-padding: 20px;
+
     --mobile-576-link-font-size: 16px;
+
     --mobile-576-link-padding-y: 14px;
 
-    /* 400px */
     --mobile-400-height: 20px;
+
     --mobile-400-padding: 8px 12px;
+
     --mobile-400-logo-width: 200px;
+
     --mobile-400-menu-button-size: 22px;
+
     --mobile-400-menu-width: 88%;
+
     --mobile-400-menu-horizontal-padding: 18px;
+
     --mobile-400-link-font-size: 15px;
 
-    /* =====================================================
-    HERO
-    ===================================================== */
 
-    --hero-width: 100%;
-    --hero-margin: 0;
-    --hero-padding: 0;
-    --hero-z-index: 1;
+    /* =====================================================
+        HERO
+        ===================================================== */
 
     --hero-height-min: 380px;
-    --hero-height-vh: 70vh;
-    --hero-height-max: 85vh;
 
-    --hero-overlay-z-index: 1;
+    --hero-height-vh: 70vh;
+
+    --hero-height-max: 85vh;
 
 
     /* =====================================================
-    HERO TABLET
-    577px - 992px
-    ===================================================== */
+        HERO TABLET
+        577px - 992px
+        ===================================================== */
 
     --hero-tablet-height-min: 320px;
+
     --hero-tablet-height-vh: 65vh;
+
     --hero-tablet-height-max: 560px;
 
 
     /* =====================================================
-    HERO MOBILE
-    577px - 768px
-    ===================================================== */
+        HERO MOBILE
+        577px - 768px
+        ===================================================== */
 
     --hero-mobile-height-min: 320px;
+
     --hero-mobile-height-vh: 65vh;
+
     --hero-mobile-height-max: 560px;
 
 
     /* =====================================================
-    HERO MOBILE 576px
-    ===================================================== */
+        HERO MOBILE 576px
+        ===================================================== */
 
     --hero-mobile-sm-height-min: 280px;
+
     --hero-mobile-sm-height-vh: 60vh;
+
     --hero-mobile-sm-height-max: 480px;
 
 
     /* =====================================================
-    HERO MOBILE 500px
-    ===================================================== */
+        HERO MOBILE 500px
+        ===================================================== */
 
     --hero-mobile-xs-height-min: 280px;
-    --hero-mobile-xs-height-vh: 58vh;
-    --hero-mobile-xs-height-max: 450px;
-    /* =====================================================
-       GLOBAL
-    ===================================================== */
 
-    scroll-behavior: smooth;
+    --hero-mobile-xs-height-vh: 58vh;
+
+    --hero-mobile-xs-height-max: 450px;
+
 }
 
 

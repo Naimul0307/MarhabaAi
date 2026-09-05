@@ -5,15 +5,19 @@
     <div class="container py-2">
         <div class="about-block">
             <h1 class="title-color">
-                <span>Smarter engagement. Better experiences. Sharper insights</span>
+                @foreach($categories as $category)
+                    <span>{{ $category->name }}</span>
+                    @if(!$loop->last)
+                        <span class="title-separator">. </span>
+                    @endif
+                @endforeach
             </h1>
-
             <div class="divider-container">
                 <div class="divider mb-3"></div>
             </div>
 
             <div class="text-muted">
-                — all powered by AI that helps brands and agencies grow.
+                — helping brands and agencies grow.
             </div>
         </div>
     </div>
