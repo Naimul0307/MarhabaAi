@@ -1670,6 +1670,7 @@ select {
     width: var(--divider-width);
     height: var(--divider-height);
     background-color: var(--primary-gold);
+    margin: var(--space-3);
 }
 
 

@@ -17,6 +17,7 @@ color: var(--white);
 .section-5 .companies-slider {
 position: relative;
 width: 100%;
+margin-top: var(--space-4);
 }
 
 .section-5 .companies-slider > div {

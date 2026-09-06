@@ -191,12 +191,12 @@
 
                     </div>
 
-                    <h3>Activation</h3>
+                    <h3>Activations</h3>
 
                     <div class="fact-line"></div>
 
                     <p>
-                        Successfully completed projects and
+                        Successfully completed and
                         delivered with quality and attention
                         to detail.
                     </p>
