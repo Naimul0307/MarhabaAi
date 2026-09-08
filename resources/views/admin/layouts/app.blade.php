@@ -36,7 +36,7 @@
             <aside class="main-sidebar sidebar-dark-primary elevation-4">
                 <!-- Brand Logo -->
                 <a href="{{ route('admin.dashboard') }}" class="brand-link bg-white" style="height: 57px;">
-					<img src="{{ asset('logo.jpg') }}" alt="" class="w-75 ml-3" style="margin-top:-20px">
+					<img src="{{ asset('logo.png') }}" alt="" class="w-75 ml-3" style="margin-top:-20px">
 				  </a>
                 <!-- Sidebar -->
                 <div class="sidebar">
@@ -64,7 +64,7 @@
                             <li class="nav-item">
                                 <a href="{{ route('subCategoryList') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Manage Sub Categories</p>
+                                    <p>Manage Sub Category</p>
                                 </a>
                             </li>
                             <li class="nav-item">

@@ -14,126 +14,310 @@ use Intervention\Image\Drivers\Gd\Driver;
 
 class HeroSlideController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | Hero Slide List
+    |--------------------------------------------------------------------------
+    */
+
     public function index(Request $request)
     {
-        $query = HeroSlide::orderBy('created_at', 'DESC');
+        $query = HeroSlide::orderBy(
+            'created_at',
+            'DESC'
+        );
+
 
         if (!empty($request->keyword)) {
-            $query->where('name', 'like', '%' . $request->keyword . '%');
+
+            $keyword = $request->keyword;
+
+
+            $query->where(function ($query) use ($keyword) {
+
+                $query->where(
+                    'name',
+                    'like',
+                    '%' . $keyword . '%'
+                )
+
+                ->orWhere(
+                    'name_ar',
+                    'like',
+                    '%' . $keyword . '%'
+                );
+
+            });
+
         }
+
 
         $heroSlides = $query->paginate(20);
 
-        return view('admin.hero_slides.list', [
-            'heroSlides' => $heroSlides
-        ]);
+
+        return view(
+            'admin.hero_slides.list',
+            [
+                'heroSlides' => $heroSlides
+            ]
+        );
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Create Hero Slide
+    |--------------------------------------------------------------------------
+    */
 
     public function create()
     {
-        return view('admin.hero_slides.create');
+        return view(
+            'admin.hero_slides.create'
+        );
     }
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | Save Hero Slide
+    |--------------------------------------------------------------------------
+    */
+
     public function save(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:hero_slides,name',
-            'slug' => 'required|unique:hero_slides,slug',
-            'status' => 'required',
-        ]);
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required|unique:hero_slides,name',
+
+                'name_ar' => 'required|string',
+
+                'slug' => 'required|unique:hero_slides,slug',
+
+                'status' => 'required',
+            ]
+        );
+
 
         if ($validator->passes()) {
 
+
             $heroSlide = new HeroSlide();
 
-            $heroSlide->name = $request->name;
-            $heroSlide->slug = $request->slug;
-            $heroSlide->status = $request->status;
+
+            /*
+            |--------------------------------------------------------------
+            | Save Data
+            |--------------------------------------------------------------
+            */
+
+            $heroSlide->name =
+                $request->name;
+
+            $heroSlide->name_ar =
+                $request->name_ar;
+
+            $heroSlide->slug =
+                $request->slug;
+
+            $heroSlide->status =
+                $request->status;
+
 
             $heroSlide->save();
 
+
+            /*
+            |--------------------------------------------------------------
+            | Image Upload
+            |--------------------------------------------------------------
+            */
+
             if ($request->image_id > 0) {
 
-                $tempImage = TempFile::where('id', $request->image_id)->first();
+
+                $tempImage =
+                    TempFile::where(
+                        'id',
+                        $request->image_id
+                    )->first();
+
 
                 if ($tempImage) {
 
-                    $tempFileName = $tempImage->name;
+
+                    $tempFileName =
+                        $tempImage->name;
+
 
                     $ext = pathinfo(
                         $tempFileName,
                         PATHINFO_EXTENSION
                     );
 
-                    $newFileName = $heroSlide->slug . '.' . $ext;
 
-                    $sourcePath = public_path(
-                        'uploads/temp/' . $tempFileName
-                    );
+                    $newFileName =
+                        $heroSlide->slug .
+                        '.' .
+                        $ext;
 
-                    $smallDirectory = public_path(
-                        'uploads/hero_slides/thumb/small'
-                    );
 
-                    $largeDirectory = public_path(
-                        'uploads/hero_slides/thumb/large'
-                    );
+                    $sourcePath =
+                        public_path(
+                            'uploads/temp/' .
+                            $tempFileName
+                        );
 
-                    if (!File::exists($smallDirectory)) {
+
+                    $smallDirectory =
+                        public_path(
+                            'uploads/hero_slides/thumb/small'
+                        );
+
+
+                    $largeDirectory =
+                        public_path(
+                            'uploads/hero_slides/thumb/large'
+                        );
+
+
+                    /*
+                    |------------------------------------------------------
+                    | Create Directories
+                    |------------------------------------------------------
+                    */
+
+                    if (
+                        !File::exists(
+                            $smallDirectory
+                        )
+                    ) {
+
                         File::makeDirectory(
                             $smallDirectory,
                             0755,
                             true
                         );
+
                     }
 
-                    if (!File::exists($largeDirectory)) {
+
+                    if (
+                        !File::exists(
+                            $largeDirectory
+                        )
+                    ) {
+
                         File::makeDirectory(
                             $largeDirectory,
                             0755,
                             true
                         );
+
                     }
 
-                    if (File::exists($sourcePath)) {
 
-                        $manager = new ImageManager(
-                            new Driver()
-                        );
+                    if (
+                        File::exists(
+                            $sourcePath
+                        )
+                    ) {
 
-                        $img = $manager->decodePath($sourcePath);
+
+                        $manager =
+                            new ImageManager(
+                                new Driver()
+                            );
+
+
+                        /*
+                        |--------------------------------------------------
+                        | Small Image
+                        |--------------------------------------------------
+                        */
+
+                        $img =
+                            $manager->decodePath(
+                                $sourcePath
+                            );
+
 
                         $img->cover(
                             360,
                             220
                         );
 
+
                         $img->save(
-                            $smallDirectory . DIRECTORY_SEPARATOR . $newFileName
+                            $smallDirectory .
+                            DIRECTORY_SEPARATOR .
+                            $newFileName
                         );
 
-                        $img = $manager->decodePath($sourcePath);
+
+                        /*
+                        |--------------------------------------------------
+                        | Large Image
+                        |--------------------------------------------------
+                        */
+
+                        $img =
+                            $manager->decodePath(
+                                $sourcePath
+                            );
+
 
                         $img->scaleDown(
                             width: 1150
                         );
 
+
                         $img->save(
-                            $largeDirectory . DIRECTORY_SEPARATOR . $newFileName
+                            $largeDirectory .
+                            DIRECTORY_SEPARATOR .
+                            $newFileName
                         );
 
-                        $heroSlide->image = $newFileName;
+
+                        /*
+                        |--------------------------------------------------
+                        | Save Image
+                        |--------------------------------------------------
+                        */
+
+                        $heroSlide->image =
+                            $newFileName;
+
 
                         $heroSlide->save();
 
-                        File::delete($sourcePath);
+
+                        /*
+                        |--------------------------------------------------
+                        | Delete Temporary File
+                        |--------------------------------------------------
+                        */
+
+                        File::delete(
+                            $sourcePath
+                        );
+
 
                         $tempImage->delete();
+
                     }
+
                 }
+
             }
+
+
+            /*
+            |--------------------------------------------------------------
+            | Success Message
+            |--------------------------------------------------------------
+            */
 
             $request->session()->flash(
                 'success',
@@ -141,147 +325,351 @@ class HeroSlideController extends Controller
             );
 
 
-            return response()->json([
-                'status' => 200,
-                'message' => 'Hero Slide Created Successfully'
-            ]);
+            /*
+            |--------------------------------------------------------------
+            | JSON Response
+            |--------------------------------------------------------------
+            */
+
+            return response()->json(
+                [
+                    'status' => 200,
+
+                    'message' =>
+                        'Hero Slide Created Successfully'
+                ]
+            );
+
         }
 
-        return response()->json([
-            'status' => 0,
-            'errors' => $validator->errors()
-        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Validation Error
+        |--------------------------------------------------------------------------
+        */
+
+        return response()->json(
+            [
+                'status' => 0,
+
+                'errors' =>
+                    $validator->errors()
+            ]
+        );
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Edit Hero Slide
+    |--------------------------------------------------------------------------
+    */
 
     public function edit($id)
     {
-        $heroSlide = HeroSlide::findOrFail($id);
+        $heroSlide =
+            HeroSlide::findOrFail($id);
 
-        return view('admin.hero_slides.edit', [
-            'heroSlide' => $heroSlide
-        ]);
+
+        return view(
+            'admin.hero_slides.edit',
+            [
+                'heroSlide' => $heroSlide
+            ]
+        );
     }
 
 
-    public function update(Request $request, $id)
-    {
-        $heroSlide = HeroSlide::findOrFail($id);
+    /*
+    |--------------------------------------------------------------------------
+    | Update Hero Slide
+    |--------------------------------------------------------------------------
+    */
+
+    public function update(
+        Request $request,
+        $id
+    ) {
+
+        $heroSlide =
+            HeroSlide::findOrFail($id);
 
 
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:hero_slides,name,' . $heroSlide->id,
-            'slug' => 'required|unique:hero_slides,slug,' . $heroSlide->id,
-            'status' => 'required',
-        ]);
+        $validator = Validator::make(
+            $request->all(),
+            [
+
+                'name' =>
+                    'required|unique:hero_slides,name,' .
+                    $heroSlide->id,
+
+                'name_ar' => 'required|string',
+
+                'slug' =>
+                    'required|unique:hero_slides,slug,' .
+                    $heroSlide->id,
+
+                'status' =>
+                    'required',
+
+            ]
+        );
 
 
         if ($validator->passes()) {
 
-            $oldImageName = $heroSlide->image;
 
-            $heroSlide->name = $request->name;
-            $heroSlide->slug = $request->slug;
-            $heroSlide->status = $request->status;
+            /*
+            |--------------------------------------------------------------
+            | Old Image
+            |--------------------------------------------------------------
+            */
+
+            $oldImageName =
+                $heroSlide->image;
+
+
+            /*
+            |--------------------------------------------------------------
+            | Update Information
+            |--------------------------------------------------------------
+            */
+
+            $heroSlide->name =
+                $request->name;
+
+            $heroSlide->name_ar =
+                $request->name_ar;
+
+            $heroSlide->slug =
+                $request->slug;
+
+            $heroSlide->status =
+                $request->status;
+
 
             $heroSlide->save();
 
+
+            /*
+            |--------------------------------------------------------------
+            | New Image
+            |--------------------------------------------------------------
+            */
+
             if ($request->image_id > 0) {
 
-                $tempImage = TempFile::where(
-                    'id',
-                    $request->image_id
-                )->first();
+
+                $tempImage =
+                    TempFile::where(
+                        'id',
+                        $request->image_id
+                    )->first();
 
 
                 if ($tempImage) {
 
-                    $tempFileName = $tempImage->name;
+
+                    $tempFileName =
+                        $tempImage->name;
+
 
                     $ext = pathinfo(
                         $tempFileName,
                         PATHINFO_EXTENSION
                     );
 
-                    $newFileName = $heroSlide->slug . '.' . $ext;
 
-                    $sourcePath = public_path(
-                        'uploads/temp/' . $tempFileName
-                    );
-
-                    $smallDirectory = public_path(
-                        'uploads/hero_slides/thumb/small'
-                    );
-
-                    $largeDirectory = public_path(
-                        'uploads/hero_slides/thumb/large'
-                    );
+                    $newFileName =
+                        $heroSlide->slug .
+                        '.' .
+                        $ext;
 
 
-                    if (!File::exists($smallDirectory)) {
+                    $sourcePath =
+                        public_path(
+                            'uploads/temp/' .
+                            $tempFileName
+                        );
+
+
+                    $smallDirectory =
+                        public_path(
+                            'uploads/hero_slides/thumb/small'
+                        );
+
+
+                    $largeDirectory =
+                        public_path(
+                            'uploads/hero_slides/thumb/large'
+                        );
+
+
+                    /*
+                    |------------------------------------------------------
+                    | Create Directories
+                    |------------------------------------------------------
+                    */
+
+                    if (
+                        !File::exists(
+                            $smallDirectory
+                        )
+                    ) {
+
                         File::makeDirectory(
                             $smallDirectory,
                             0755,
                             true
                         );
+
                     }
 
-                    if (!File::exists($largeDirectory)) {
+
+                    if (
+                        !File::exists(
+                            $largeDirectory
+                        )
+                    ) {
+
                         File::makeDirectory(
                             $largeDirectory,
                             0755,
                             true
                         );
+
                     }
 
 
-                    if (File::exists($sourcePath)) {
+                    if (
+                        File::exists(
+                            $sourcePath
+                        )
+                    ) {
 
-                        $manager = new ImageManager(
-                            new Driver()
-                        );
-                        $img = $manager->decodePath($sourcePath);
+
+                        $manager =
+                            new ImageManager(
+                                new Driver()
+                            );
+
+
+                        /*
+                        |--------------------------------------------------
+                        | Small Image
+                        |--------------------------------------------------
+                        */
+
+                        $img =
+                            $manager->decodePath(
+                                $sourcePath
+                            );
+
 
                         $img->cover(
                             360,
                             220
                         );
 
+
                         $img->save(
-                            $smallDirectory . DIRECTORY_SEPARATOR . $newFileName
+                            $smallDirectory .
+                            DIRECTORY_SEPARATOR .
+                            $newFileName
                         );
 
-                        $img = $manager->decodePath($sourcePath);
+
+                        /*
+                        |--------------------------------------------------
+                        | Large Image
+                        |--------------------------------------------------
+                        */
+
+                        $img =
+                            $manager->decodePath(
+                                $sourcePath
+                            );
+
 
                         $img->scaleDown(
                             width: 1150
                         );
 
+
                         $img->save(
-                            $largeDirectory . DIRECTORY_SEPARATOR . $newFileName
+                            $largeDirectory .
+                            DIRECTORY_SEPARATOR .
+                            $newFileName
                         );
 
-                        if (!empty($oldImageName)) {
+
+                        /*
+                        |--------------------------------------------------
+                        | Delete Old Image
+                        |--------------------------------------------------
+                        */
+
+                        if (
+                            !empty(
+                                $oldImageName
+                            )
+                        ) {
 
                             File::delete(
-                                $smallDirectory . DIRECTORY_SEPARATOR . $oldImageName
+                                $smallDirectory .
+                                DIRECTORY_SEPARATOR .
+                                $oldImageName
                             );
 
+
                             File::delete(
-                                $largeDirectory . DIRECTORY_SEPARATOR . $oldImageName
+                                $largeDirectory .
+                                DIRECTORY_SEPARATOR .
+                                $oldImageName
                             );
+
                         }
 
-                        $heroSlide->image = $newFileName;
+
+                        /*
+                        |--------------------------------------------------
+                        | Save New Image
+                        |--------------------------------------------------
+                        */
+
+                        $heroSlide->image =
+                            $newFileName;
+
 
                         $heroSlide->save();
 
-                        File::delete($sourcePath);
+
+                        /*
+                        |--------------------------------------------------
+                        | Delete Temporary Image
+                        |--------------------------------------------------
+                        */
+
+                        File::delete(
+                            $sourcePath
+                        );
+
 
                         $tempImage->delete();
+
                     }
+
                 }
+
             }
+
+
+            /*
+            |--------------------------------------------------------------
+            | Success Message
+            |--------------------------------------------------------------
+            */
 
             $request->session()->flash(
                 'success',
@@ -289,20 +677,55 @@ class HeroSlideController extends Controller
             );
 
 
-            return redirect()->route('heroSlideList');
+            /*
+            |--------------------------------------------------------------
+            | IMPORTANT:
+            | Return JSON because Edit uses AJAX
+            |--------------------------------------------------------------
+            */
+
+            return response()->json(
+                [
+                    'status' => 200,
+
+                    'message' =>
+                        'Hero Slide Updated Successfully'
+                ]
+            );
+
         }
 
 
-        return response()->json([
-            'status' => 0,
-            'errors' => $validator->errors()
-        ]);
+        /*
+        |--------------------------------------------------------------------------
+        | Validation Errors
+        |--------------------------------------------------------------------------
+        */
+
+        return response()->json(
+            [
+                'status' => 0,
+
+                'errors' =>
+                    $validator->errors()
+            ]
+        );
     }
 
 
-    public function delete(Request $request, $id)
-    {
-        $heroSlide = HeroSlide::find($id);
+    /*
+    |--------------------------------------------------------------------------
+    | Delete Hero Slide
+    |--------------------------------------------------------------------------
+    */
+
+    public function delete(
+        Request $request,
+        $id
+    ) {
+
+        $heroSlide =
+            HeroSlide::find($id);
 
 
         if (!$heroSlide) {
@@ -312,12 +735,24 @@ class HeroSlideController extends Controller
                 'Record not found'
             );
 
-            return response([
-                'status' => 0
-            ]);
+
+            return response()->json(
+                [
+                    'status' => 0
+                ]
+            );
+
         }
 
+
+        /*
+        |--------------------------------------------------------------
+        | Delete Images
+        |--------------------------------------------------------------
+        */
+
         if ($heroSlide->image) {
+
 
             File::delete(
                 public_path(
@@ -326,13 +761,22 @@ class HeroSlideController extends Controller
                 )
             );
 
+
             File::delete(
                 public_path(
                     'uploads/hero_slides/thumb/large/' .
                     $heroSlide->image
                 )
             );
+
         }
+
+
+        /*
+        |--------------------------------------------------------------
+        | Delete Record
+        |--------------------------------------------------------------
+        */
 
         $heroSlide->delete();
 
@@ -343,76 +787,162 @@ class HeroSlideController extends Controller
         );
 
 
-        return response([
-            'status' => 1
-        ]);
-    }
-
-
-    public function getSlug(Request $request)
-    {
-        $slug = SlugService::createSlug(
-            HeroSlide::class,
-            'slug',
-            $request->name
+        return response()->json(
+            [
+                'status' => 1
+            ]
         );
-
-
-        return response()->json([
-            'status' => true,
-            'slug' => $slug
-        ]);
     }
 
 
-    public function removeMainImage(Request $request, $id)
-    {
-        $heroSlide = HeroSlide::findOrFail($id);
+    /*
+    |--------------------------------------------------------------------------
+    | Generate Slug
+    |--------------------------------------------------------------------------
+    */
 
-        $imageName = $request->input('image');
+    public function getSlug(
+        Request $request
+    ) {
 
-        if ($heroSlide->image === $imageName) {
-
-            $largeImagePath = public_path(
-                'uploads/hero_slides/thumb/large/' .
-                $imageName
+        $slug =
+            SlugService::createSlug(
+                HeroSlide::class,
+                'slug',
+                $request->name
             );
 
-            $smallImagePath = public_path(
-                'uploads/hero_slides/thumb/small/' .
-                $imageName
-            );
 
-            if (File::exists($largeImagePath)) {
-                File::delete($largeImagePath);
+        return response()->json(
+            [
+                'status' => true,
+
+                'slug' => $slug
+            ]
+        );
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Remove Main Image
+    |--------------------------------------------------------------------------
+    */
+
+    public function removeMainImage(
+        Request $request,
+        $id
+    ) {
+
+        $heroSlide =
+            HeroSlide::findOrFail($id);
+
+
+        $imageName =
+            $request->input('image');
+
+
+        if (
+            $heroSlide->image === $imageName
+        ) {
+
+
+            $largeImagePath =
+                public_path(
+                    'uploads/hero_slides/thumb/large/' .
+                    $imageName
+                );
+
+
+            $smallImagePath =
+                public_path(
+                    'uploads/hero_slides/thumb/small/' .
+                    $imageName
+                );
+
+
+            /*
+            |--------------------------------------------------------------
+            | Delete Large Image
+            |--------------------------------------------------------------
+            */
+
+            if (
+                File::exists(
+                    $largeImagePath
+                )
+            ) {
+
+                File::delete(
+                    $largeImagePath
+                );
+
             }
 
-            if (File::exists($smallImagePath)) {
-                File::delete($smallImagePath);
+
+            /*
+            |--------------------------------------------------------------
+            | Delete Small Image
+            |--------------------------------------------------------------
+            */
+
+            if (
+                File::exists(
+                    $smallImagePath
+                )
+            ) {
+
+                File::delete(
+                    $smallImagePath
+                );
+
             }
+
+
+            /*
+            |--------------------------------------------------------------
+            | Remove Image From Database
+            |--------------------------------------------------------------
+            */
 
             $heroSlide->image = null;
 
 
-            if ($heroSlide->save()) {
+            if (
+                $heroSlide->save()
+            ) {
 
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'Main image removed successfully'
-                ]);
+                return response()->json(
+                    [
+                        'status' => 200,
+
+                        'message' =>
+                            'Main image removed successfully'
+                    ]
+                );
+
             }
 
 
-            return response()->json([
-                'status' => 500,
-                'message' => 'Failed to remove image from the database'
-            ]);
+            return response()->json(
+                [
+                    'status' => 500,
+
+                    'message' =>
+                        'Failed to remove image from database'
+                ]
+            );
+
         }
 
 
-        return response()->json([
-            'status' => 400,
-            'message' => 'Image not found'
-        ]);
+        return response()->json(
+            [
+                'status' => 400,
+
+                'message' =>
+                    'Image not found'
+            ]
+        );
     }
 }

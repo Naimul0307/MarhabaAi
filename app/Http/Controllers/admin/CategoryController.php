@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\TempFile;
 use Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManager;
@@ -14,330 +14,634 @@ use Intervention\Image\Drivers\Gd\Driver;
 
 class CategoryController extends Controller
 {
+    /**
+     * Category List
+     */
     public function index(Request $request)
     {
-        $categories = Category::orderBy('created_at', 'ASC');
+        $categories = Category::latest();
 
-        if (!empty($request->keyword)) {
-            $categories = $categories->where(
-                'name',
-                'like',
-                '%' . $request->keyword . '%'
-            );
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+
+            $categories->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('name_ar', 'like', '%' . $search . '%');
+            });
         }
 
         $categories = $categories->paginate(20);
 
-        return view('admin.category.list', [
-            'categories' => $categories
-        ]);
+        return view('admin.category.list', compact('categories'));
     }
 
+    /**
+     * Create Category Page
+     */
     public function create()
     {
         return view('admin.category.create');
     }
 
+    /**
+     * Store Category
+     */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:categories,name',
-            'slug' => 'required|unique:categories,slug',
-            'status' => 'required',
-        ]);
+        $validator = $this->validateCategory($request);
 
-        if ($validator->passes()) {
+        /*
+        |--------------------------------------------------------------------------
+        | ONLY RETURN NAME AND SLUG ERRORS
+        |--------------------------------------------------------------------------
+        */
 
-            $category = new Category();
-
-            $category->name = $request->name;
-            $category->description = $request->description;
-            $category->slug = $request->slug;
-            $category->meta_title = $request->meta_title?: $request->name . ' | Marhaba AI';
-            $category->meta_description = $request->meta_description?: 'EXPLORE OUR ' . $request->name .' SERVICES OFFERED BY Marhaba AI IN DUBAI.';
-            $category->meta_keywords = $request->meta_keywords?: 'Marhaba AI, EVENT SERVICES, ' .$request->name . ', DUBAI, UAE';
-            $category->image_alt_text = $request->image_alt_text?: $request->name . ' | Marhaba AI';
-            $category->status = $request->status;
-            $category->save();
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | IMAGE UPLOAD
-            |--------------------------------------------------------------------------
-            */
-
-            if ($request->image_id > 0) {
-
-                $tempImage = TempFile::where('id',$request->image_id)->first();
-
-                if ($tempImage) {
-
-                    $tempFileName = $tempImage->name;
-
-                    $ext = pathinfo($tempFileName,PATHINFO_EXTENSION);
-
-                    $newFileName = $category->slug . '.' . $ext;
-
-                    $sourcePath = public_path('uploads/temp/' . $tempFileName);
-
-                    $smallDirectory = public_path('uploads/categories/thumb/small');
-
-                    $largeDirectory = public_path('uploads/categories/thumb/large');
-
-                    if (!File::exists($smallDirectory)) {File::makeDirectory($smallDirectory,0755,true);
-                    }
-
-                    if (!File::exists($largeDirectory)) {File::makeDirectory($largeDirectory,0755,true);
-                    }
-                    if (File::exists($sourcePath)) {
-
-                        $manager = new ImageManager(new Driver());
-
-                        $img = $manager->decodePath($sourcePath);
-                        $img->cover(360,220);
-                        $img->save($smallDirectory .DIRECTORY_SEPARATOR .$newFileName);
-
-                        $img = $manager->decodePath($sourcePath);
-                        $img->scaleDown(width: 1150);
-                        $img->save($largeDirectory .DIRECTORY_SEPARATOR .$newFileName);
-
-                        $category->image = $newFileName;
-
-                        $category->save();
-
-                        File::delete($sourcePath);
-
-                        $tempImage->delete();
-                    }
-                }
-            }
-
-            $request->session()->flash(
-                'success',
-                'Category Created Successfully'
-            );
+        if ($validator->fails()) {
 
             return response()->json([
-                'status' => 200,
-                'message' => 'Category Created Successfully'
-            ]);
+                'status' => 0,
+                'errors' => [
+                    'name'    => $validator->errors()->get('name'),
+                    'name_ar' => $validator->errors()->get('name_ar'),
+                    'slug'    => $validator->errors()->get('slug'),
+                ],
+            ], 422);
         }
 
+        $category = new Category();
+
+        $this->fillCategory(
+            $category,
+            $request
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | IMAGE
+        |--------------------------------------------------------------------------
+        */
+
+        if (!empty($request->image_id)) {
+
+            $tempImage = TempFile::find($request->image_id);
+
+            if ($tempImage) {
+
+                $sourcePath = public_path(
+                    'uploads/temp/' . $tempImage->name
+                );
+
+                if (File::exists($sourcePath)) {
+
+                    $manager = new ImageManager(
+                        new Driver()
+                    );
+
+                    $image = $manager->read($sourcePath);
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | SMALL IMAGE
+                    |--------------------------------------------------------------------------
+                    */
+
+                    $smallImage = $image->cover(
+                        360,
+                        220
+                    );
+
+                    $smallPath = public_path(
+                        'uploads/categories/thumb/small/' . $tempImage->name
+                    );
+
+                    File::ensureDirectoryExists(
+                        dirname($smallPath)
+                    );
+
+                    $smallImage->save(
+                        $smallPath
+                    );
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | LARGE IMAGE
+                    |--------------------------------------------------------------------------
+                    */
+
+                    $largeImage = $image->scaleDown(
+                        width: 1150
+                    );
+
+                    $largePath = public_path(
+                        'uploads/categories/thumb/large/' . $tempImage->name
+                    );
+
+                    File::ensureDirectoryExists(
+                        dirname($largePath)
+                    );
+
+                    $largeImage->save(
+                        $largePath
+                    );
+
+                    $category->image = $tempImage->name;
+
+                    $category->save();
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | DELETE TEMP IMAGE
+                    |--------------------------------------------------------------------------
+                    */
+
+                    File::delete(
+                        $sourcePath
+                    );
+
+                    $tempImage->delete();
+                }
+            }
+        } else {
+
+            $category->save();
+        }
 
         return response()->json([
-            'status' => 0,
-            'errors' => $validator->errors()
+            'status' => 1,
+            'message' => 'Category created successfully.',
         ]);
     }
 
-
-    public function edit(Request $request, $id)
+    /**
+     * Edit Category
+     */
+    public function edit($id)
     {
-        $category = Category::where('id', $id)->first();
+        $category = Category::findOrFail($id);
 
-        if (empty($category)) {
-
-            $request->session()->flash(
-                'error',
-                'Record not found in DB'
-            );
-
-            return redirect()->route('categoryList');
-        }
-
-        return view('admin.category.edit', [
-            'category' => $category
-        ]);
+        return view(
+            'admin.category.edit',
+            compact('category')
+        );
     }
 
-
+    /**
+     * Update Category
+     */
     public function update(Request $request, $id)
     {
-        $category = Category::find($id);
+        $category = Category::findOrFail($id);
 
-        if (empty($category)) {
+        $validator = $this->validateCategory(
+            $request,
+            $id
+        );
 
-            $request->session()->flash(
-                'error',
-                'Record not found in DB'
-            );
+        /*
+        |--------------------------------------------------------------------------
+        | ONLY RETURN NAME AND SLUG ERRORS
+        |--------------------------------------------------------------------------
+        */
+
+        if ($validator->fails()) {
 
             return response()->json([
-                'status' => 0
-            ]);
+                'status' => 0,
+                'errors' => [
+                    'name' => $validator->errors()->get('name'),
+                    'name_ar' => $validator->errors()->get('name_ar'),
+                    'slug' => $validator->errors()->get('slug'),
+                ],
+            ], 422);
         }
 
+        $oldImage = $category->image;
 
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:categories,name,' . $category->id . ',id',
-            'slug' => 'required|unique:categories,slug,' .$category->id . ',id',
-            'status' => 'required',
-        ]);
+        $this->fillCategory(
+            $category,
+            $request
+        );
 
+        /*
+        |--------------------------------------------------------------------------
+        | IMAGE
+        |--------------------------------------------------------------------------
+        */
 
-        if ($validator->passes()) {
+        if (!empty($request->image_id)) {
 
-            $oldImageName = $category->image;
-            $category->name = $request->name;
-            $category->slug = $request->slug;
-            $category->description = $request->description;
-            $category->meta_title = $request->meta_title?: $request->name . ' | Marhaba AI';
-            $category->meta_description = $request->meta_description?: 'EXPLORE OUR ' . $request->name .' SERVICES OFFERED BY Marhaba AI IN DUBAI.';
-            $category->meta_keywords = $request->meta_keywords?: 'Marhaba AI,' .$request->name . ', DUBAI, UAE';
-            $category->image_alt_text = $request->image_alt_text?: $request->name . ' | Marhaba AI';
+            $tempImage = TempFile::find(
+                $request->image_id
+            );
 
-            $category->status = $request->status;
+            if ($tempImage) {
 
-            $category->save();
+                $sourcePath = public_path(
+                    'uploads/temp/' . $tempImage->name
+                );
 
-            if ($request->image_id > 0) {
+                if (File::exists($sourcePath)) {
 
-                $tempImage = TempFile::where(
-                    'id',
-                    $request->image_id
-                )->first();
-
-                if ($tempImage) {
-
-                    $tempFileName = $tempImage->name;
-
-                    $ext = pathinfo(
-                        $tempFileName,
-                        PATHINFO_EXTENSION
+                    $manager = new ImageManager(
+                        new Driver()
                     );
 
-                    $newFileName = $category->slug . '.' . $ext;
-
-                    $sourcePath = public_path(
-                        'uploads/temp/' . $tempFileName
+                    $image = $manager->read(
+                        $sourcePath
                     );
 
-                    $smallDirectory = public_path(
-                        'uploads/categories/thumb/small'
+                    /*
+                    |--------------------------------------------------------------------------
+                    | SMALL IMAGE
+                    |--------------------------------------------------------------------------
+                    */
+
+                    $smallImage = $image->cover(
+                        360,
+                        220
                     );
 
-                    $largeDirectory = public_path(
-                        'uploads/categories/thumb/large'
+                    $smallPath = public_path(
+                        'uploads/categories/thumb/small/' . $tempImage->name
                     );
 
+                    File::ensureDirectoryExists(
+                        dirname($smallPath)
+                    );
 
-                    if (!File::exists($smallDirectory)) {
-                        File::makeDirectory(
-                            $smallDirectory,
-                            0755,
-                            true
+                    $smallImage->save(
+                        $smallPath
+                    );
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | LARGE IMAGE
+                    |--------------------------------------------------------------------------
+                    */
+
+                    $largeImage = $image->scaleDown(
+                        width: 1150
+                    );
+
+                    $largePath = public_path(
+                        'uploads/categories/thumb/large/' . $tempImage->name
+                    );
+
+                    File::ensureDirectoryExists(
+                        dirname($largePath)
+                    );
+
+                    $largeImage->save(
+                        $largePath
+                    );
+
+                    $category->image = $tempImage->name;
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | DELETE OLD IMAGE
+                    |--------------------------------------------------------------------------
+                    */
+
+                    if (
+                        !empty($oldImage) &&
+                        $oldImage != $tempImage->name
+                    ) {
+
+                        File::delete(
+                            public_path(
+                                'uploads/categories/thumb/small/' . $oldImage
+                            )
+                        );
+
+                        File::delete(
+                            public_path(
+                                'uploads/categories/thumb/large/' . $oldImage
+                            )
                         );
                     }
 
-                    if (!File::exists($largeDirectory)) {
-                        File::makeDirectory(
-                            $largeDirectory,
-                            0755,
-                            true
-                        );
-                    }
+                    /*
+                    |--------------------------------------------------------------------------
+                    | DELETE TEMP IMAGE
+                    |--------------------------------------------------------------------------
+                    */
 
+                    File::delete(
+                        $sourcePath
+                    );
 
-                    if (File::exists($sourcePath)) {
-
-                        $manager = new ImageManager(
-                            new Driver()
-                        );
-
-                        $img = $manager->decodePath(
-                            $sourcePath
-                        );
-
-                        $img->cover(
-                            360,
-                            220
-                        );
-
-                        $img->save(
-                            $smallDirectory .
-                            DIRECTORY_SEPARATOR .
-                            $newFileName
-                        );
-
-                        $img = $manager->decodePath(
-                            $sourcePath
-                        );
-
-                        $img->scaleDown(
-                            width: 1150
-                        );
-
-                        $img->save(
-                            $largeDirectory .
-                            DIRECTORY_SEPARATOR .
-                            $newFileName
-                        );
-
-
-                        if (!empty($oldImageName)) {
-
-                            File::delete(
-                                $smallDirectory .
-                                DIRECTORY_SEPARATOR .
-                                $oldImageName
-                            );
-
-                            File::delete(
-                                $largeDirectory .
-                                DIRECTORY_SEPARATOR .
-                                $oldImageName
-                            );
-                        }
-
-                        $category->image = $newFileName;
-
-                        $category->save();
-
-
-                        File::delete($sourcePath);
-
-                        $tempImage->delete();
-                    }
+                    $tempImage->delete();
                 }
             }
-
-            $request->session()->flash(
-                'success',
-                'Category Updated Successfully'
-            );
-
-            return response()->json([
-                'status' => 200,
-                'message' => 'Category Updated Successfully'
-            ]);
         }
 
+        $category->save();
 
         return response()->json([
-            'status' => 0,
-            'errors' => $validator->errors()
+            'status' => 1,
+            'message' => 'Category updated successfully.',
         ]);
     }
 
+    /**
+     * Validate Category
+     */
+    private function validateCategory(
+        Request $request,
+        $id = null
+    ) {
+        $nameUnique = 'unique:categories,name';
 
-    public function delete($id, Request $request)
-    {
-        $category = Category::where('id', $id)->first();
+        $slugUnique = 'unique:categories,slug';
 
-        if (empty($category)) {
+        if ($id) {
 
-            $request->session()->flash(
-                'error',
-                'Record not found'
-            );
+            $nameUnique .= ',' . $id;
 
-            return response([
-                'status' => 0
-            ]);
+            $slugUnique .= ',' . $id;
         }
 
-        if ($category->image) {
+        return Validator::make(
+            $request->all(),
+            [
+
+                /*
+                |--------------------------------------------------------------------------
+                | NAME
+                |--------------------------------------------------------------------------
+                */
+
+                'name' => [
+                    'required',
+                    'string',
+                    $nameUnique,
+                ],
+
+                /*
+                |--------------------------------------------------------------------------
+                | ARABIC NAME
+                |--------------------------------------------------------------------------
+                */
+
+                'name_ar' => [
+                    'required',
+                    'string',
+                ],
+
+                /*
+                |--------------------------------------------------------------------------
+                | DESCRIPTION
+                |--------------------------------------------------------------------------
+                */
+
+                'description' => [
+                    'nullable',
+                    'string',
+                ],
+
+                'description_ar' => [
+                    'nullable',
+                    'string',
+                ],
+
+                /*
+                |--------------------------------------------------------------------------
+                | META
+                |--------------------------------------------------------------------------
+                */
+
+                'meta_title' => [
+                    'nullable',
+                    'string',
+                    'max:70',
+                ],
+
+                'meta_title_ar' => [
+                    'nullable',
+                    'string',
+                    'max:70',
+                ],
+
+                'meta_description' => [
+                    'nullable',
+                    'string',
+                    'max:160',
+                ],
+
+                'meta_description_ar' => [
+                    'nullable',
+                    'string',
+                    'max:160',
+                ],
+
+                'meta_keywords' => [
+                    'nullable',
+                    'string',
+                ],
+
+                'meta_keywords_ar' => [
+                    'nullable',
+                    'string',
+                ],
+
+                /*
+                |--------------------------------------------------------------------------
+                | SLUG
+                |--------------------------------------------------------------------------
+                */
+
+                'slug' => [
+                    'required',
+                    'string',
+                    $slugUnique,
+                ],
+
+                /*
+                |--------------------------------------------------------------------------
+                | STATUS
+                |--------------------------------------------------------------------------
+                */
+
+                'status' => [
+                    'required',
+                    'in:0,1',
+                ],
+            ],
+            [
+
+                /*
+                |--------------------------------------------------------------------------
+                | CUSTOM MESSAGES
+                |--------------------------------------------------------------------------
+                */
+
+                'name.required' =>
+                    'Category name is required.',
+
+                'name.string' =>
+                    'Category name must be a valid string.',
+
+                'name.unique' =>
+                    'This category name already exists.',
+
+                'name_ar.required' =>
+                    'Arabic category name is required.',
+
+                'slug.required' =>
+                    'Slug is required.',
+
+                'slug.unique' =>
+                    'This slug already exists.',
+
+            ]
+        );
+    }
+
+    /**
+     * Fill Category
+     */
+    private function fillCategory(
+        Category $category,
+        Request $request
+    ) {
+        $category->name =
+            $request->name;
+
+        $category->name_ar =
+            $request->name_ar;
+
+        $category->description =
+            $request->description;
+
+        $category->description_ar =
+            $request->description_ar;
+
+        $category->meta_title =
+            $request->meta_title
+                ?: $request->name;
+
+        $category->meta_title_ar =
+            $request->meta_title_ar
+                ?: $request->name_ar;
+
+        $category->meta_description =
+            $request->meta_description;
+
+        $category->meta_description_ar =
+            $request->meta_description_ar;
+
+        $category->meta_keywords =
+            $request->meta_keywords;
+
+        $category->meta_keywords_ar =
+            $request->meta_keywords_ar;
+
+        $category->slug =
+            $request->slug;
+
+        $category->status =
+            $request->status;
+    }
+
+    /**
+     * Generate Slug
+     */
+   public function getSlug(Request $request)
+{
+    $slug = SlugService::createSlug(
+        Category::class,
+        'slug',
+        $request->name
+    );
+
+    /*
+    |--------------------------------------------------------------------------
+    | CHECK EXISTING SLUG
+    |--------------------------------------------------------------------------
+    */
+
+    $query = Category::where('slug', $slug);
+
+    if (!empty($request->id)) {
+        $query->where('id', '!=', $request->id);
+    }
+
+    if ($query->exists()) {
+
+        $slug = SlugService::createSlug(
+            Category::class,
+            'slug',
+            $request->name . '-' . time()
+        );
+    }
+
+    return response()->json([
+        'status' => 1,
+        'slug'   => $slug,
+    ]);
+}
+    /**
+     * Remove Category Image
+     */
+    public function removeMainImage(
+        Request $request
+    ) {
+        $category = Category::find(
+            $request->id
+        );
+
+        if (!$category) {
+
+            return response()->json([
+                'status' => 0,
+                'message' => 'Category not found.',
+            ], 404);
+        }
+
+        if (
+            empty($category->image) ||
+            $category->image != $request->image
+        ) {
+
+            return response()->json([
+                'status' => 0,
+                'message' => 'Invalid image.',
+            ], 422);
+        }
+
+        File::delete(
+            public_path(
+                'uploads/categories/thumb/small/' .
+                $category->image
+            )
+        );
+
+        File::delete(
+            public_path(
+                'uploads/categories/thumb/large/' .
+                $category->image
+            )
+        );
+
+        $category->image = null;
+
+        $category->save();
+
+        return response()->json([
+            'status' => 1,
+            'message' => 'Image removed successfully.',
+        ]);
+    }
+
+    /**
+     * Delete Category
+     */
+    public function delete($id)
+    {
+        $category = Category::findOrFail($id);
+
+        if (!empty($category->image)) {
 
             File::delete(
                 public_path(
@@ -354,85 +658,11 @@ class CategoryController extends Controller
             );
         }
 
-
-        Category::where('id', $id)->delete();
-
-        $request->session()->flash(
-            'success',
-            'Category deleted successfully.'
-        );
-
-        return response([
-            'status' => 1
-        ]);
-    }
-
-
-    public function getSlug(Request $request)
-    {
-        $slug = SlugService::createSlug(
-            Category::class,
-            'slug',
-            $request->name
-        );
+        $category->delete();
 
         return response()->json([
-            'status' => true,
-            'slug' => $slug
-        ]);
-    }
-
-
-    public function removeMainImage(Request $request, $id)
-    {
-        $category = Category::findOrFail($id);
-
-        $imageName = $request->input('image');
-
-        if ($category->image === $imageName) {
-
-            $largeImagePath = public_path(
-                'uploads/categories/thumb/large/' .
-                $imageName
-            );
-
-            $smallImagePath = public_path(
-                'uploads/categories/thumb/small/' .
-                $imageName
-            );
-
-
-            if (File::exists($largeImagePath)) {
-                File::delete($largeImagePath);
-            }
-
-            if (File::exists($smallImagePath)) {
-                File::delete($smallImagePath);
-            }
-
-
-            $category->image = null;
-
-
-            if ($category->save()) {
-
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'Main image removed successfully'
-                ]);
-            }
-
-
-            return response()->json([
-                'status' => 500,
-                'message' => 'Failed to remove image from the database'
-            ]);
-        }
-
-
-        return response()->json([
-            'status' => 400,
-            'message' => 'Image not found'
+            'status' => 1,
+            'message' => 'Category deleted successfully.',
         ]);
     }
 }

@@ -25,7 +25,7 @@
             @endif
                 <div class="login-logo mb-4">
                     <a href="#">
-                        <img src="{{ asset('logo.jpg') }}" class="login-logo-img" alt="Marhaba AI">
+                        <img src="{{ asset('logo.png') }}" class="login-logo-img" alt="Marhaba AI">
                     </a>
                 </div>
                 <div class="card-body login-card-body">

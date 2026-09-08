@@ -14,11 +14,16 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('name_ar')->nullable();
             $table->text('description')->nullable();
+            $table->text('description_ar')->nullable();
             $table->string('slug');
             $table->string('meta_title')->nullable();
+            $table->string('meta_title_ar')->nullable();
             $table->text('meta_description')->nullable();
+            $table->text('meta_description_ar')->nullable();
             $table->text('meta_keywords')->nullable();
+            $table->text('meta_keywords_ar')->nullable();
             $table->string('image')->nullable();
             $table->string('image_alt_text')->nullable();
             $table->integer('status')->default('1');

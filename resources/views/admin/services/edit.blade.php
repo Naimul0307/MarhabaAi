@@ -3,30 +3,49 @@
 @section('content')
 
 <div class="content-header">
+
     <div class="container-fluid">
+
         <div class="row mb-2">
 
             <div class="col-sm-6">
-                <h1 class="m-0">Services / Edit</h1>
+
+                <h1 class="m-0">
+                    Services / Edit
+                </h1>
+
             </div>
 
             <div class="col-sm-6">
+
                 <ol class="breadcrumb float-sm-right">
+
                     <li class="breadcrumb-item">
+
                         <a href="{{ route('admin.dashboard') }}">
                             Home
                         </a>
+
+                    </li>
+
+                    <li class="breadcrumb-item">
+                        Services
                     </li>
 
                     <li class="breadcrumb-item active">
                         Edit
                     </li>
+
                 </ol>
+
             </div>
 
         </div>
+
     </div>
+
 </div>
+
 
 <section class="content h-100">
 
@@ -44,7 +63,13 @@
 
                     @csrf
 
+
                     <div class="card">
+
+
+                        {{-- =====================================================
+                        | HEADER
+                        ====================================================== --}}
 
                         <div class="card-header">
 
@@ -57,110 +82,518 @@
 
                         </div>
 
+
                         <div class="card-body">
 
-                            <div class="form-group">
 
-                                <label for="name">
-                                    Name
-                                </label>
+                            {{-- =====================================================
+                            | LANGUAGE TABS
+                            ====================================================== --}}
 
-                                <input
-                                    type="text"
-                                    value="{{ $service->name }}"
-                                    name="name"
-                                    id="name"
-                                    class="form-control"
+                            <ul class="nav nav-tabs" id="serviceTabs">
+
+                                <li class="nav-item">
+
+                                    <a
+                                        class="nav-link active"
+                                        id="english-tab"
+                                        data-toggle="tab"
+                                        href="#english"
+                                    >
+                                        English
+                                    </a>
+
+                                </li>
+
+
+                                <li class="nav-item">
+
+                                    <a
+                                        class="nav-link"
+                                        id="arabic-tab"
+                                        data-toggle="tab"
+                                        href="#arabic"
+                                    >
+                                        العربية
+                                    </a>
+
+                                </li>
+
+                            </ul>
+
+
+                            <div class="tab-content pt-4">
+
+
+                                {{-- =====================================================
+                                | ENGLISH TAB
+                                ====================================================== --}}
+
+                                <div
+                                    class="tab-pane fade show active"
+                                    id="english"
                                 >
 
-                                <p class="error name-error"></p>
 
-                            </div>
+                                    {{-- Name --}}
 
-                            <div class="form-group">
+                                    <div class="form-group">
 
-                                <label for="slug">
-                                    Slug
-                                </label>
+                                        <label for="name">
+                                            Name
+                                        </label>
 
-                                <input
-                                    type="text"
-                                    readonly
-                                    name="slug"
-                                    id="slug"
-                                    value="{{ $service->slug }}"
-                                    class="form-control"
-                                >
-
-                                <p class="error slug-error"></p>
-
-                            </div>
-
-                            <div class="form-group">
-
-                                <label for="category">
-                                    Category
-                                </label>
-
-                                <select
-                                    name="category"
-                                    id="category"
-                                    class="form-control"
-                                >
-
-                                    <option value="">
-                                        Select a category
-                                    </option>
-
-                                    @foreach($categories as $category)
-
-                                        <option
-                                            value="{{ $category->id }}"
-                                            {{ $service->category_id == $category->id ? 'selected' : '' }}
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            id="name"
+                                            value="{{ old('name', $service->name) }}"
+                                            class="form-control"
                                         >
-                                            {{ $category->name }}
-                                        </option>
 
-                                    @endforeach
+                                        <p class="error name-error"></p>
 
-                                </select>
+                                    </div>
 
-                                <p class="error category-error"></p>
 
-                            </div>
+                                    {{-- Slug --}}
 
-                            <div class="form-group">
+                                    <div class="form-group">
 
-                                <label for="sub_category">
-                                    Sub-Category
-                                </label>
+                                        <label for="slug">
+                                            Slug
+                                        </label>
 
-                                <select
-                                    name="sub_category"
-                                    id="sub_category"
-                                    class="form-control"
+                                        <input
+                                            type="text"
+                                            readonly
+                                            name="slug"
+                                            id="slug"
+                                            value="{{ old('slug', $service->slug) }}"
+                                            class="form-control"
+                                        >
+
+                                        <p class="error slug-error"></p>
+
+                                    </div>
+
+
+                                    {{-- Category --}}
+
+                                    <div class="form-group">
+
+                                        <label for="category">
+                                            Category
+                                        </label>
+
+                                        <select
+                                            name="category"
+                                            id="category"
+                                            class="form-control"
+                                        >
+
+                                            <option value="">
+                                                Select a category
+                                            </option>
+
+                                            @foreach($categories as $category)
+
+                                                <option
+                                                    value="{{ $category->id }}"
+                                                    {{ $service->category_id == $category->id ? 'selected' : '' }}
+                                                >
+                                                    {{ $category->name }}
+                                                </option>
+
+                                            @endforeach
+
+                                        </select>
+
+                                        <p class="error category-error"></p>
+
+                                    </div>
+
+
+                                    {{-- Sub Category --}}
+
+                                    <div class="form-group">
+
+                                        <label for="sub_category">
+                                            Sub-Category
+                                        </label>
+
+                                        <select
+                                            name="sub_category"
+                                            id="sub_category"
+                                            class="form-control"
+                                        >
+
+                                            <option value="">
+                                                Select a sub-category
+                                            </option>
+
+                                            @foreach($sub_categories as $sub_category)
+
+                                                <option
+                                                    value="{{ $sub_category->id }}"
+                                                    {{ $service->sub_category_id == $sub_category->id ? 'selected' : '' }}
+                                                >
+                                                    {{ $sub_category->name }}
+                                                </option>
+
+                                            @endforeach
+
+                                        </select>
+
+                                        <p class="error sub_category-error"></p>
+
+                                    </div>
+
+
+                                    {{-- Description --}}
+
+                                    <div class="form-group">
+
+                                        <label for="description">
+                                            Description
+                                        </label>
+
+                                        <textarea
+                                            name="description"
+                                            id="description"
+                                            class="summernote"
+                                        >{{ old('description', $service->description) }}</textarea>
+
+                                        <p class="error description-error"></p>
+
+                                    </div>
+
+
+                                    {{-- Short Description --}}
+
+                                    <div class="form-group">
+
+                                        <label for="short_description">
+                                            Short Description
+                                        </label>
+
+                                        <textarea
+                                            name="short_description"
+                                            id="short_description"
+                                            rows="7"
+                                            class="form-control"
+                                        >{{ old('short_description', $service->short_desc) }}</textarea>
+
+                                        <p class="error short_description-error"></p>
+
+                                    </div>
+
+
+                                    {{-- Meta Title --}}
+
+                                    <div class="form-group">
+
+                                        <label for="meta_title">
+                                            Meta Title
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            name="meta_title"
+                                            id="meta_title"
+                                            value="{{ old('meta_title', $service->meta_title) }}"
+                                            class="form-control"
+                                            placeholder="MAX 70 CHARACTERS"
+                                        >
+
+                                        <p class="error meta_title-error"></p>
+
+                                    </div>
+
+
+                                    {{-- Meta Description --}}
+
+                                    <div class="form-group">
+
+                                        <label for="meta_description">
+                                            Meta Description
+                                        </label>
+
+                                        <textarea
+                                            name="meta_description"
+                                            id="meta_description"
+                                            rows="7"
+                                            class="form-control"
+                                            placeholder="MAX 160 CHARACTERS"
+                                        >{{ old('meta_description', $service->meta_description) }}</textarea>
+
+                                        <p class="error meta_description-error"></p>
+
+                                    </div>
+
+
+                                    {{-- Meta Keywords --}}
+
+                                    <div class="form-group">
+
+                                        <label for="meta_keywords">
+                                            Meta Keywords
+                                        </label>
+
+                                        <textarea
+                                            name="meta_keywords"
+                                            id="meta_keywords"
+                                            rows="7"
+                                            class="form-control"
+                                            placeholder="MAX 160 CHARACTERS"
+                                        >{{ old('meta_keywords', $service->meta_keywords) }}</textarea>
+
+                                        <p class="error meta_keywords-error"></p>
+
+                                    </div>
+
+
+                                </div>
+
+
+                                {{-- =====================================================
+                                | ARABIC TAB
+                                ====================================================== --}}
+
+                                <div
+                                    class="tab-pane fade"
+                                    id="arabic"
                                 >
 
-                                    <option value="">
-                                        Select a sub-category
-                                    </option>
+                                    <div
+                                        dir="rtl"
+                                        style="text-align: right;"
+                                    >
 
-                                    @foreach($sub_categories as $sub_category)
 
-                                        <option
-                                            value="{{ $sub_category->id }}"
-                                            {{ $service->sub_category_id == $sub_category->id ? 'selected' : '' }}
-                                        >
-                                            {{ $sub_category->name }}
-                                        </option>
+                                        {{-- Arabic Name --}}
 
-                                    @endforeach
+                                        <div class="form-group">
 
-                                </select>
+                                            <label for="name_ar">
+                                                الاسم
+                                            </label>
 
-                                <p class="error sub_category-error"></p>
+                                            <input
+                                                type="text"
+                                                name="name_ar"
+                                                id="name_ar"
+                                                value="{{ old('name_ar', $service->name_ar) }}"
+                                                class="form-control"
+                                                dir="rtl"
+                                            >
+
+                                            <p class="error name_ar-error"></p>
+
+                                        </div>
+
+
+                                        {{-- Arabic Category --}}
+
+                                        <div class="form-group">
+
+                                            <label for="category_ar">
+                                                الفئة
+                                            </label>
+
+                                            <select
+                                                name="category_ar"
+                                                id="category_ar"
+                                                class="form-control"
+                                                dir="rtl"
+                                            >
+
+                                                <option value="">
+                                                    اختر الفئة
+                                                </option>
+
+                                                @foreach($categories as $category)
+
+                                                    <option
+                                                        value="{{ $category->id }}"
+                                                        {{ $service->category_id == $category->id ? 'selected' : '' }}
+                                                    >
+                                                        {{ $category->name_ar ?: $category->name }}
+                                                    </option>
+
+                                                @endforeach
+
+                                            </select>
+
+                                            <p class="error category_ar-error"></p>
+
+                                        </div>
+
+
+                                        {{-- Arabic Sub Category --}}
+
+                                        <div class="form-group">
+
+                                            <label for="sub_category_ar">
+                                                الفئة الفرعية
+                                            </label>
+
+                                            <select
+                                                name="sub_category_ar"
+                                                id="sub_category_ar"
+                                                class="form-control"
+                                                dir="rtl"
+                                            >
+
+                                                <option value="">
+                                                    اختر الفئة الفرعية
+                                                </option>
+
+                                                @foreach($sub_categories as $sub_category)
+
+                                                    <option
+                                                        value="{{ $sub_category->id }}"
+                                                        {{ $service->sub_category_id == $sub_category->id ? 'selected' : '' }}
+                                                    >
+                                                        {{ $sub_category->name_ar ?: $sub_category->name }}
+                                                    </option>
+
+                                                @endforeach
+
+                                            </select>
+
+                                            <p class="error sub_category_ar-error"></p>
+
+                                        </div>
+
+
+                                        {{-- Arabic Description --}}
+
+                                        <div class="form-group">
+
+                                            <label for="description_ar">
+                                                الوصف
+                                            </label>
+
+                                            <textarea
+                                                name="description_ar"
+                                                id="description_ar"
+                                                class="summernote"
+                                                dir="rtl"
+                                            >{{ old('description_ar', $service->description_ar) }}</textarea>
+
+                                            <p class="error description_ar-error"></p>
+
+                                        </div>
+
+
+                                        {{-- Arabic Short Description --}}
+
+                                        <div class="form-group">
+
+                                            <label for="short_description_ar">
+                                                وصف قصير
+                                            </label>
+
+                                            <textarea
+                                                name="short_description_ar"
+                                                id="short_description_ar"
+                                                rows="7"
+                                                class="form-control"
+                                                dir="rtl"
+                                            >{{ old('short_description_ar', $service->short_desc_ar) }}</textarea>
+
+                                            <p class="error short_description_ar-error"></p>
+
+                                        </div>
+
+
+                                        {{-- Arabic Meta Title --}}
+
+                                        <div class="form-group">
+
+                                            <label for="meta_title_ar">
+                                                عنوان Meta
+                                            </label>
+
+                                            <input
+                                                type="text"
+                                                name="meta_title_ar"
+                                                id="meta_title_ar"
+                                                value="{{ old('meta_title_ar', $service->meta_title_ar) }}"
+                                                class="form-control"
+                                                dir="rtl"
+                                                placeholder="حد أقصى 70 حرفًا"
+                                            >
+
+                                            <p class="error meta_title_ar-error"></p>
+
+                                        </div>
+
+
+                                        {{-- Arabic Meta Description --}}
+
+                                        <div class="form-group">
+
+                                            <label for="meta_description_ar">
+                                                وصف Meta
+                                            </label>
+
+                                            <textarea
+                                                name="meta_description_ar"
+                                                id="meta_description_ar"
+                                                rows="7"
+                                                class="form-control"
+                                                dir="rtl"
+                                                placeholder="حد أقصى 160 حرفًا"
+                                            >{{ old('meta_description_ar', $service->meta_description_ar) }}</textarea>
+
+                                            <p class="error meta_description_ar-error"></p>
+
+                                        </div>
+
+
+                                        {{-- Arabic Meta Keywords --}}
+
+                                        <div class="form-group">
+
+                                            <label for="meta_keywords_ar">
+                                                كلمات Meta المفتاحية
+                                            </label>
+
+                                            <textarea
+                                                name="meta_keywords_ar"
+                                                id="meta_keywords_ar"
+                                                rows="7"
+                                                class="form-control"
+                                                dir="rtl"
+                                                placeholder="حد أقصى 160 حرفًا"
+                                            >{{ old('meta_keywords_ar', $service->meta_keywords_ar) }}</textarea>
+
+                                            <p class="error meta_keywords_ar-error"></p>
+
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
 
                             </div>
+
+
+                            {{-- =====================================================
+                            | COMMON FIELDS
+                            ====================================================== --}}
+
+                            <hr>
+
+                            <h5 class="mb-3">
+                                Common / Media
+                            </h5>
+
+
+                            {{-- Video Link --}}
 
                             <div class="form-group">
 
@@ -170,13 +603,18 @@
 
                                 <input
                                     type="text"
-                                    value="{{ $service->videos_link }}"
+                                    value="{{ old('videos_link', $service->videos_link) }}"
                                     name="videos_link"
                                     id="videos_link"
                                     class="form-control"
                                 >
 
+                                <p class="error videos_link-error"></p>
+
                             </div>
+
+
+                            {{-- Additional Videos --}}
 
                             <div class="form-group">
 
@@ -186,9 +624,15 @@
 
                                 <div id="additional_videos_links">
 
-                                    @if(is_array($additional_videos_links) && count($additional_videos_links))
+                                    @if(
+                                        is_array($additional_videos_links)
+                                        && count($additional_videos_links)
+                                    )
 
-                                        @foreach($additional_videos_links as $link)
+                                        @foreach(
+                                            $additional_videos_links
+                                            as $link
+                                        )
 
                                             <div class="input-group mb-2">
 
@@ -243,6 +687,7 @@
 
                                 </div>
 
+
                                 <button
                                     type="button"
                                     id="add-video-link"
@@ -253,85 +698,15 @@
 
                             </div>
 
-                            <div class="form-group">
 
-                                <label for="description">
-                                    Description
-                                </label>
-
-                                <textarea
-                                    name="description"
-                                    id="description"
-                                    class="summernote"
-                                >{{ $service->description }}</textarea>
-
-                            </div>
-
-                            <div class="form-group">
-
-                                <label for="short_description">
-                                    Short Description
-                                </label>
-
-                                <textarea
-                                    name="short_description"
-                                    id="short_description"
-                                    rows="7"
-                                    class="form-control"
-                                >{{ $service->short_desc }}</textarea>
-
-                            </div>
-
-                            <div class="form-group">
-
-                                <label for="meta_title">
-                                    Meta Title
-                                </label>
-
-                                <input
-                                    type="text"
-                                    value="{{ $service->meta_title }}"
-                                    name="meta_title"
-                                    id="meta_title"
-                                    class="form-control"
-                                    placeholder="MAX 70 CHARACTERS"
-                                >
-
-                            </div>
-
-                            <div class="form-group">
-
-                                <label for="meta_description">
-                                    Meta Description
-                                </label>
-
-                                <textarea
-                                    name="meta_description"
-                                    id="meta_description"
-                                    rows="7"
-                                    class="form-control"
-                                    placeholder="MAX 160 CHARACTERS"
-                                >{{ $service->meta_description }}</textarea>
-
-                            </div>
-
-                            <div class="form-group">
-
-                                <label for="meta_keywords">
-                                    Meta Keywords
-                                </label>
-
-                                <textarea
-                                    name="meta_keywords"
-                                    id="meta_keywords"
-                                    rows="7"
-                                    class="form-control"
-                                    placeholder="MAX 160 CHARACTERS"
-                                >{{ $service->meta_keywords }}</textarea>
-
-                            </div>
+                            {{-- =====================================================
+                            | IMAGE
+                            ====================================================== --}}
 
                             <div class="row">
+
+
+                                {{-- Main Image --}}
 
                                 <div class="col-md-6">
 
@@ -346,18 +721,27 @@
                                         Image
                                     </label>
 
+
                                     <div
                                         id="image"
                                         class="dropzone dz-clickable"
                                     >
 
                                         <div class="dz-message needsclick">
+
                                             <br>
+
                                             Drop files here or click to upload.
+
                                             <br><br>
+
                                         </div>
 
                                     </div>
+
+
+                                    <p class="error image_id-error"></p>
+
 
                                     @if(!empty($service->image))
 
@@ -387,11 +771,15 @@
 
                                 </div>
 
+
+                                {{-- Gallery --}}
+
                                 <div class="col-md-6">
 
                                     <label>
                                         Image Gallery
                                     </label>
+
 
                                     <div
                                         id="gallery"
@@ -399,12 +787,17 @@
                                     >
 
                                         <div class="dz-message needsclick">
+
                                             <br>
+
                                             Drop files here or click to upload.
+
                                             <br><br>
+
                                         </div>
 
                                     </div>
+
 
                                     <input
                                         type="hidden"
@@ -413,38 +806,64 @@
                                         value=""
                                     >
 
+
+                                    <p class="error gallery_images-error"></p>
+
+
                                     <div
                                         id="gallery-preview"
                                         class="row mt-3"
                                     >
 
-                                        @if(!empty($service->gallery_images))
+                                        @php
 
-                                            @foreach(json_decode($service->gallery_images, true) ?: [] as $galleryImage)
+                                            $galleryImages = [];
 
-                                                <div
-                                                    class="col-md-4 gallery-item mb-3"
+                                            if (is_array($service->gallery_images)) {
+
+                                                $galleryImages =
+                                                    $service->gallery_images;
+
+                                            } elseif (!empty($service->gallery_images)) {
+
+                                                $galleryImages =
+                                                    json_decode(
+                                                        $service->gallery_images,
+                                                        true
+                                                    ) ?: [];
+
+                                            }
+
+                                        @endphp
+
+
+                                        @foreach(
+                                            $galleryImages
+                                            as $galleryImage
+                                        )
+
+                                            <div
+                                                class="col-md-4 gallery-item mb-3"
+                                            >
+
+                                                <img
+                                                    class="img-thumbnail"
+                                                    src="{{ asset('uploads/services/gallery/'.$galleryImage) }}"
+                                                    width="150"
                                                 >
 
-                                                    <img
-                                                        class="img-thumbnail"
-                                                        src="{{ asset('uploads/services/gallery/'.$galleryImage) }}"
-                                                        width="150"
-                                                    >
 
-                                                    <button
-                                                        type="button"
-                                                        class="btn btn-danger btn-sm mt-1 remove-gallery-image"
-                                                        data-image="{{ $galleryImage }}"
-                                                    >
-                                                        Remove
-                                                    </button>
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-danger btn-sm mt-1 remove-gallery-image"
+                                                    data-image="{{ $galleryImage }}"
+                                                >
+                                                    Remove
+                                                </button>
 
-                                                </div>
+                                            </div>
 
-                                            @endforeach
-
-                                        @endif
+                                        @endforeach
 
                                     </div>
 
@@ -452,7 +871,10 @@
 
                             </div>
 
-                            <div class="form-group">
+
+                            {{-- Image Alt Text --}}
+
+                            <div class="form-group mt-3">
 
                                 <label for="image_alt_text">
                                     Image Alt Text
@@ -464,9 +886,14 @@
                                     rows="4"
                                     class="form-control"
                                     placeholder="MAX 160 CHARACTERS"
-                                >{{ $service->image_alt_text }}</textarea>
+                                >{{ old('image_alt_text', $service->image_alt_text) }}</textarea>
+
+                                <p class="error image_alt_text-error"></p>
 
                             </div>
+
+
+                            {{-- Status --}}
 
                             <div class="form-group mt-4">
 
@@ -496,14 +923,20 @@
 
                                 </select>
 
+                                <p class="error status-error"></p>
+
                             </div>
+
+
+                            {{-- Submit --}}
 
                             <button
                                 type="submit"
                                 class="btn btn-primary"
                             >
-                                Submit
+                                Update
                             </button>
+
 
                         </div>
 
@@ -521,15 +954,40 @@
 
 @endsection
 
+
 @section('extraJs')
 
 <script>
+
 Dropzone.autoDiscover = false;
+
+
+/*
+|--------------------------------------------------------------------------
+| Gallery IDs
+|--------------------------------------------------------------------------
+*/
 
 let uploadedGalleryIds = [];
 
-const csrfToken = $('meta[name="csrf-token"]').attr('content')
-    || $('meta[name="_token"]').attr('content');
+
+/*
+|--------------------------------------------------------------------------
+| CSRF
+|--------------------------------------------------------------------------
+*/
+
+const csrfToken =
+    $('meta[name="csrf-token"]').attr('content')
+    ||
+    $('meta[name="_token"]').attr('content');
+
+
+/*
+|--------------------------------------------------------------------------
+| MAIN IMAGE DROPZONE
+|--------------------------------------------------------------------------
+*/
 
 const imageDropzone = $('#image').dropzone({
 
@@ -539,7 +997,8 @@ const imageDropzone = $('#image').dropzone({
 
     addRemoveLinks: true,
 
-    acceptedFiles: "image/jpeg,image/png,image/gif,image/webp,image/avif",
+    acceptedFiles:
+        "image/jpeg,image/png,image/gif,image/webp,image/avif",
 
     headers: {
         'X-CSRF-TOKEN': csrfToken
@@ -548,13 +1007,25 @@ const imageDropzone = $('#image').dropzone({
     success: function(file, response) {
 
         if (response.status === 200) {
+
             file.tempId = response.id;
-            $('#image_id').val(response.id);
+
+            $('#image_id').val(
+                response.id
+            );
+
         }
 
     }
 
 });
+
+
+/*
+|--------------------------------------------------------------------------
+| GALLERY DROPZONE
+|--------------------------------------------------------------------------
+*/
 
 const galleryDropzone = $('#gallery').dropzone({
 
@@ -564,7 +1035,8 @@ const galleryDropzone = $('#gallery').dropzone({
 
     addRemoveLinks: true,
 
-    acceptedFiles: "image/jpeg,image/png,image/gif,image/webp,image/avif",
+    acceptedFiles:
+        "image/jpeg,image/png,image/gif,image/webp,image/avif",
 
     headers: {
         'X-CSRF-TOKEN': csrfToken
@@ -576,7 +1048,9 @@ const galleryDropzone = $('#gallery').dropzone({
 
             file.tempId = response.id;
 
-            uploadedGalleryIds.push(response.id);
+            uploadedGalleryIds.push(
+                response.id
+            );
 
             $('#gallery_images').val(
                 uploadedGalleryIds.join(',')
@@ -589,15 +1063,21 @@ const galleryDropzone = $('#gallery').dropzone({
     removedfile: function(file) {
 
         if (file.previewElement) {
+
             file.previewElement.remove();
+
         }
+
 
         if (file.tempId) {
 
             uploadedGalleryIds =
                 uploadedGalleryIds.filter(
-                    id => String(id) !== String(file.tempId)
+                    id =>
+                        String(id) !==
+                        String(file.tempId)
                 );
+
 
             $('#gallery_images').val(
                 uploadedGalleryIds.join(',')
@@ -609,29 +1089,199 @@ const galleryDropzone = $('#gallery').dropzone({
 
 });
 
-$('#category').on('change', function() {
 
-    const categoryId = $(this).val();
+/*
+|--------------------------------------------------------------------------
+| REMEMBER SELECTED LANGUAGE
+|--------------------------------------------------------------------------
+*/
 
-    $('#sub_category').html(
-        '<option value="">Select a sub-category</option>'
+$(document).ready(function() {
+
+    let language =
+        localStorage.getItem(
+            'service_edit_language'
+        );
+
+
+    if (!language) {
+
+        language = 'en';
+
+        localStorage.setItem(
+            'service_edit_language',
+            'en'
+        );
+
+    }
+
+
+    if (language === 'ar') {
+
+        $('#arabic-tab').tab('show');
+
+    } else {
+
+        $('#english-tab').tab('show');
+
+    }
+
+
+    $('a[data-toggle="tab"]').on(
+        'shown.bs.tab',
+        function(e) {
+
+            const target =
+                $(e.target).attr('href');
+
+
+            if (target === '#arabic') {
+
+                localStorage.setItem(
+                    'service_edit_language',
+                    'ar'
+                );
+
+            } else {
+
+                localStorage.setItem(
+                    'service_edit_language',
+                    'en'
+                );
+
+            }
+
+        }
     );
 
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| ENGLISH CATEGORY CHANGE
+|--------------------------------------------------------------------------
+*/
+
+$('#category').on('change', function() {
+
+    const categoryId =
+        $(this).val();
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Sync Arabic category
+    |--------------------------------------------------------------------------
+    */
+
+    $('#category_ar').val(
+        categoryId
+    );
+
+
+    loadSubCategories(
+        categoryId,
+        '#sub_category',
+        false
+    );
+
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| ARABIC CATEGORY CHANGE
+|--------------------------------------------------------------------------
+*/
+
+$('#category_ar').on('change', function() {
+
+    const categoryId =
+        $(this).val();
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Sync English category
+    |--------------------------------------------------------------------------
+    */
+
+    $('#category').val(
+        categoryId
+    );
+
+
+    loadSubCategories(
+        categoryId,
+        '#sub_category_ar',
+        true
+    );
+
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| LOAD SUB CATEGORIES
+|--------------------------------------------------------------------------
+*/
+
+function loadSubCategories(
+    categoryId,
+    target,
+    arabic = false
+) {
+
+    const subCategory =
+        $(target);
+
+
+    subCategory.html(
+        '<option value="">' +
+        (
+            arabic
+                ? 'اختر الفئة الفرعية'
+                : 'Select a sub-category'
+        ) +
+        '</option>'
+    );
+
+
     if (!categoryId) {
+
+        if (target === '#sub_category') {
+
+            $('#sub_category_ar').html(
+                '<option value="">اختر الفئة الفرعية</option>'
+            );
+
+        } else {
+
+            $('#sub_category').html(
+                '<option value="">Select a sub-category</option>'
+            );
+
+        }
+
         return;
+
     }
+
 
     $.ajax({
 
-        url: "{{ route('service.subcategories') }}",
+        url:
+            "{{ route('service.subcategories') }}",
 
-        type: "GET",
+        type: 'GET',
 
         data: {
             category_id: categoryId
         },
 
-        dataType: "json",
+        dataType: 'json',
+
 
         success: function(response) {
 
@@ -640,19 +1290,111 @@ $('#category').on('change', function() {
                 response.subCategories
             ) {
 
+
+                /*
+                |--------------------------------------------------------------------------
+                | Current select
+                |--------------------------------------------------------------------------
+                */
+
                 $.each(
                     response.subCategories,
                     function(index, item) {
 
-                        $('#sub_category').append(
+                        const text =
+                            arabic
+                                ? (
+                                    item.name_ar ||
+                                    item.name
+                                )
+                                : item.name;
+
+
+                        subCategory.append(
                             $('<option>', {
                                 value: item.id,
-                                text: item.name
+                                text: text
                             })
                         );
 
                     }
                 );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Other language select
+                |--------------------------------------------------------------------------
+                */
+
+                const otherTarget =
+                    target === '#sub_category'
+                        ? '#sub_category_ar'
+                        : '#sub_category';
+
+
+                const other =
+                    $(otherTarget);
+
+
+                other.html(
+                    '<option value="">' +
+                    (
+                        otherTarget ===
+                        '#sub_category_ar'
+                            ? 'اختر الفئة الفرعية'
+                            : 'Select a sub-category'
+                    ) +
+                    '</option>'
+                );
+
+
+                $.each(
+                    response.subCategories,
+                    function(index, item) {
+
+                        const text =
+                            otherTarget ===
+                            '#sub_category_ar'
+                                ? (
+                                    item.name_ar ||
+                                    item.name
+                                )
+                                : item.name;
+
+
+                        other.append(
+                            $('<option>', {
+                                value: item.id,
+                                text: text
+                            })
+                        );
+
+                    }
+                );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Select existing service sub-category
+                |--------------------------------------------------------------------------
+                */
+
+                const currentSubCategory =
+                    "{{ $service->sub_category_id }}";
+
+
+                if (currentSubCategory) {
+
+                    subCategory.val(
+                        currentSubCategory
+                    );
+
+                    other.val(
+                        currentSubCategory
+                    );
+
+                }
 
             }
 
@@ -660,84 +1402,169 @@ $('#category').on('change', function() {
 
     });
 
-});
+}
 
-$('#editServiceForm').on('submit', function(event) {
 
-    event.preventDefault();
+/*
+|--------------------------------------------------------------------------
+| ENGLISH SUB CATEGORY SYNC
+|--------------------------------------------------------------------------
+*/
 
-    const form = $(this);
+$('#sub_category').on('change', function() {
 
-    const button = form.find(
-        'button[type="submit"]'
+    $('#sub_category_ar').val(
+        $(this).val()
     );
 
-    button.prop('disabled', true);
+});
 
-    $('.error').html('');
 
-    $.ajax({
+/*
+|--------------------------------------------------------------------------
+| ARABIC SUB CATEGORY SYNC
+|--------------------------------------------------------------------------
+*/
 
-        url: form.attr('action'),
+$('#sub_category_ar').on('change', function() {
 
-        type: 'POST',
+    $('#sub_category').val(
+        $(this).val()
+    );
 
-        dataType: 'json',
+});
 
-        data: form.serialize(),
 
-        success: function(response) {
+/*
+|--------------------------------------------------------------------------
+| LOAD INITIAL SUB CATEGORIES
+|--------------------------------------------------------------------------
+*/
 
-            button.prop('disabled', false);
+$(document).ready(function() {
 
-            if (response.status === 200) {
+    const categoryId =
+        $('#category').val();
 
-                window.location.href =
-                    response.redirect ||
-                    "{{ route('serviceList') }}";
 
-                return;
-            }
+    if (categoryId) {
 
-            if (response.errors) {
+        loadSubCategories(
+            categoryId,
+            '#sub_category',
+            false
+        );
 
-                $.each(
-                    response.errors,
-                    function(field, messages) {
+    }
 
-                        $('.' + field + '-error')
-                            .html(messages[0]);
+});
 
-                    }
+
+/*
+|--------------------------------------------------------------------------
+| SUBMIT FORM
+|--------------------------------------------------------------------------
+*/
+
+$('#editServiceForm').on(
+    'submit',
+    function(event) {
+
+        event.preventDefault();
+
+
+        const form =
+            $(this);
+
+
+        const button =
+            form.find(
+                'button[type="submit"]'
+            );
+
+
+        button.prop(
+            'disabled',
+            true
+        );
+
+
+        clearErrors();
+
+
+        $.ajax({
+
+            url:
+                form.attr('action'),
+
+            type: 'POST',
+
+            dataType: 'json',
+
+            data:
+                form.serialize(),
+
+
+            success: function(response) {
+
+                button.prop(
+                    'disabled',
+                    false
                 );
 
-            }
 
-        },
+                if (
+                    response.status === 200
+                ) {
 
-        error: function(xhr) {
+                    window.location.href =
+                        response.redirect
+                        ||
+                        "{{ route('serviceList') }}";
 
-            button.prop('disabled', false);
+                    return;
 
-            if (
-                xhr.status === 422 &&
-                xhr.responseJSON &&
-                xhr.responseJSON.errors
-            ) {
+                }
 
-                $.each(
-                    xhr.responseJSON.errors,
-                    function(field, messages) {
 
-                        $('.' + field + '-error')
-                            .html(messages[0]);
+                if (response.errors) {
 
-                    }
+                    showErrors(
+                        response.errors
+                    );
+
+                }
+
+            },
+
+
+            error: function(xhr) {
+
+                button.prop(
+                    'disabled',
+                    false
                 );
 
-            } else {
 
-                console.log(xhr.responseText);
+                if (
+                    xhr.status === 422 &&
+                    xhr.responseJSON &&
+                    xhr.responseJSON.errors
+                ) {
+
+                    showErrors(
+                        xhr.responseJSON.errors
+                    );
+
+                    return;
+
+                }
+
+
+                console.log(
+                    xhr.responseText
+                );
+
 
                 alert(
                     'An error occurred while updating the service.'
@@ -745,135 +1572,417 @@ $('#editServiceForm').on('submit', function(event) {
 
             }
 
-        }
+        });
 
-    });
+    }
+);
 
-});
 
-$('.remove-image').on('click', function() {
+/*
+|--------------------------------------------------------------------------
+| SHOW VALIDATION ERRORS
+|--------------------------------------------------------------------------
+*/
 
-    const button = $(this);
+function showErrors(errors)
+{
+    clearErrors();
 
-    const imageName = button.data('image');
+    $.each(
+        errors,
+        function(field, messages) {
 
-    $.ajax({
+            /*
+            |--------------------------------------------------------------------------
+            | Show error message
+            |--------------------------------------------------------------------------
+            */
 
-        url: "{{ route('service.remove.image', $service->id) }}",
+            $('.' + field + '-error')
+                .html(messages[0]);
 
-        type: 'POST',
 
-        data: {
-            image: imageName,
-            _token: csrfToken
-        },
+            /*
+            |--------------------------------------------------------------------------
+            | Add Bootstrap invalid class
+            |--------------------------------------------------------------------------
+            */
 
-        success: function(response) {
+            $('[name="' + field + '"]')
+                .addClass('is-invalid');
 
-            if (response.status === 200) {
 
-                button
-                    .closest('.current-main-image')
-                    .remove();
+            /*
+            |--------------------------------------------------------------------------
+            | Summernote fields
+            |--------------------------------------------------------------------------
+            */
 
-                $('#image_id').val('');
+            if (
+                field === 'description' ||
+                field === 'description_ar'
+            ) {
 
-            } else {
-
-                alert(response.message);
-
-            }
-
-        },
-
-        error: function(xhr) {
-
-            console.log(xhr.responseText);
-
-            alert(
-                'Unable to remove the image.'
-            );
-
-        }
-
-    });
-
-});
-
-$('.remove-gallery-image').on('click', function() {
-
-    const button = $(this);
-
-    const imageName = button.data('image');
-
-    $.ajax({
-
-        url: "{{ route('service.remove.gallery.image', $service->id) }}",
-
-        type: 'POST',
-
-        data: {
-            image: imageName,
-            _token: csrfToken
-        },
-
-        success: function(response) {
-
-            if (response.status === 200) {
-
-                button
-                    .closest('.gallery-item')
-                    .remove();
-
-            } else {
-
-                alert(response.message);
+                $('[name="' + field + '"]')
+                    .next('.note-editor')
+                    .addClass('is-invalid');
 
             }
 
-        },
 
-        error: function(xhr) {
+            /*
+            |--------------------------------------------------------------------------
+            | Category
+            |--------------------------------------------------------------------------
+            */
 
-            console.log(xhr.responseText);
+            if (field === 'category') {
 
-            alert(
-                'Unable to remove gallery image.'
-            );
+                $('.category-error')
+                    .html(messages[0]);
+
+                $('.category_ar-error')
+                    .html(messages[0]);
+
+                $('#category')
+                    .addClass('is-invalid');
+
+                $('#category_ar')
+                    .addClass('is-invalid');
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Category Arabic
+            |--------------------------------------------------------------------------
+            */
+
+            if (field === 'category_ar') {
+
+                $('.category-error')
+                    .html(messages[0]);
+
+                $('.category_ar-error')
+                    .html(messages[0]);
+
+                $('#category')
+                    .addClass('is-invalid');
+
+                $('#category_ar')
+                    .addClass('is-invalid');
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Sub Category
+            |--------------------------------------------------------------------------
+            */
+
+            if (field === 'sub_category') {
+
+                $('.sub_category-error')
+                    .html(messages[0]);
+
+                $('.sub_category_ar-error')
+                    .html(messages[0]);
+
+                $('#sub_category')
+                    .addClass('is-invalid');
+
+                $('#sub_category_ar')
+                    .addClass('is-invalid');
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Sub Category Arabic
+            |--------------------------------------------------------------------------
+            */
+
+            if (field === 'sub_category_ar') {
+
+                $('.sub_category-error')
+                    .html(messages[0]);
+
+                $('.sub_category_ar-error')
+                    .html(messages[0]);
+
+                $('#sub_category')
+                    .addClass('is-invalid');
+
+                $('#sub_category_ar')
+                    .addClass('is-invalid');
+            }
 
         }
+    );
 
-    });
 
-});
+    /*
+    |--------------------------------------------------------------------------
+    | Keep current language tab
+    |--------------------------------------------------------------------------
+    */
 
-$('#add-video-link').on('click', function() {
+    const language =
+        localStorage.getItem(
+            'service_edit_language'
+        );
 
-    $('#additional_videos_links').append(`
-        <div class="input-group mb-2">
 
-            <input
-                type="text"
-                name="additional_videos_links[]"
-                class="form-control"
-                placeholder="Enter additional video link"
-            >
+    if (language === 'ar') {
 
-            <div class="input-group-append">
+        $('#arabic-tab').tab('show');
 
-                <button
-                    class="btn btn-outline-secondary remove-link"
-                    type="button"
+    } else {
+
+        $('#english-tab').tab('show');
+
+    }
+}
+
+/*
+|--------------------------------------------------------------------------
+| CLEAR ERRORS
+|--------------------------------------------------------------------------
+*/
+function clearErrors()
+{
+    /*
+    |--------------------------------------------------------------------------
+    | Clear error messages
+    |--------------------------------------------------------------------------
+    */
+
+    $('.error').html('');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Remove invalid state from normal fields
+    |--------------------------------------------------------------------------
+    */
+
+    $('.form-control')
+        .removeClass('is-invalid');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Remove invalid state from Summernote
+    |--------------------------------------------------------------------------
+    */
+
+    $('.note-editor')
+        .removeClass('is-invalid');
+}
+
+
+
+
+/*
+|--------------------------------------------------------------------------
+| REMOVE MAIN IMAGE
+|--------------------------------------------------------------------------
+*/
+
+$('.remove-image').on(
+    'click',
+    function() {
+
+        const button =
+            $(this);
+
+
+        const imageName =
+            button.data('image');
+
+
+        $.ajax({
+
+            url:
+                "{{ route('service.remove.image', $service->id) }}",
+
+            type: 'POST',
+
+            data: {
+
+                image: imageName,
+
+                _token: csrfToken
+
+            },
+
+
+            success: function(response) {
+
+                if (
+                    response.status === 200
+                ) {
+
+                    button
+                        .closest(
+                            '.current-main-image'
+                        )
+                        .remove();
+
+
+                    $('#image_id').val('');
+
+                } else {
+
+                    alert(
+                        response.message
+                    );
+
+                }
+
+            },
+
+
+            error: function(xhr) {
+
+                console.log(
+                    xhr.responseText
+                );
+
+
+                alert(
+                    'Unable to remove the image.'
+                );
+
+            }
+
+        });
+
+    }
+);
+
+
+/*
+|--------------------------------------------------------------------------
+| REMOVE GALLERY IMAGE
+|--------------------------------------------------------------------------
+*/
+
+$('.remove-gallery-image').on(
+    'click',
+    function() {
+
+        const button =
+            $(this);
+
+
+        const imageName =
+            button.data('image');
+
+
+        $.ajax({
+
+            url:
+                "{{ route('service.remove.gallery.image', $service->id) }}",
+
+            type: 'POST',
+
+            data: {
+
+                image: imageName,
+
+                _token: csrfToken
+
+            },
+
+
+            success: function(response) {
+
+                if (
+                    response.status === 200
+                ) {
+
+                    button
+                        .closest(
+                            '.gallery-item'
+                        )
+                        .remove();
+
+                } else {
+
+                    alert(
+                        response.message
+                    );
+
+                }
+
+            },
+
+
+            error: function(xhr) {
+
+                console.log(
+                    xhr.responseText
+                );
+
+
+                alert(
+                    'Unable to remove gallery image.'
+                );
+
+            }
+
+        });
+
+    }
+);
+
+
+/*
+|--------------------------------------------------------------------------
+| ADD VIDEO LINK
+|--------------------------------------------------------------------------
+*/
+
+$('#add-video-link').on(
+    'click',
+    function() {
+
+        $('#additional_videos_links').append(`
+
+            <div class="input-group mb-2">
+
+                <input
+                    type="text"
+                    name="additional_videos_links[]"
+                    class="form-control"
+                    placeholder="Enter additional video link"
                 >
-                    Remove
-                </button>
+
+                <div class="input-group-append">
+
+                    <button
+                        class="btn btn-outline-secondary remove-link"
+                        type="button"
+                    >
+                        Remove
+                    </button>
+
+                </div>
 
             </div>
 
-        </div>
-    `);
+        `);
 
-});
+    }
+);
+
+
+/*
+|--------------------------------------------------------------------------
+| REMOVE VIDEO LINK
+|--------------------------------------------------------------------------
+*/
 
 $(document).on(
     'click',
@@ -887,52 +1996,77 @@ $(document).on(
     }
 );
 
-$('#name').on('change keyup', function() {
 
-    const name = $(this).val();
+/*
+|--------------------------------------------------------------------------
+| GENERATE SLUG
+|--------------------------------------------------------------------------
+*/
 
-    if (!name) {
+$('#name').on(
+    'change keyup',
+    function() {
 
-        $('#slug').val('');
+        const name =
+            $(this).val();
 
-        return;
-    }
 
-    $('button[type="submit"]').prop(
-        'disabled',
-        true
-    );
+        if (!name) {
 
-    $.ajax({
+            $('#slug').val('');
 
-        url: "{{ route('service.slug') }}",
-
-        type: 'GET',
-
-        data: {
-            name: name
-        },
-
-        dataType: 'json',
-
-        success: function(response) {
-
-            $('#slug').val(response.slug);
-
-        },
-
-        complete: function() {
-
-            $('button[type="submit"]').prop(
-                'disabled',
-                false
-            );
+            return;
 
         }
 
-    });
 
-});
+        $('button[type="submit"]')
+            .prop(
+                'disabled',
+                true
+            );
+
+
+        $.ajax({
+
+            url:
+                "{{ route('service.slug') }}",
+
+            type: 'GET',
+
+            data: {
+
+                name: name
+
+            },
+
+            dataType: 'json',
+
+
+            success: function(response) {
+
+                $('#slug').val(
+                    response.slug
+                );
+
+            },
+
+
+            complete: function() {
+
+                $('button[type="submit"]')
+                    .prop(
+                        'disabled',
+                        false
+                    );
+
+            }
+
+        });
+
+    }
+);
+
 </script>
 
 @endsection
