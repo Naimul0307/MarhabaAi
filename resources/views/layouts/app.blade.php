@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}" dir="ltr">
 <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2606KHQ743"></script>
     <script>

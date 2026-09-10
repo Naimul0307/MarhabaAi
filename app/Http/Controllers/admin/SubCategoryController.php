@@ -8,8 +8,8 @@ use App\Models\SubCategory;
 
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class SubCategoryController extends Controller
 {
@@ -76,19 +76,24 @@ class SubCategoryController extends Controller
             ], 422);
         }
 
+
         $subCategory = new SubCategory();
+
 
         $this->fillSubCategory(
             $subCategory,
             $request
         );
 
+
         $subCategory->save();
+
 
         $request->session()->flash(
             'success',
             'Sub Category Created Successfully'
         );
+
 
         return response()->json([
             'status' => 200,
@@ -116,9 +121,11 @@ class SubCategoryController extends Controller
             );
         }
 
+
         $categories = Category::where('status', 1)
             ->orderBy('name', 'ASC')
             ->get();
+
 
         return view('admin.sub_category.edit', [
             'subCategory' => $subCategory,
@@ -136,11 +143,18 @@ class SubCategoryController extends Controller
     ) {
         $subCategory = SubCategory::find($id);
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Record Not Found
+        |--------------------------------------------------------------------------
+        */
+
         if (!$subCategory) {
 
             $request->session()->flash(
                 'error',
-                'Record not found in DB'
+                'Record not found'
             );
 
             return response()->json([
@@ -149,10 +163,18 @@ class SubCategoryController extends Controller
             ], 404);
         }
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Validation
+        |--------------------------------------------------------------------------
+        */
+
         $validator = $this->validateSubCategory(
             $request,
             $subCategory->id
         );
+
 
         if ($validator->fails()) {
 
@@ -162,17 +184,39 @@ class SubCategoryController extends Controller
             ], 422);
         }
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Fill Data
+        |--------------------------------------------------------------------------
+        */
+
         $this->fillSubCategory(
             $subCategory,
             $request
         );
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Save
+        |--------------------------------------------------------------------------
+        */
+
         $subCategory->save();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Success Message
+        |--------------------------------------------------------------------------
+        */
 
         $request->session()->flash(
             'success',
             'Sub Category Updated Successfully'
         );
+
 
         return response()->json([
             'status' => 200,
@@ -190,6 +234,7 @@ class SubCategoryController extends Controller
     ) {
         $subCategory = SubCategory::find($id);
 
+
         if (!$subCategory) {
 
             $request->session()->flash(
@@ -199,15 +244,18 @@ class SubCategoryController extends Controller
 
             return response()->json([
                 'status' => 0,
-            ]);
+            ], 404);
         }
 
+
         $subCategory->delete();
+
 
         $request->session()->flash(
             'success',
             'Sub Category deleted successfully.'
         );
+
 
         return response()->json([
             'status' => 1,
@@ -218,114 +266,131 @@ class SubCategoryController extends Controller
     /**
      * Generate Slug
      */
-/**
- * Generate Slug
- */
-public function getSlug(Request $request)
-{
-    $validator = Validator::make(
-        $request->all(),
-        [
-            'name' => 'required|string',
-        ],
-        [
-            'name.required' =>
-                'English sub category name is required.',
-        ]
-    );
+    public function getSlug(Request $request)
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | Validate Name
+        |--------------------------------------------------------------------------
+        */
 
-    if ($validator->fails()) {
-
-        return response()->json([
-            'status' => 0,
-
-            'errors' => [
-                'name' => $validator
-                    ->errors()
-                    ->get('name'),
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => [
+                    'required',
+                    'string',
+                ],
             ],
-        ], 422);
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Current Sub Category ID
-    |--------------------------------------------------------------------------
-    */
-
-    $subCategoryId = $request->input('id');
+            [
+                'name.required' =>
+                    'English sub category name is required.',
+            ]
+        );
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Generate Slug
-    |--------------------------------------------------------------------------
-    */
+        if ($validator->fails()) {
 
-    $slug = SlugService::createSlug(
-        SubCategory::class,
-        'slug',
-        $request->name
-    );
+            return response()->json([
+                'status' => 0,
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Check Existing Slug
-    |--------------------------------------------------------------------------
-    |
-    | Ignore current sub category during edit.
-    |
-    */
-
-    $slugExists = SubCategory::where(
-        'slug',
-        $slug
-    )
-    ->when(
-        $subCategoryId,
-        function ($query) use ($subCategoryId) {
-
-            $query->where(
-                'id',
-                '!=',
-                $subCategoryId
-            );
+                'errors' => [
+                    'name' => $validator
+                        ->errors()
+                        ->get('name'),
+                ],
+            ], 422);
         }
-    )
-    ->exists();
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Generate Alternative Slug
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | Current Sub Category ID
+        |--------------------------------------------------------------------------
+        */
 
-    if ($slugExists) {
+        $subCategoryId = $request->input('id');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Generate Slug
+        |--------------------------------------------------------------------------
+        */
 
         $slug = SlugService::createSlug(
             SubCategory::class,
             'slug',
-            $request->name . '-' . time()
+            $request->name
         );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Check Existing Slug
+        |--------------------------------------------------------------------------
+        |
+        | Ignore current sub category during edit.
+        |
+        */
+
+        $slugExists = SubCategory::where(
+            'slug',
+            $slug
+        )
+        ->when(
+            $subCategoryId,
+            function ($query) use ($subCategoryId) {
+
+                $query->where(
+                    'id',
+                    '!=',
+                    $subCategoryId
+                );
+            }
+        )
+        ->exists();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Generate Alternative Slug
+        |--------------------------------------------------------------------------
+        */
+
+        if ($slugExists) {
+
+            $slug = SlugService::createSlug(
+                SubCategory::class,
+                'slug',
+                $request->name . '-' . time()
+            );
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Return Slug
+        |--------------------------------------------------------------------------
+        */
+
+        return response()->json([
+            'status' => 200,
+            'slug' => $slug,
+        ]);
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Return Slug
-    |--------------------------------------------------------------------------
-    */
-
-    return response()->json([
-        'status' => 200,
-        'slug' => $slug,
-    ]);
-}
-
     /**
      * Validate Sub Category
+     *
+     * Only these fields are validated:
+     *
+     * category_id
+     * name
+     * name_ar
+     * slug
+     * status
      */
     private function validateSubCategory(
         Request $request,
@@ -334,33 +399,57 @@ public function getSlug(Request $request)
 
         /*
         |--------------------------------------------------------------------------
-        | Unique Name
+        | English Name Rule
         |--------------------------------------------------------------------------
         */
 
-        $nameUnique =
-            'unique:sub_categories,name';
+        $nameRule = [
+            'required',
+            'string',
+        ];
+
 
         if ($id) {
 
-            $nameUnique .=
-                ',' . $id . ',id';
+            $nameRule[] = Rule::unique(
+                'sub_categories',
+                'name'
+            )->ignore($id);
+
+        } else {
+
+            $nameRule[] = Rule::unique(
+                'sub_categories',
+                'name'
+            );
         }
 
 
         /*
         |--------------------------------------------------------------------------
-        | Unique Slug
+        | Slug Rule
         |--------------------------------------------------------------------------
         */
 
-        $slugUnique =
-            'unique:sub_categories,slug';
+        $slugRule = [
+            'required',
+            'string',
+        ];
+
 
         if ($id) {
 
-            $slugUnique .=
-                ',' . $id . ',id';
+            $slugRule[] = Rule::unique(
+                'sub_categories',
+                'slug'
+            )->ignore($id);
+
+        } else {
+
+            $slugRule[] = Rule::unique(
+                'sub_categories',
+                'slug'
+            );
         }
 
 
@@ -380,8 +469,10 @@ public function getSlug(Request $request)
                 |--------------------------------------------------------------------------
                 */
 
-                'category_id' =>
-                    'required|exists:categories,id',
+                'category_id' => [
+                    'required',
+                    'exists:categories,id',
+                ],
 
 
                 /*
@@ -390,11 +481,7 @@ public function getSlug(Request $request)
                 |--------------------------------------------------------------------------
                 */
 
-                'name' => [
-                    'required',
-                    'string',
-                    $nameUnique,
-                ],
+                'name' => $nameRule,
 
 
                 /*
@@ -403,88 +490,10 @@ public function getSlug(Request $request)
                 |--------------------------------------------------------------------------
                 */
 
-                'name_ar' =>
-                    'required|string',
-
-
-                /*
-                |--------------------------------------------------------------------------
-                | English Description
-                |--------------------------------------------------------------------------
-                */
-
-                'description' =>
-                    'nullable|string',
-
-
-                /*
-                |--------------------------------------------------------------------------
-                | Arabic Description
-                |--------------------------------------------------------------------------
-                */
-
-                'description_ar' =>
-                    'nullable|string',
-
-
-                /*
-                |--------------------------------------------------------------------------
-                | English Meta Title
-                |--------------------------------------------------------------------------
-                */
-
-                'meta_title' =>
-                    'nullable|string|max:70',
-
-
-                /*
-                |--------------------------------------------------------------------------
-                | Arabic Meta Title
-                |--------------------------------------------------------------------------
-                */
-
-                'meta_title_ar' =>
-                    'nullable|string|max:70',
-
-
-                /*
-                |--------------------------------------------------------------------------
-                | English Meta Description
-                |--------------------------------------------------------------------------
-                */
-
-                'meta_description' =>
-                    'nullable|string|max:160',
-
-
-                /*
-                |--------------------------------------------------------------------------
-                | Arabic Meta Description
-                |--------------------------------------------------------------------------
-                */
-
-                'meta_description_ar' =>
-                    'nullable|string|max:160',
-
-
-                /*
-                |--------------------------------------------------------------------------
-                | English Keywords
-                |--------------------------------------------------------------------------
-                */
-
-                'meta_keywords' =>
-                    'nullable|string',
-
-
-                /*
-                |--------------------------------------------------------------------------
-                | Arabic Keywords
-                |--------------------------------------------------------------------------
-                */
-
-                'meta_keywords_ar' =>
-                    'nullable|string',
+                'name_ar' => [
+                    'required',
+                    'string',
+                ],
 
 
                 /*
@@ -493,11 +502,7 @@ public function getSlug(Request $request)
                 |--------------------------------------------------------------------------
                 */
 
-                'slug' => [
-                    'required',
-                    'string',
-                    $slugUnique,
-                ],
+                'slug' => $slugRule,
 
 
                 /*
@@ -506,8 +511,11 @@ public function getSlug(Request $request)
                 |--------------------------------------------------------------------------
                 */
 
-                'status' =>
-                    'required|in:0,1',
+                'status' => [
+                    'required',
+                    'in:0,1',
+                ],
+
             ],
             [
 
@@ -562,21 +570,16 @@ public function getSlug(Request $request)
 
                 /*
                 |--------------------------------------------------------------------------
-                | Meta Messages
+                | Status Messages
                 |--------------------------------------------------------------------------
                 */
 
-                'meta_title.max' =>
-                    'Meta title cannot exceed 70 characters.',
+                'status.required' =>
+                    'Please select status.',
 
-                'meta_title_ar.max' =>
-                    'عنوان Meta لا يمكن أن يتجاوز 70 حرفًا.',
+                'status.in' =>
+                    'Invalid status selected.',
 
-                'meta_description.max' =>
-                    'Meta description cannot exceed 160 characters.',
-
-                'meta_description_ar.max' =>
-                    'وصف Meta لا يمكن أن يتجاوز 160 حرفًا.',
             ]
         );
     }
@@ -663,6 +666,7 @@ public function getSlug(Request $request)
                 : null
             );
 
+
         $subCategory->meta_description_ar =
             $request->meta_description_ar
             ?: (
@@ -670,8 +674,9 @@ public function getSlug(Request $request)
                 ? 'اكتشف خدمات '
                     . $request->name_ar
                     . ' المقدمة من Marhaba AI في دبي.'
-                    : null
+                : null
             );
+
 
         $subCategory->meta_keywords_ar =
             $request->meta_keywords_ar
@@ -704,3 +709,4 @@ public function getSlug(Request $request)
             $request->status;
     }
 }
+

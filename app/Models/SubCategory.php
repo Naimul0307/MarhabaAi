@@ -25,6 +25,7 @@ class SubCategory extends Model
         'meta_keywords',
         'meta_keywords_ar',
         'status',
+        'category_id',
     ];
 
     public function category()
@@ -41,8 +42,32 @@ class SubCategory extends Model
     {
         return [
             'slug' => [
-                'source' => 'name'
-            ]
+                'source' => 'name',
+            ],
         ];
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Localization
+    |--------------------------------------------------------------------------
+    */
+
+    public function getLocalizedNameAttribute(): string
+    {
+        if (app()->isLocale('ar') && filled($this->name_ar)) {
+            return $this->name_ar;
+        }
+
+        return $this->name ?? '';
+    }
+
+    public function getLocalizedDescriptionAttribute(): string
+    {
+        if (app()->isLocale('ar') && filled($this->description_ar)) {
+            return $this->description_ar;
+        }
+
+        return $this->description ?? '';
     }
 }

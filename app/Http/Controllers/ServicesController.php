@@ -7,15 +7,17 @@ use Illuminate\Support\Str;
 
 class ServicesController extends Controller
 {
-    public function detail($slug)
+    public function detail($locale, $slug)
     {
         $service = Service::where('slug', $slug)
+            ->where('status', 1)
             ->with([
                 'category',
                 'subCategory',
             ])
-            ->where('status', 1)
             ->firstOrFail();
+
+
         /*
         |--------------------------------------------------------------------------
         | Gallery Images
@@ -28,7 +30,10 @@ class ServicesController extends Controller
 
             $decoded = json_decode($galleryImages, true);
 
-            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+            if (
+                json_last_error() === JSON_ERROR_NONE &&
+                is_array($decoded)
+            ) {
                 $galleryImages = $decoded;
             } else {
                 $galleryImages = [$galleryImages];
@@ -64,7 +69,10 @@ class ServicesController extends Controller
 
             $decoded = json_decode($additionalVideos, true);
 
-            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+            if (
+                json_last_error() === JSON_ERROR_NONE &&
+                is_array($decoded)
+            ) {
                 $additionalVideos = $decoded;
             } else {
                 $additionalVideos = [$additionalVideos];
@@ -96,6 +104,70 @@ class ServicesController extends Controller
 
         /*
         |--------------------------------------------------------------------------
+        | Locale
+        |--------------------------------------------------------------------------
+        */
+
+        $isArabic = $locale === 'ar';
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | SEO
+        |--------------------------------------------------------------------------
+        */
+
+        $metaTitle = $isArabic
+            ? (
+                $service->meta_title_ar
+                ?: $service->meta_title
+                ?: $service->name_ar
+                ?: $service->name
+            )
+            : (
+                $service->meta_title
+                ?: $service->name
+            );
+
+
+        $metaDescription = $isArabic
+            ? (
+                $service->meta_description_ar
+                ?: $service->meta_description
+                ?: Str::limit(
+                    strip_tags(
+                        $service->description_ar
+                        ?: $service->description
+                        ?: ''
+                    ),
+                    150
+                )
+            )
+            : (
+                $service->meta_description
+                ?: Str::limit(
+                    strip_tags(
+                        $service->description ?: ''
+                    ),
+                    150
+                )
+            );
+
+
+        $metaKeywords = $isArabic
+            ? (
+                $service->meta_keywords_ar
+                ?: $service->meta_keywords
+                ?: 'MIRROR BOOTH, PHOTO BOOTH, VIDEO BOOTH, EVENT SERVICES, DUBAI, UAE'
+            )
+            : (
+                $service->meta_keywords
+                ?: 'MIRROR BOOTH, PHOTO BOOTH, VIDEO BOOTH, EVENT SERVICES, DUBAI, UAE'
+            );
+
+
+        /*
+        |--------------------------------------------------------------------------
         | Return View
         |--------------------------------------------------------------------------
         */
@@ -103,6 +175,7 @@ class ServicesController extends Controller
         return view('service', [
 
             'service' => $service,
+
             'galleryImages' => $galleryImages,
 
             'mainVideo' => $mainVideo,
@@ -111,19 +184,19 @@ class ServicesController extends Controller
 
             'showHero' => false,
 
-            'meta_title' => $service->meta_title
-                ?? $service->name,
+            'showHomeSliders' => false,
 
-            'meta_description' =>
-                $service->meta_description
-                ?? Str::limit(
-                    strip_tags($service->description ?? ''),
-                    150
-                ),
+            'isCategoriesPage' => false,
 
-            'meta_keywords' =>
-                $service->meta_keywords
-                ?? 'MIRROR BOOTH, PHOTO BOOTH, VIDEOS BOOTH, EVENT SERVICES, DUBAI, UAE',
+            'isCategoryPage' => false,
+
+            'isSubCategoryPage' => false,
+
+            'meta_title' => $metaTitle,
+
+            'meta_description' => $metaDescription,
+
+            'meta_keywords' => $metaKeywords,
         ]);
     }
 
@@ -154,8 +227,6 @@ class ServicesController extends Controller
 
         /*
         | YouTube Watch URL
-        |
-        | https://www.youtube.com/watch?v=VIDEO_ID
         */
 
         if (str_contains($url, 'youtube.com/watch')) {
@@ -175,8 +246,6 @@ class ServicesController extends Controller
 
         /*
         | YouTube Short URL
-        |
-        | https://youtu.be/VIDEO_ID
         */
 
         if (str_contains($url, 'youtu.be/')) {
@@ -192,6 +261,8 @@ class ServicesController extends Controller
                     . $videoId;
             }
         }
+
+
         return $url;
     }
 }

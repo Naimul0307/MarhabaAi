@@ -1,157 +1,225 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="about-section py-5">
-    <div class="container py-2">
-        <div class="about-block">
-            <h1 class="title-color">
-                @foreach($categories as $category)
-                    <span>{{ $category->name }}</span>
-                    @if(!$loop->last)
-                        <span class="title-separator">. </span>
-                    @endif
-                @endforeach
-            </h1>
-            <div class="divider-container">
-                <div class="divider mb-3"></div>
-            </div>
 
-            <div class="text-muted">
-                — helping brands and agencies grow.
-            </div>
+<section class="about-section py-5">
+<div class="container py-2">
+
+    <div class="about-block">
+
+        <h1 class="title-color">
+
+            @foreach($categories as $category)
+
+                <span>
+                    {{ $category->localized_name }}
+                </span>
+
+                @if(!$loop->last)
+                    <span class="title-separator">. </span>
+                @endif
+
+            @endforeach
+
+        </h1>
+
+        <div class="divider-container">
+            <div class="divider mb-3"></div>
         </div>
+
+        <div class="text-muted">
+             {{ __('messages.helping_brands_grow') }}
+        </div>
+
     </div>
+
+</div>
+
 </section>
 
 <section class="section-6 py-5">
-    <div class="container">
 
-        @foreach($categories as $category)
+<div class="container">
 
-            @php
-                $categoryServices = $category->subCategories
-                    ->flatMap(fn ($subCategory) => $subCategory->services);
-            @endphp
+    @foreach($categories as $category)
 
-            @if($categoryServices->isNotEmpty())
+        @php
+            $categoryServices = $category->subCategories
+                ->flatMap(fn ($subCategory) => $subCategory->services);
+        @endphp
 
-                <div class="category-service-section">
+        @if($categoryServices->isNotEmpty())
+
+            <div class="category-service-section">
 
                 <div class="category-service-heading">
+
                     <h3 class="category-title">
-                        {!! str_replace('AI', '<span>AI</span>', $category->name) !!}
+
+                        {!! str_replace(
+                            'AI',
+                            '<span>AI</span>',
+                            e($category->localized_name)
+                        ) !!}
+
                     </h3>
-                    @if(!empty($category->description))
+
+                    @if(filled($category->localized_description))
+
                         <div class="category-description">
-                            {!! $category->description !!}
+
+                            {!! $category->localized_description !!}
+
                         </div>
+
                     @endif
+
                     <div class="divider-container">
+
                         <div class="divider mb-3"></div>
+
                     </div>
+
                 </div>
 
 
-                    <div class="services-slider-wrapper">
-                        <div class="services-slider">
+                <div class="services-slider-wrapper">
 
-                            @foreach($category->subCategories as $subCategory)
+                    <div class="services-slider">
 
-                                @foreach($subCategory->services as $service)
+                        @foreach($category->subCategories as $subCategory)
 
-                                    <div
-                                        class="service-slide"
-                                        data-category="category-{{ $category->id }}"
-                                        data-subcategory="subcategory-{{ $subCategory->id }}"
-                                    >
+                            @foreach($subCategory->services as $service)
 
-                                        <div class="card border-0 text-center service-card">
+                                <div
+                                    class="service-slide"
+                                    data-category="category-{{ $category->id }}"
+                                    data-subcategory="subcategory-{{ $subCategory->id }}"
+                                >
 
-                                            <a
-                                                class="service-card-image-link"
-                                                href="{{ route('service.detail', $service->slug) }}"
-                                                aria-label="View {{ $service->name }}"
-                                            >
+                                    <div class="card border-0 text-center service-card">
 
-                                                @if(!empty($service->image))
-                                                    <img
-                                                        src="{{ asset('uploads/services/thumb/large/' . $service->image) }}"
-                                                        class="card-img-top"
-                                                        alt="{{ $service->name }}"
-                                                        width="400"
-                                                        height="300"
-                                                        loading="lazy"
-                                                        decoding="async">
-                                                @else
-                                                    <img
-                                                        src="{{ asset('uploads/services/thumb/large/caption-cam.webp') }}"
-                                                        class="card-img-top"
-                                                        alt="{{ $service->name }}"
-                                                        width="400"
-                                                        height="300"
-                                                        loading="lazy"
-                                                        decoding="async">
-                                                @endif
+                                        <a
+                                            class="service-card-image-link"
+                                            href="{{ route('service.detail', $service->slug) }}"
+                                            aria-label="{{ $service->localized_name }}"
+                                        >
 
-                                            </a>
+                                            @if(!empty($service->image))
 
-                                            <div class="card-body p-3">
+                                                <img
+                                                    src="{{ asset('uploads/services/thumb/large/' . $service->image) }}"
+                                                    class="card-img-top"
+                                                    alt="{{ $service->localized_name }}"
+                                                    width="400"
+                                                    height="300"
+                                                    loading="lazy"
+                                                    decoding="async">
 
-                                                <div class="service-subcategory-name">
-                                                    {{ $subCategory->name }}
-                                                </div>
+                                            @else
 
-                                                <h4 class="card-title mt-2">
-                                                    <a href="{{ route('service.detail', $service->slug) }}">
-                                                        {{ $service->name }}
-                                                    </a>
-                                                </h4>
+                                                <img
+                                                    src="{{ asset('uploads/services/thumb/large/caption-cam.webp') }}"
+                                                    class="card-img-top"
+                                                    alt="{{ $service->localized_name }}"
+                                                    width="400"
+                                                    height="300"
+                                                    loading="lazy"
+                                                    decoding="async">
 
-                                                <div class="content pt-2">
-                                                    <p class="card-text">
-                                                        {{ $service->short_desc ?: '' }}
-                                                    </p>
-                                                </div>
+                                            @endif
 
-                                                <a
-                                                    href="{{ route('service.detail', $service->slug) }}"
-                                                    class="service-action-btn"
-                                                >
-                                                    <span>Discover More</span>
-                                                    <i class="fa-solid fa-angle-right"></i>
-                                                </a>
+                                        </a>
+
+
+                                        <div class="card-body p-3">
+
+                                            <div class="service-subcategory-name">
+
+                                                {{ $subCategory->localized_name }}
 
                                             </div>
+
+
+                                            <h4 class="card-title mt-2">
+
+                                                <a
+                                                    href="{{ route('service.detail', $service->slug) }}">
+
+                                                    {{ $service->localized_name }}
+
+                                                </a>
+
+                                            </h4>
+
+
+                                            <div class="content pt-2">
+
+                                                <p class="card-text">
+
+                                                    {{ $service->localized_short_desc }}
+
+                                                </p>
+
+                                            </div>
+
+
+                                            <a
+                                                href="{{ route('service.detail', $service->slug) }}"
+                                                class="service-action-btn">
+
+                                                <span>
+                                                    {{ __('messages.discover_more') }}
+                                                </span>
+
+                                                <i class="fa-solid fa-angle-right"></i>
+
+                                            </a>
 
                                         </div>
 
                                     </div>
 
-                                @endforeach
+                                </div>
 
                             @endforeach
 
-                        </div>
-                    </div>
+                        @endforeach
 
-                    <div class="selected-category-action">
-                        <a
-                            href="{{ route('category.detail', $category->slug) }}"
-                            class="category-page-btn"
-                        >
-                            <span>Discover More</span>
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </a>
                     </div>
 
                 </div>
 
-            @endif
 
-        @endforeach
+                <div class="selected-category-action">
 
-    </div>
+                    <a
+                        href="{{ route('category.detail', [
+                            'locale' => app()->getLocale(),
+                            'slug' => $category->slug
+                        ]) }}"
+                        class="category-page-btn"
+                    >
+                        <span>
+                            {{ __('messages.discover_more') }}
+                        </span>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+        @endif
+
+    @endforeach
+
+</div>
+```
+
 </section>
 
 <div class="services-section-divider"></div>
+
 @endsection

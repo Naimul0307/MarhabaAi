@@ -1,332 +1,234 @@
+@php
+$currentRoute = request()->route();
+$currentRouteName = $currentRoute?->getName();
+$currentRouteParameters = $currentRoute?->parameters() ?? [];
+
+
+$englishUrl = $currentRouteName
+    ? route(
+        $currentRouteName,
+        array_merge($currentRouteParameters, ['locale' => 'en'])
+    )
+    : url('/en');
+
+$arabicUrl = $currentRouteName
+    ? route(
+        $currentRouteName,
+        array_merge($currentRouteParameters, ['locale' => 'ar'])
+    )
+    : url('/ar');
+
+
+@endphp
+
 <header>
 
-    {{-- =========================================================
-        DESKTOP NAVIGATION
-    ========================================================== --}}
-
-    <nav class="desktop-nav" aria-label="Desktop navigation">
-
-        <div class="nav-bar">
-
-            {{-- =====================================================
-                LOGO
-            ====================================================== --}}
-
-            <div class="logo">
-
-                <a href="{{ route('home') }}">
-
-                    <img
-                        src="{{ asset('assets/logo.png') }}"
-                        alt="Marhaba AI"
-                        class="logo-img"
-                        width="160"
-                        height="auto">
-
-                </a>
-
-            </div>
+<nav class="desktop-nav" aria-label="{{ __('messages.desktop_navigation') }}">
+    <div class="nav-bar">
 
 
-            {{-- =====================================================
-                DESKTOP MENU
-            ====================================================== --}}
+    <div class="logo">
+        <a href="{{ route('home') }}">
+            <img
+                src="{{ asset('assets/logo.png') }}"
+                alt="Marhaba AI"
+                class="logo-img"
+                width="160"
+                height="auto">
+        </a>
+    </div>
 
-            <ul class="menu" role="list">
+    <ul class="menu" role="list">
 
-                {{-- THE INSIDE --}}
+        <li>
+            <a
+                href="{{ route('home') }}"
+                @if(request()->routeIs('home')) aria-current="page" @endif>
+                {{ __('messages.the_inside') }}
+            </a>
+        </li>
 
-                <li>
+        <li>
+            <a
+                href="{{ route('categories.index') }}"
+                @if(request()->routeIs('categories.index')) aria-current="page" @endif>
+                {{ __('messages.what_we_do') }}
+            </a>
+        </li>
 
-                    <a
-                        href="{{ route('home') }}"
-                        @if(request()->routeIs('home'))
-                            aria-current="page"
-                        @endif>
+        <li>
+            <a
+                href="{{ route('contact') }}"
+                @if(request()->routeIs('contact')) aria-current="page" @endif>
+                {{ __('messages.connect') }}
+            </a>
+        </li>
 
-                        THE INSIDE
+    </ul>
 
-                    </a>
+    <div class="language-selector">
 
-                </li>
+        <button
+            type="button"
+            class="language-toggle"
+            aria-label="{{ __('messages.select_language') }}"
+            aria-expanded="false">
 
+            <i class="fas fa-globe" aria-hidden="true"></i>
 
-                {{-- WHAT WE DO --}}
+            <span>
+                {{ app()->getLocale() === 'ar' ? 'AR' : 'EN' }}
+            </span>
 
-                <li>
+            <i
+                class="fas fa-chevron-down language-arrow"
+                aria-hidden="true">
+            </i>
 
-                    <a
-                        href="{{ route('categories.index') }}"
-                        @if(request()->routeIs('categories.index'))
-                            aria-current="page"
-                        @endif>
+        </button>
 
-                        WHAT WE DO
+        <div class="language-dropdown">
 
-                    </a>
+            <a
+                href="{{ $englishUrl }}"
+                class="language-option {{ app()->getLocale() === 'en' ? 'active' : '' }}">
+                {{ __('messages.english') }}
+            </a>
 
-                </li>
-
-
-                {{-- CONNECT --}}
-
-                <li>
-
-                    <a
-                        href="{{ route('contact') }}"
-                        @if(request()->routeIs('contact'))
-                            aria-current="page"
-                        @endif>
-
-                        CONNECT
-
-                    </a>
-
-                </li>
-
-            </ul>
-
-
-            {{-- =====================================================
-                LANGUAGE
-            ====================================================== --}}
-
-            <div class="language-selector">
-
-                <button
-                    type="button"
-                    class="language-toggle"
-                    aria-label="Select language"
-                    aria-expanded="false">
-
-                    <i class="fas fa-globe"></i>
-
-                    <span>
-                        EN
-                    </span>
-
-                    <i class="fas fa-chevron-down language-arrow"></i>
-
-                </button>
-
-
-                <div class="language-dropdown">
-
-                    <a
-                        href="#"
-                        class="language-option active">
-
-                        English
-
-                    </a>
-
-
-                    <a
-                        href="#"
-                        class="language-option">
-
-                        العربية
-
-                    </a>
-
-                </div>
-
-            </div>
+            <a
+                href="{{ $arabicUrl }}"
+                class="language-option {{ app()->getLocale() === 'ar' ? 'active' : '' }}">
+                {{ __('messages.arabic') }}
+            </a>
 
         </div>
 
-    </nav>
+    </div>
+
+</div>
 
 
+</nav>
 
-    {{-- =========================================================
-        MOBILE NAVIGATION
-    ========================================================== --}}
-
-    <nav
-        class="mobile-nav"
-        aria-label="Mobile navigation">
-
-        <div class="nav-bar">
-
-            {{-- =================================================
-                MOBILE LOGO
-            ================================================== --}}
-
-            <div class="logo">
-
-                <a href="{{ route('home') }}">
-
-                    <img
-                        src="{{ asset('assets/logo.png') }}"
-                        alt="Marhaba AI"
-                        class="logo-img"
-                        width="160"
-                        height="auto">
-
-                </a>
-
-            </div>
+<nav
+    class="mobile-nav"
+    aria-label="{{ __('messages.mobile_navigation') }}">
 
 
-            {{-- =================================================
-                OPEN MENU BUTTON
-            ================================================== --}}
+<div class="nav-bar">
 
-            <button
-                class="menu-toggle"
-                id="menu-toggle"
-                aria-label="Open menu"
-                aria-expanded="false"
-                aria-controls="mobile-menu"
-                type="button">
+    <div class="logo">
+        <a href="{{ route('home') }}">
+            <img
+                src="{{ asset('assets/logo.png') }}"
+                alt="Marhaba AI"
+                class="logo-img"
+                width="160"
+                height="auto">
+        </a>
+    </div>
 
-                <i
-                    class="fas fa-bars"
-                    aria-hidden="true">
-                </i>
+    <button
+        class="menu-toggle"
+        id="menu-toggle"
+        type="button"
+        aria-label="{{ __('messages.open_menu') }}"
+        aria-expanded="false"
+        aria-controls="mobile-menu">
 
-            </button>
+        <i class="fas fa-bars" aria-hidden="true"></i>
 
+    </button>
 
-            {{-- =================================================
-                CLOSE MENU BUTTON
-            ================================================== --}}
+    <button
+        class="close-menu"
+        id="close-menu"
+        type="button"
+        aria-label="{{ __('messages.close_menu') }}">
 
-            <button
-                class="close-menu"
-                id="close-menu"
-                aria-label="Close menu"
-                type="button">
+        <i class="fas fa-times" aria-hidden="true"></i>
 
-                <i
-                    class="fas fa-times"
-                    aria-hidden="true">
-                </i>
+    </button>
 
-            </button>
+</div>
+
+<ul
+    class="menu"
+    id="mobile-menu"
+    role="list">
+
+    <li>
+        <a
+            href="{{ route('home') }}"
+            @if(request()->routeIs('home')) aria-current="page" @endif>
+            {{ __('messages.the_inside') }}
+        </a>
+    </li>
+
+    <li>
+        <a
+            href="{{ route('categories.index') }}"
+            @if(request()->routeIs('categories.index')) aria-current="page" @endif>
+            {{ __('messages.what_we_do') }}
+        </a>
+    </li>
+
+    <li>
+        <a
+            href="{{ route('contact') }}"
+            @if(request()->routeIs('contact')) aria-current="page" @endif>
+            {{ __('messages.connect') }}
+        </a>
+    </li>
+
+    <li class="mobile-language-item">
+
+        <button
+            type="button"
+            class="mobile-language-toggle"
+            aria-label="{{ __('messages.select_language') }}"
+            aria-expanded="false">
+
+            <span>
+
+                <i class="fas fa-globe" aria-hidden="true"></i>
+
+                <span class="mobile-current-language">
+                    {{ app()->getLocale() === 'ar'
+                        ? __('messages.arabic')
+                        : __('messages.english') }}
+                </span>
+
+            </span>
+
+            <i
+                class="fas fa-chevron-down mobile-language-arrow"
+                aria-hidden="true">
+            </i>
+
+        </button>
+
+        <div class="mobile-language-dropdown">
+
+            <a
+                href="{{ $englishUrl }}"
+                class="mobile-language-option {{ app()->getLocale() === 'en' ? 'active' : '' }}">
+                {{ __('messages.english') }}
+            </a>
+
+            <a
+                href="{{ $arabicUrl }}"
+                class="mobile-language-option {{ app()->getLocale() === 'ar' ? 'active' : '' }}">
+                {{ __('messages.arabic') }}
+            </a>
 
         </div>
 
+    </li>
 
-        {{-- =====================================================
-            MOBILE SIDEBAR
-        ====================================================== --}}
-
-        <ul
-            class="menu"
-            id="mobile-menu"
-            role="list">
+</ul>
 
 
-            {{-- =================================================
-                THE INSIDE
-            ================================================== --}}
-
-            <li>
-
-                <a
-                    href="{{ route('home') }}"
-                    @if(request()->routeIs('home'))
-                        aria-current="page"
-                    @endif>
-
-                    THE INSIDE
-
-                </a>
-
-            </li>
-
-
-            {{-- =================================================
-                WHAT WE DO
-            ================================================== --}}
-
-            <li>
-
-                <a
-                    href="{{ route('categories.index') }}"
-                    @if(request()->routeIs('categories.index'))
-                        aria-current="page"
-                    @endif>
-
-                    WHAT WE DO
-
-                </a>
-
-            </li>
-
-
-            {{-- =================================================
-                CONNECT
-            ================================================== --}}
-
-            <li>
-
-                <a
-                    href="{{ route('contact') }}"
-                    @if(request()->routeIs('contact'))
-                        aria-current="page"
-                    @endif>
-
-                    CONNECT
-
-                </a>
-
-            </li>
-
-
-            {{-- =================================================
-                MOBILE LANGUAGE
-            ================================================== --}}
-
-            <li class="mobile-language-item">
-
-                <button
-                    type="button"
-                    class="mobile-language-toggle"
-                    aria-expanded="false">
-
-                    <span>
-
-                        <i class="fas fa-globe"></i>
-
-                        <span class="mobile-current-language">
-                            English
-                        </span>
-
-                    </span>
-
-                    <i class="fas fa-chevron-down mobile-language-arrow"></i>
-
-                </button>
-
-
-                <div class="mobile-language-dropdown">
-
-                    <a
-                        href="#"
-                        class="mobile-language-option active">
-
-                        English
-
-                    </a>
-
-
-                    <a
-                        href="#"
-                        class="mobile-language-option">
-
-                        العربية
-
-                    </a>
-
-                </div>
-
-            </li>
-
-        </ul>
-
-    </nav>
+</nav>
 
 </header>

@@ -12,6 +12,18 @@ class Review extends Model
 
     protected $table = 'reviews';
 
+    protected $fillable = [
+        'name',
+        'name_ar',
+        'slug',
+        'image',
+        'rating',
+        'review',
+        'review_ar',
+        'review_date',
+        'status',
+    ];
+
     protected $casts = [
         'review_date' => 'date',
         'rating' => 'integer',
@@ -25,5 +37,23 @@ class Review extends Model
                 'source' => 'name',
             ],
         ];
+    }
+
+    public function getDisplayNameAttribute()
+    {
+        if (app()->getLocale() === 'ar' && !empty($this->name_ar)) {
+            return $this->name_ar;
+        }
+
+        return $this->name;
+    }
+
+    public function getDisplayReviewAttribute()
+    {
+        if (app()->getLocale() === 'ar' && !empty($this->review_ar)) {
+            return $this->review_ar;
+        }
+
+        return $this->review;
     }
 }

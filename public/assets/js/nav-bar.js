@@ -1,552 +1,249 @@
 document.addEventListener('DOMContentLoaded', function () {
+const desktopNav = document.querySelector('.desktop-nav .nav-bar');
+const mobileNav = document.querySelector('.mobile-nav .nav-bar');
+
+function handleNavbarScroll() {
+    const scrolled = window.scrollY > 50;
+
+    if (desktopNav) {
+        desktopNav.classList.toggle('scrolled', scrolled);
+    }
+
+    if (mobileNav) {
+        mobileNav.classList.toggle('scrolled', scrolled);
+    }
+}
+
+window.addEventListener('scroll', handleNavbarScroll, {
+    passive: true
+});
+
+handleNavbarScroll();
 
 
-    /* =========================================================
-       NAVBAR SCROLL
-    ========================================================= */
+const menuToggle = document.getElementById('menu-toggle');
+const closeMenu = document.getElementById('close-menu');
+const mobileMenu = document.getElementById('mobile-menu');
 
-    const desktopNav =
-        document.querySelector('.desktop-nav .nav-bar');
+if (menuToggle && closeMenu && mobileMenu) {
 
-    const mobileNav =
-        document.querySelector('.mobile-nav .nav-bar');
+    function closeMobileMenu() {
 
+        mobileMenu.classList.remove('show-menu');
 
-    function handleNavbarScroll() {
+        menuToggle.style.display = '';
+        closeMenu.style.display = '';
 
-        const scrolled = window.scrollY > 50;
+        menuToggle.setAttribute('aria-expanded', 'false');
 
+        document.body.classList.remove('mobile-menu-open');
 
-        /* =====================================================
-           DESKTOP NAVBAR
-        ===================================================== */
+        const languageItem =
+            mobileMenu.querySelector('.mobile-language-item');
 
-        if (desktopNav) {
+        const languageToggle =
+            mobileMenu.querySelector('.mobile-language-toggle');
 
-            desktopNav.classList.toggle(
-                'scrolled',
-                scrolled
-            );
-
+        if (languageItem) {
+            languageItem.classList.remove('open');
         }
 
-
-        /* =====================================================
-           MOBILE NAVBAR
-        ===================================================== */
-
-        if (mobileNav) {
-
-            mobileNav.classList.toggle(
-                'scrolled',
-                scrolled
+        if (languageToggle) {
+            languageToggle.setAttribute(
+                'aria-expanded',
+                'false'
             );
-
         }
-
     }
 
 
-    window.addEventListener(
-        'scroll',
-        handleNavbarScroll,
-        {
-            passive: true
+    menuToggle.addEventListener('click', function (e) {
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        mobileMenu.classList.add('show-menu');
+
+        menuToggle.style.display = 'none';
+        closeMenu.style.display = 'block';
+
+        menuToggle.setAttribute(
+            'aria-expanded',
+            'true'
+        );
+
+        document.body.classList.add('mobile-menu-open');
+    });
+
+
+    closeMenu.addEventListener('click', function (e) {
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        closeMobileMenu();
+    });
+
+
+    document.addEventListener('click', function (e) {
+
+        if (
+            mobileMenu.classList.contains('show-menu') &&
+            !e.target.closest('.mobile-nav')
+        ) {
+            closeMobileMenu();
+        }
+    });
+
+
+    mobileMenu
+        .querySelectorAll('a:not(.mobile-language-option)')
+        .forEach(function (link) {
+
+            link.addEventListener('click', function () {
+                closeMobileMenu();
+            });
+
+        });
+
+
+    document.addEventListener('keydown', function (e) {
+
+        if (
+            e.key === 'Escape' &&
+            mobileMenu.classList.contains('show-menu')
+        ) {
+            closeMobileMenu();
+            menuToggle.focus();
+        }
+
+    });
+
+
+    window.addEventListener('resize', function () {
+
+        if (
+            window.innerWidth > 768 &&
+            mobileMenu.classList.contains('show-menu')
+        ) {
+            closeMobileMenu();
+        }
+
+    });
+
+}
+
+
+const desktopLanguage =
+    document.querySelector('.language-selector');
+
+const desktopLanguageToggle =
+    document.querySelector('.language-toggle');
+
+if (desktopLanguage && desktopLanguageToggle) {
+
+    desktopLanguageToggle.addEventListener(
+        'click',
+        function (e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            const isOpen =
+                desktopLanguage.classList.contains('open');
+
+            desktopLanguage.classList.toggle(
+                'open',
+                !isOpen
+            );
+
+            desktopLanguageToggle.setAttribute(
+                'aria-expanded',
+                String(!isOpen)
+            );
+
         }
     );
 
 
-    /* Run once when page loads */
+    document.addEventListener('click', function (e) {
 
-    handleNavbarScroll();
+        if (!desktopLanguage.contains(e.target)) {
 
+            desktopLanguage.classList.remove('open');
 
-
-    /* =========================================================
-       MOBILE MENU
-    ========================================================= */
-
-    const menuToggle =
-        document.getElementById('menu-toggle');
-
-    const closeMenu =
-        document.getElementById('close-menu');
-
-    const mobileMenu =
-        document.getElementById('mobile-menu');
-
-
-    if (
-        menuToggle &&
-        closeMenu &&
-        mobileMenu
-    ) {
-
-
-        /* =====================================================
-           CLOSE MOBILE MENU
-        ===================================================== */
-
-        function closeMobileMenu() {
-
-            mobileMenu.classList.remove(
-                'show-menu'
-            );
-
-
-            menuToggle.style.display = '';
-
-            closeMenu.style.display = '';
-
-
-            menuToggle.setAttribute(
+            desktopLanguageToggle.setAttribute(
                 'aria-expanded',
                 'false'
             );
 
-
-            document.body.classList.remove(
-                'mobile-menu-open'
-            );
-
-
-            /* =================================================
-               CLOSE MOBILE LANGUAGE
-            ================================================= */
-
-            const languageItem =
-                mobileMenu.querySelector(
-                    '.mobile-language-item'
-                );
-
-
-            const languageToggle =
-                mobileMenu.querySelector(
-                    '.mobile-language-toggle'
-                );
-
-
-            if (languageItem) {
-
-                languageItem.classList.remove(
-                    'open'
-                );
-
-            }
-
-
-            if (languageToggle) {
-
-                languageToggle.setAttribute(
-                    'aria-expanded',
-                    'false'
-                );
-
-            }
-
         }
 
+    });
+
+}
 
 
-        /* =====================================================
-           OPEN MOBILE MENU
-        ===================================================== */
+const mobileLanguageItem =
+    document.querySelector('.mobile-language-item');
 
-        menuToggle.addEventListener(
-            'click',
-            function (e) {
+const mobileLanguageToggle =
+    document.querySelector('.mobile-language-toggle');
 
-                e.preventDefault();
+const mobileLanguageOptions =
+    document.querySelectorAll('.mobile-language-option');
 
-                e.stopPropagation();
+if (
+    mobileLanguageItem &&
+    mobileLanguageToggle
+) {
 
+    mobileLanguageToggle.addEventListener(
+        'click',
+        function (e) {
 
-                mobileMenu.classList.add(
-                    'show-menu'
-                );
+            e.preventDefault();
+            e.stopPropagation();
 
+            const isOpen =
+                mobileLanguageItem.classList.contains('open');
 
-                menuToggle.style.display =
-                    'none';
+            mobileLanguageItem.classList.toggle(
+                'open',
+                !isOpen
+            );
 
+            mobileLanguageToggle.setAttribute(
+                'aria-expanded',
+                String(!isOpen)
+            );
 
-                closeMenu.style.display =
-                    'block';
-
-
-                menuToggle.setAttribute(
-                    'aria-expanded',
-                    'true'
-                );
-
-
-                document.body.classList.add(
-                    'mobile-menu-open'
-                );
-
-            }
-        );
+        }
+    );
 
 
+    mobileLanguageOptions.forEach(function (option) {
 
-        /* =====================================================
-           CLOSE MOBILE MENU BUTTON
-        ===================================================== */
+        option.addEventListener('click', function () {
 
-        closeMenu.addEventListener(
-            'click',
-            function (e) {
-
-                e.preventDefault();
-
-                e.stopPropagation();
-
-
-                closeMobileMenu();
-
-            }
-        );
-
-
-
-        /* =====================================================
-           CLICK OUTSIDE MOBILE MENU
-        ===================================================== */
-
-        document.addEventListener(
-            'click',
-            function (e) {
-
-                if (
-                    mobileMenu.classList.contains(
-                        'show-menu'
-                    ) &&
-                    !e.target.closest(
-                        '.mobile-nav'
-                    )
-                ) {
-
-                    closeMobileMenu();
-
-                }
-
-            }
-        );
-
-
-
-        /* =====================================================
-           CLOSE AFTER NORMAL LINK CLICK
-        ===================================================== */
-
-        mobileMenu
-            .querySelectorAll(
-                'a:not(.mobile-language-option)'
-            )
-            .forEach(
-                function (link) {
-
-                    link.addEventListener(
-                        'click',
-                        function () {
-
-                            closeMobileMenu();
-
-                        }
-                    );
-
+            mobileLanguageOptions.forEach(
+                function (item) {
+                    item.classList.remove('active');
                 }
             );
 
+            option.classList.add('active');
 
+            mobileLanguageItem.classList.remove('open');
 
-        /* =====================================================
-           ESCAPE KEY
-        ===================================================== */
+            mobileLanguageToggle.setAttribute(
+                'aria-expanded',
+                'false'
+            );
 
-        document.addEventListener(
-            'keydown',
-            function (e) {
+        });
 
-                if (
-                    e.key === 'Escape' &&
-                    mobileMenu.classList.contains(
-                        'show-menu'
-                    )
-                ) {
+    });
 
-                    closeMobileMenu();
-
-                    menuToggle.focus();
-
-                }
-
-            }
-        );
-
-
-
-        /* =====================================================
-           CLOSE MOBILE MENU WHEN SWITCHING DESKTOP
-        ===================================================== */
-
-        window.addEventListener(
-            'resize',
-            function () {
-
-                if (
-                    window.innerWidth > 768 &&
-                    mobileMenu.classList.contains(
-                        'show-menu'
-                    )
-                ) {
-
-                    closeMobileMenu();
-
-                }
-
-            }
-        );
-
-    }
-
-
-
-    /* =========================================================
-       DESKTOP LANGUAGE SELECTOR
-    ========================================================= */
-
-    const desktopLanguage =
-        document.querySelector(
-            '.language-selector'
-        );
-
-
-    const desktopLanguageToggle =
-        document.querySelector(
-            '.language-toggle'
-        );
-
-
-    if (
-        desktopLanguage &&
-        desktopLanguageToggle
-    ) {
-
-
-        /* =====================================================
-           OPEN / CLOSE DESKTOP LANGUAGE
-        ===================================================== */
-
-        desktopLanguageToggle.addEventListener(
-            'click',
-            function (e) {
-
-                e.preventDefault();
-
-                e.stopPropagation();
-
-
-                const isOpen =
-                    desktopLanguage.classList.contains(
-                        'open'
-                    );
-
-
-                desktopLanguage.classList.toggle(
-                    'open',
-                    !isOpen
-                );
-
-
-                desktopLanguageToggle.setAttribute(
-                    'aria-expanded',
-                    String(!isOpen)
-                );
-
-            }
-        );
-
-
-
-        /* =====================================================
-           CLOSE DESKTOP LANGUAGE OUTSIDE CLICK
-        ===================================================== */
-
-        document.addEventListener(
-            'click',
-            function (e) {
-
-                if (
-                    !desktopLanguage.contains(
-                        e.target
-                    )
-                ) {
-
-                    desktopLanguage.classList.remove(
-                        'open'
-                    );
-
-
-                    desktopLanguageToggle.setAttribute(
-                        'aria-expanded',
-                        'false'
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
-
-
-    /* =========================================================
-       MOBILE LANGUAGE SELECTOR
-       CLICK ONLY
-    ========================================================= */
-
-    const mobileLanguageItem =
-        document.querySelector(
-            '.mobile-language-item'
-        );
-
-
-    const mobileLanguageToggle =
-        document.querySelector(
-            '.mobile-language-toggle'
-        );
-
-
-    const mobileLanguageOptions =
-        document.querySelectorAll(
-            '.mobile-language-option'
-        );
-
-
-    if (
-        mobileLanguageItem &&
-        mobileLanguageToggle
-    ) {
-
-
-        /* =====================================================
-           OPEN / CLOSE MOBILE LANGUAGE
-        ===================================================== */
-
-        mobileLanguageToggle.addEventListener(
-            'click',
-            function (e) {
-
-                e.preventDefault();
-
-                e.stopPropagation();
-
-
-                const isOpen =
-                    mobileLanguageItem.classList.contains(
-                        'open'
-                    );
-
-
-                mobileLanguageItem.classList.toggle(
-                    'open',
-                    !isOpen
-                );
-
-
-                mobileLanguageToggle.setAttribute(
-                    'aria-expanded',
-                    String(!isOpen)
-                );
-
-            }
-        );
-
-
-
-        /* =====================================================
-           MOBILE LANGUAGE OPTION
-        ===================================================== */
-
-        mobileLanguageOptions.forEach(
-            function (option) {
-
-                option.addEventListener(
-                    'click',
-                    function (e) {
-
-                        e.preventDefault();
-
-                        e.stopPropagation();
-
-
-                        /* =====================================
-                           REMOVE ACTIVE
-                        ===================================== */
-
-                        mobileLanguageOptions.forEach(
-                            function (item) {
-
-                                item.classList.remove(
-                                    'active'
-                                );
-
-                            }
-                        );
-
-
-                        /* =====================================
-                           ADD ACTIVE
-                        ===================================== */
-
-                        option.classList.add(
-                            'active'
-                        );
-
-
-
-                        /* =====================================
-                           UPDATE CURRENT LANGUAGE
-                        ===================================== */
-
-                        const currentLanguage =
-                            mobileLanguageItem.querySelector(
-                                '.mobile-current-language'
-                            );
-
-
-                        if (currentLanguage) {
-
-                            currentLanguage.textContent =
-                                option.textContent.trim();
-
-                        }
-
-
-
-                        /* =====================================
-                           CLOSE LANGUAGE DROPDOWN
-                        ===================================== */
-
-                        mobileLanguageItem.classList.remove(
-                            'open'
-                        );
-
-
-                        mobileLanguageToggle.setAttribute(
-                            'aria-expanded',
-                            'false'
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-    }
-
+}
 });
-

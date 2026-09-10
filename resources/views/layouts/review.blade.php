@@ -5,7 +5,7 @@
     <div class="container">
 
         <h2 class="title-color mb-4">
-            OUR <span>TESTIMONIALS</span>
+            {{ __('messages.our') }}  <span>{{ __('messages.TESTIMONIALS') }}</span>
         </h2>
 
         <div class="divider-container">
@@ -48,7 +48,9 @@
                                 <div>
 
                                     <strong>
-                                        {{ $review->name }}
+                                        {{ app()->getLocale() === 'ar' && !empty($review->name_ar)
+                                        ? $review->name_ar
+                                        : $review->name }}
                                     </strong>
 
                                     @if($review->review_date)
@@ -86,7 +88,9 @@
                             </div>
 
                             <p>
-                                {{ $review->review }}
+                               {{ app()->getLocale() === 'ar' && !empty($review->review_ar)
+                                ? $review->review_ar
+                                : $review->review }}
                             </p>
 
                             @if($review->review_date)

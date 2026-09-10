@@ -41,7 +41,9 @@
     <div class="container py-2">
         <div class="about-block">
             <h2 class="title-color">
-                <span>Smarter engagement. Better experiences. Sharper insights</span>
+                <span>
+                    {{ __('messages.smarter_engagement') }}
+                </span>
             </h2>
 
             <div class="divider-container">
@@ -49,7 +51,7 @@
             </div>
 
             <div class="text-muted">
-                — all powered by AI that helps brands and agencies grow.
+                {{ __('messages.powered_by_ai') }}
             </div>
         </div>
     </div>

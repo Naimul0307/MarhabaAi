@@ -50,8 +50,10 @@ class HomeController extends Controller
             ->select(
                 'id',
                 'name',
+                'name_ar',
                 'slug',
                 'description',
+                'description_ar',
                 'image'
             )
             ->orderBy('id', 'desc')

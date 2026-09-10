@@ -5,7 +5,6 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Cache;
 
 use App\Models\WorkingCompany;
 use App\Models\Review;
@@ -21,7 +20,12 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        // Force HTTPS
+        /*
+        |--------------------------------------------------------------------------
+        | Force HTTPS
+        |--------------------------------------------------------------------------
+        */
+
         if (
             isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
             $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https'
@@ -33,16 +37,25 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        // Review Slider
+
+        /*
+        |--------------------------------------------------------------------------
+        | Review Slider
+        |--------------------------------------------------------------------------
+        */
+
         View::composer('layouts.review', function ($view) {
+
             $reviews = Review::where('status', 1)
                 ->select(
                     'id',
                     'name',
+                    'name_ar',
                     'slug',
                     'image',
                     'rating',
                     'review',
+                    'review_ar',
                     'review_date'
                 )
                 ->orderBy('id', 'desc')
@@ -51,28 +64,55 @@ class AppServiceProvider extends ServiceProvider
             $view->with('reviews', $reviews);
         });
 
-        // Company Slider
+
+        /*
+        |--------------------------------------------------------------------------
+        | Company Slider
+        |--------------------------------------------------------------------------
+        */
+
         View::composer('layouts.company', function ($view) {
 
             $companies = WorkingCompany::where('status', 1)
-                ->select('id', 'name', 'image')
+                ->select(
+                    'id',
+                    'name',
+                    'image'
+                )
                 ->get();
 
             $view->with('companies', $companies);
         });
 
-        // Header Categories
+
+        /*
+        |--------------------------------------------------------------------------
+        | Header Categories
+        |--------------------------------------------------------------------------
+        */
+
         View::composer('layouts.header', function ($view) {
 
             $categories = Category::where('status', 1)
-                ->select('id', 'name', 'slug')
+                ->select(
+                    'id',
+                    'name',
+                    'name_ar',
+                    'slug'
+                )
                 ->orderBy('id', 'desc')
                 ->get();
 
             $view->with('categories', $categories);
         });
 
-        // Header Settings
+
+        /*
+        |--------------------------------------------------------------------------
+        | Header Settings
+        |--------------------------------------------------------------------------
+        */
+
         View::composer('layouts.header', function ($view) {
 
             $settings = Setting::first();
@@ -80,14 +120,18 @@ class AppServiceProvider extends ServiceProvider
             $view->with('settings', $settings);
         });
 
-        // Footer Settings
+
+        /*
+        |--------------------------------------------------------------------------
+        | Footer Settings
+        |--------------------------------------------------------------------------
+        */
+
         View::composer('layouts.footer', function ($view) {
 
             $settings = Setting::first();
 
             $view->with('settings', $settings);
         });
-
     }
-
 }

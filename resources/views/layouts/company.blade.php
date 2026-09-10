@@ -5,7 +5,7 @@
     <div class="container">
 
         <h2 class="title-color mb-4">
-            <span>OUR </span>CLIENTS
+            <span>{{ __('messages.our') }} </span>{{ __('messages.clients') }}
         </h2>
 
         <div class="divider-container">

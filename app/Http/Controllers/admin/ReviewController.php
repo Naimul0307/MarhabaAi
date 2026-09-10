@@ -19,7 +19,12 @@ class ReviewController extends Controller
         $query = Review::orderBy('created_at', 'DESC');
 
         if (!empty($request->keyword)) {
-            $query->where('name', 'like', '%' . $request->keyword . '%');
+            $keyword = $request->keyword;
+
+            $query->where(function ($q) use ($keyword) {
+                $q->where('name', 'like', '%' . $keyword . '%')
+                ->orWhere('name_ar', 'like', '%' . $keyword . '%');
+            });
         }
 
         $reviews = $query->paginate(20);
@@ -36,12 +41,15 @@ class ReviewController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'name_ar' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
             'rating' => 'required|integer|min:1|max:5',
             'review' => 'required|string',
+            'review_ar' => 'required|string',
             'review_date' => 'nullable|date',
             'status' => 'required|boolean',
             'image_id' => 'nullable|integer',
+
         ]);
 
         if ($validator->fails()) {
@@ -53,9 +61,11 @@ class ReviewController extends Controller
 
         $review = new Review();
         $review->name = $request->name;
+        $review->name_ar = $request->name_ar;
         $review->slug = $request->slug;
         $review->rating = $request->rating;
         $review->review = $request->review;
+        $review->review_ar = $request->review_ar;
         $review->review_date = $request->review_date;
         $review->status = $request->status;
         $review->save();
@@ -120,9 +130,11 @@ class ReviewController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:reviews,name,' . $review->id,
+            'name_ar' => 'required|unique:reviews,name_ar,' . $review->id,
             'slug' => 'required|unique:reviews,slug,' . $review->id,
             'rating' => 'required|integer|min:1|max:5',
             'review' => 'required|string',
+            'review_ar' => 'required|string',
             'review_date' => 'nullable|date',
             'status' => 'required|boolean',
             'image_id' => 'nullable|integer',
@@ -138,9 +150,11 @@ class ReviewController extends Controller
         $oldImageName = $review->image;
 
         $review->name = $request->name;
+        $review->name_ar = $request->name_ar;
         $review->slug = $request->slug;
         $review->rating = $request->rating;
         $review->review = $request->review;
+        $review->review_ar = $request->review_ar;
         $review->review_date = $request->review_date;
         $review->status = $request->status;
         $review->save();

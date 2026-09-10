@@ -226,23 +226,16 @@ $(document).ready(function () {
 
 
     /* =====================================================
-       SERVICE CATEGORY FILTER
+    SERVICE CATEGORY FILTER
     ===================================================== */
 
-    const serviceSlider =
-        $('.services-slider');
+    const serviceSlider = $('.services-slider');
 
+    const filterButtons = $('.filter-btn');
 
-    const filterButtons =
-        $('.filter-btn');
+    const categoryPageButton = $('#category-page-button');
 
-
-    const categoryPageButton =
-        $('#categoryPageButton');
-
-
-    const categoryPageButtonText =
-        $('#categoryPageButtonText');
+    const categoryPageButtonText = $('#category-page-button-text');
 
 
     if (
@@ -250,18 +243,14 @@ $(document).ready(function () {
         filterButtons.length
     ) {
 
-
         filterButtons.on('click', function (event) {
 
             event.preventDefault();
 
-
-            const button =
-                $(this);
-
+            const button = $(this);
 
             const selectedCategory =
-                button.data('category');
+                button.attr('data-category');
 
 
             filterButtons.removeClass('active');
@@ -270,23 +259,19 @@ $(document).ready(function () {
 
 
             /* =================================================
-               ALL
+            ALL
             ================================================= */
 
             if (selectedCategory === 'all') {
 
-                serviceSlider.slick(
-                    'slickUnfilter'
-                );
+                serviceSlider.slick('slickUnfilter');
 
 
                 if (categoryPageButton.length) {
 
                     categoryPageButton.attr(
                         'href',
-                        categoryPageButton.data(
-                            'all-url'
-                        ) || '/categories'
+                        categoryPageButton.data('all-url') || '/categories'
                     );
 
                 }
@@ -310,26 +295,24 @@ $(document).ready(function () {
 
 
             /* =================================================
-               CATEGORY
+            CATEGORY FILTER
             ================================================= */
 
-            serviceSlider.slick(
-                'slickUnfilter'
-            );
+            serviceSlider.slick('slickUnfilter');
 
 
             serviceSlider.slick(
                 'slickFilter',
-                '[data-category="' +
-                selectedCategory +
-                '"]'
+                '[data-category="' + selectedCategory + '"]'
             );
 
 
+            /* =================================================
+            CATEGORY URL
+            ================================================= */
+
             const categoryUrl =
-                button.attr(
-                    'data-category-url'
-                );
+                button.attr('data-category-url');
 
 
             if (
@@ -345,11 +328,19 @@ $(document).ready(function () {
             }
 
 
+            /* =================================================
+            LOCALIZED CATEGORY NAME
+            ================================================= */
+
             const categoryName =
                 $.trim(
-                    button.text()
+                    button.attr('data-category-name') || button.text()
                 );
 
+
+            /* =================================================
+            UPDATE BUTTON TEXT
+            ================================================= */
 
             if (categoryPageButtonText.length) {
 
@@ -374,7 +365,7 @@ $(document).ready(function () {
 
 
         /* =================================================
-           CATEGORY PAGE BUTTON
+        CATEGORY PAGE BUTTON
         ================================================= */
 
         if (categoryPageButton.length) {
@@ -388,7 +379,7 @@ $(document).ready(function () {
 
 
         /* =================================================
-           INITIAL STATE
+        INITIAL STATE
         ================================================= */
 
         const firstButton =
@@ -398,12 +389,10 @@ $(document).ready(function () {
         if (firstButton.length) {
 
             const initialCategory =
-                firstButton.data('category');
+                firstButton.attr('data-category');
 
 
-            if (
-                initialCategory === 'all'
-            ) {
+            if (initialCategory === 'all') {
 
                 if (categoryPageButton.length) {
 
@@ -428,7 +417,6 @@ $(document).ready(function () {
         }
 
     }
-
 
     /* =====================================================
        DETAIL GALLERY SLIDER

@@ -7,9 +7,10 @@ use Illuminate\Support\Str;
 
 class SubCategoriesController extends Controller
 {
-    public function index($slug)
+    public function index($locale, $slug)
     {
         $subCategory = SubCategory::where('slug', $slug)
+            ->where('status', 1)
             ->with([
                 'category',
 
@@ -20,6 +21,7 @@ class SubCategoriesController extends Controller
             ])
             ->firstOrFail();
 
+        $isArabic = $locale === 'ar';
 
         return view('subcategory', [
 
@@ -27,12 +29,12 @@ class SubCategoriesController extends Controller
 
             'services' => $subCategory->services,
 
-
             /*
             |--------------------------------------------------------------------------
             | Page Controls
             |--------------------------------------------------------------------------
             */
+
             'showHero' => false,
 
             'showHomeSliders' => false,
@@ -43,26 +45,54 @@ class SubCategoriesController extends Controller
 
             'isSubCategoryPage' => true,
 
-
             /*
             |--------------------------------------------------------------------------
             | SEO
             |--------------------------------------------------------------------------
             */
-            'meta_title' =>
-                $subCategory->meta_title
-                ?? $subCategory->name,
 
-            'meta_description' =>
-                $subCategory->meta_description
-                ?? Str::limit(
-                    strip_tags($subCategory->description),
-                    150
+            'meta_title' => $isArabic
+                ? (
+                    $subCategory->meta_title_ar
+                    ?: $subCategory->meta_title
+                    ?: $subCategory->name_ar
+                    ?: $subCategory->name
+                )
+                : (
+                    $subCategory->meta_title
+                    ?: $subCategory->name
                 ),
 
-            'meta_keywords' =>
-                $subCategory->meta_keywords
-                ?? 'MIRROR BOOTH, PHOTO BOOTH, VIDEOS BOOTH, EVENT SERVICES, DUBAI, UAE',
+            'meta_description' => $isArabic
+                ? (
+                    $subCategory->meta_description_ar
+                    ?: $subCategory->meta_description
+                    ?: Str::limit(
+                        strip_tags(
+                            $subCategory->description_ar
+                            ?: $subCategory->description
+                        ),
+                        150
+                    )
+                )
+                : (
+                    $subCategory->meta_description
+                    ?: Str::limit(
+                        strip_tags($subCategory->description),
+                        150
+                    )
+                ),
+
+            'meta_keywords' => $isArabic
+                ? (
+                    $subCategory->meta_keywords_ar
+                    ?: $subCategory->meta_keywords
+                    ?: 'MIRROR BOOTH, PHOTO BOOTH, VIDEO BOOTH, EVENT SERVICES, DUBAI, UAE'
+                )
+                : (
+                    $subCategory->meta_keywords
+                    ?: 'MIRROR BOOTH, PHOTO BOOTH, VIDEO BOOTH, EVENT SERVICES, DUBAI, UAE'
+                ),
         ]);
     }
 }

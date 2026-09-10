@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <section class="service-detail-section">
 
     <div class="container">
@@ -18,7 +19,7 @@
                     <div class="about-block text-center text-md-left">
 
                         <h1 class="title-color">
-                            {{ $service->name }}
+                            {{ $service->localized_name }}
                         </h1>
 
                         <div class="divider-container">
@@ -57,14 +58,14 @@
                             onclick="openVideoModal('{{ $mainVideo }}')"
                             role="button"
                             tabindex="0"
-                            aria-label="Play {{ $service->name }} video"
+                            aria-label="Play {{ $service->localized_name }} video"
                         >
 
                             <div class="main-video-thumbnail">
 
                                 <img
                                     src="https://img.youtube.com/vi/{{ getYoutubeVideoId($mainVideo) }}/maxresdefault.jpg"
-                                    alt="{{ $service->name }}"
+                                    alt="{{ $service->localized_name }}"
                                     loading="lazy"
                                 >
 
@@ -84,7 +85,7 @@
 
                             <img
                                 src="{{ asset('uploads/services/thumb/small/' . $service->image) }}"
-                                alt="{{ $service->image_alt_text ?? $service->name }}"
+                                alt="{{ $service->image_alt_text ?: $service->localized_name }}"
                                 loading="lazy"
                             >
 
@@ -95,7 +96,7 @@
                         <div class="service-no-video">
 
                             <p>
-                                No image or video available
+                                {{ __('messages.no_image_or_video') }}
                             </p>
 
                         </div>
@@ -113,44 +114,63 @@
 
             <div class="col-lg-6 col-md-6">
 
-                <div class="service-short-content">
+                <div
+                    class="service-short-content"
+                    @if(app()->getLocale() === 'ar') dir="rtl" @endif
+                >
 
                     <h2>
-                        {{ $service->name }}
+                        {{ $service->localized_name }}
                     </h2>
 
 
-                    @if(!empty($service->short_desc))
+                    {{-- =================================================
+                         SHORT DESCRIPTION
+                    ================================================== --}}
+
+                    @if(filled($service->localized_short_desc))
 
                         <div class="service-short-description">
 
-                            {!! $service->short_desc !!}
+                            {!! $service->localized_short_desc !!}
 
                         </div>
 
                     @endif
 
+
+                    {{-- =================================================
+                         CATEGORY
+                    ================================================== --}}
 
                     @if($service->category)
 
                         <div class="service-category">
 
-                            <strong>Category:</strong>
+                            <strong>
+                                {{ __('messages.category') }}:
+                            </strong>
 
-                            {{ $service->category->name }}
+                            {{ $service->category->localized_name }}
 
                         </div>
 
                     @endif
 
 
+                    {{-- =================================================
+                         SUB CATEGORY
+                    ================================================== --}}
+
                     @if($service->subCategory)
 
                         <div class="service-subcategory">
 
-                            <strong>Sub Category:</strong>
+                            <strong>
+                                {{ __('messages.sub_category') }}:
+                            </strong>
 
-                            {{ $service->subCategory->name }}
+                            {{ $service->subCategory->localized_name }}
 
                         </div>
 
@@ -167,21 +187,24 @@
              FULL DESCRIPTION
         ========================================================== --}}
 
-        @if(!empty($service->description))
+        @if(filled($service->localized_description))
 
             <div class="row">
 
                 <div class="col-lg-12">
 
-                    <div class="service-full-description">
+                    <div
+                        class="service-full-description"
+                        @if(app()->getLocale() === 'ar') dir="rtl" @endif
+                    >
 
                         <h2>
-                            Description
+                            {{ __('messages.description') }}
                         </h2>
 
                         <div class="description-content">
 
-                            {!! $service->description !!}
+                            {!! $service->localized_description !!}
 
                         </div>
 
@@ -202,10 +225,13 @@
 
             <section class="service-media-section service-gallery-section">
 
-                <div class="service-media-heading">
+                <div
+                    class="service-media-heading"
+                    @if(app()->getLocale() === 'ar') dir="rtl" @endif
+                >
 
                     <h2>
-                        Gallery
+                        {{ __('messages.gallery') }}
                     </h2>
 
                     <div class="divider-container">
@@ -232,12 +258,12 @@
                                         <a
                                             href="{{ asset('uploads/services/gallery/' . $image) }}"
                                             class="service-gallery-image-link"
-                                            aria-label="View {{ $service->name }} gallery image"
+                                            aria-label="{{ __('messages.view_gallery_image') }}"
                                         >
 
                                             <img
                                                 src="{{ asset('uploads/services/gallery/' . $image) }}"
-                                                alt="{{ $service->image_alt_text ?? $service->name }}"
+                                                alt="{{ $service->image_alt_text ?: $service->localized_name }}"
                                                 class="service-media-image"
                                                 loading="lazy"
                                                 decoding="async"
@@ -270,10 +296,13 @@
 
             <section class="service-media-section additional-videos-section">
 
-                <div class="service-media-heading">
+                <div
+                    class="service-media-heading"
+                    @if(app()->getLocale() === 'ar') dir="rtl" @endif
+                >
 
                     <h2>
-                        Videos
+                        {{ __('messages.videos') }}
                     </h2>
 
                     <div class="divider-container">
@@ -300,21 +329,23 @@
                                         onclick="openVideoModal('{{ $video }}')"
                                         role="button"
                                         tabindex="0"
-                                        aria-label="Play {{ $service->name }} video"
+                                        aria-label="Play {{ $service->localized_name }} video"
                                     >
 
                                         <div class="service-video-thumbnail">
 
                                             <img
                                                 src="https://img.youtube.com/vi/{{ getYoutubeVideoId($video) }}/maxresdefault.jpg"
-                                                alt="{{ $service->name }}"
+                                                alt="{{ $service->localized_name }}"
                                                 class="service-media-image"
                                                 loading="lazy"
                                                 decoding="async"
                                             >
 
 
-                                            {{-- CENTER PLAY BUTTON --}}
+                                            {{-- =====================================
+                                                 CENTER PLAY BUTTON
+                                            ====================================== --}}
 
                                             <div class="service-video-overlay">
 
@@ -345,6 +376,7 @@
         @endif
 
     </div>
+
 </section>
 
 
@@ -370,7 +402,7 @@
             type="button"
             class="video-modal-close"
             onclick="closeVideoModal()"
-            aria-label="Close video"
+            aria-label="{{ __('messages.close') }}"
         >
             &times;
         </button>
@@ -405,6 +437,13 @@ function getYoutubeVideoId($url)
         return '';
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Embed URL
+    |--------------------------------------------------------------------------
+    */
+
     if (
         preg_match(
             '/youtube\.com\/embed\/([^?&]+)/',
@@ -414,6 +453,13 @@ function getYoutubeVideoId($url)
     ) {
         return $matches[1];
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Watch URL
+    |--------------------------------------------------------------------------
+    */
 
     if (
         preg_match(
@@ -425,6 +471,13 @@ function getYoutubeVideoId($url)
         return $matches[1];
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Short URL
+    |--------------------------------------------------------------------------
+    */
+
     if (
         preg_match(
             '/youtu\.be\/([^?&]+)/',
@@ -435,10 +488,14 @@ function getYoutubeVideoId($url)
         return $matches[1];
     }
 
+
     return '';
+
 }
 
 @endphp
 
+
 <div class="services-section-divider"></div>
+
 @endsection

@@ -15,35 +15,27 @@ class CategoriesController extends Controller
         $categories = Category::where('status', 1)
             ->with([
                 'subCategories' => function ($query) {
-
-                    // Subcategories: oldest first
-                    $query->orderBy('id', 'asc')
+                    $query->where('status', 1)
+                        ->orderBy('id', 'asc')
                         ->with([
                             'services' => function ($query) {
-
-                                // Services: latest first
-                                $query->orderBy('id', 'desc');
-
+                                $query->where('status', 1)
+                                    ->orderBy('id', 'desc');
                             }
                         ]);
-
                 }
             ])
             ->orderBy('id', 'desc')
             ->get();
 
         return view('categories', [
-
             'categories' => $categories,
 
             'isCategoriesPage' => true,
-
             'isCategoryPage' => false,
-
             'isSubCategoryPage' => false,
 
             'showHero' => false,
-
             'showHomeSliders' => false,
 
             'meta_title' =>
@@ -60,60 +52,61 @@ class CategoriesController extends Controller
     /**
      * Display a single category.
      */
-    public function category($slug)
+    public function category($locale, $slug)
     {
         $category = Category::where('slug', $slug)
             ->where('status', 1)
             ->with([
                 'subCategories' => function ($query) {
-
-                    // Latest subcategory first
-                    $query->orderBy('id', 'desc')
+                    $query->where('status', 1)
+                        ->orderBy('id', 'desc')
                         ->with([
                             'services' => function ($query) {
-
-                                // Latest service first
-                                $query->orderBy('id', 'desc');
-
+                                $query->where('status', 1)
+                                    ->orderBy('id', 'desc');
                             }
                         ]);
-
                 }
             ])
             ->firstOrFail();
 
+        $isArabic = $locale === 'ar';
 
         return view('category', [
-
             'category' => $category,
 
             'subCategories' => $category->subCategories,
 
             'isCategoriesPage' => false,
-
             'isCategoryPage' => true,
-
             'isSubCategoryPage' => false,
 
             'showHero' => false,
-
             'showHomeSliders' => false,
 
-            'meta_title' =>
-                $category->meta_title
-                ?? $category->name,
+            'meta_title' => $isArabic
+                ? ($category->meta_title_ar ?: $category->meta_title ?: $category->name_ar ?: $category->name)
+                : ($category->meta_title ?: $category->name),
 
-            'meta_description' =>
-                $category->meta_description
-                ?? Str::limit(
-                    strip_tags($category->description),
-                    150
-                ),
+            'meta_description' => $isArabic
+                ? ($category->meta_description_ar
+                    ?: $category->meta_description
+                    ?: Str::limit(
+                        strip_tags($category->description_ar ?: $category->description),
+                        150
+                    ))
+                : ($category->meta_description
+                    ?: Str::limit(
+                        strip_tags($category->description),
+                        150
+                    )),
 
-            'meta_keywords' =>
-                $category->meta_keywords
-                ?? 'MIRROR BOOTH, PHOTO BOOTH, VIDEOS BOOTH, MAGAZIN BOOTH, EVENT SERVICES, DUBAI, UAE',
+            'meta_keywords' => $isArabic
+                ? ($category->meta_keywords_ar
+                    ?: $category->meta_keywords
+                    ?: 'MIRROR BOOTH, PHOTO BOOTH, VIDEO BOOTH, EVENT SERVICES, DUBAI, UAE')
+                : ($category->meta_keywords
+                    ?: 'MIRROR BOOTH, PHOTO BOOTH, VIDEO BOOTH, EVENT SERVICES, DUBAI, UAE'),
         ]);
     }
-
 }

@@ -20,9 +20,9 @@ class Setting extends Model
         'tiktok_url',
         'linkedin_url',
         'youtube_url',
+        'google_map',
         'contact_card_one',
         'contact_card_two',
-        'google_map',
         'copy',
     ];
 }

@@ -31,7 +31,7 @@ class Category extends Model
 
     public function services()
     {
-        return $this->hasMany(Service::class);
+        return $this->hasMany(Service::class, 'category_id');
     }
 
     public function subCategories()
@@ -43,8 +43,8 @@ class Category extends Model
     {
         return [
             'slug' => [
-                'source' => 'name'
-            ]
+                'source' => 'name',
+            ],
         ];
     }
 
@@ -54,48 +54,21 @@ class Category extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function getLocalizedNameAttribute()
+    public function getLocalizedNameAttribute(): string
     {
-        if (app()->getLocale() === 'ar' && !empty($this->name_ar)) {
+        if (app()->isLocale('ar') && filled($this->name_ar)) {
             return $this->name_ar;
         }
 
-        return $this->name;
+        return $this->name ?? '';
     }
 
-    public function getLocalizedDescriptionAttribute()
+    public function getLocalizedDescriptionAttribute(): string
     {
-        if (app()->getLocale() === 'ar' && !empty($this->description_ar)) {
+        if (app()->isLocale('ar') && filled($this->description_ar)) {
             return $this->description_ar;
         }
 
-        return $this->description;
-    }
-
-    public function getLocalizedMetaTitleAttribute()
-    {
-        if (app()->getLocale() === 'ar' && !empty($this->meta_title_ar)) {
-            return $this->meta_title_ar;
-        }
-
-        return $this->meta_title;
-    }
-
-    public function getLocalizedMetaDescriptionAttribute()
-    {
-        if (app()->getLocale() === 'ar' && !empty($this->meta_description_ar)) {
-            return $this->meta_description_ar;
-        }
-
-        return $this->meta_description;
-    }
-
-    public function getLocalizedMetaKeywordsAttribute()
-    {
-        if (app()->getLocale() === 'ar' && !empty($this->meta_keywords_ar)) {
-            return $this->meta_keywords_ar;
-        }
-
-        return $this->meta_keywords;
+        return $this->description ?? '';
     }
 }

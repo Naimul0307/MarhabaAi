@@ -7,12 +7,15 @@
     <div class="container">
 
         <h2 class="title-color mb-4">
-            Our <span>Latest</span> WORK
+            {{ __('messages.our') }}
+            <span>{{ __('messages.Latest') }}</span>
+            {{ __('messages.WORK') }}
         </h2>
 
         <div class="divider-container">
             <div class="divider mb-3"></div>
         </div>
+
 
         <div class="category-filter-wrapper">
 
@@ -29,11 +32,13 @@
 
                         <li>
                             <a href="#"
-                               class="filter-btn"
-                               data-category="category-{{ $category->id }}"
-                               data-category-slug="{{ $category->slug }}"
-                               data-category-name="{{ $category->name }}">
-                                {{ $category->name }}
+                            class="filter-btn"
+                            data-category="category-{{ $category->id }}"
+                            data-category-slug="{{ $category->slug }}"
+                            data-category-name="{{ $category->localized_name }}">
+
+                                {{ $category->localized_name }}
+
                             </a>
                         </li>
 
@@ -57,22 +62,27 @@
                         $subCategory = $service->home_subcategory;
                     @endphp
 
+
                     <div class="service-slide"
-                        data-category="category-{{ $category->id }}"
-                        data-subcategory="subcategory-{{ $subCategory->id }}">
+                         data-category="category-{{ $category->id }}"
+                         data-subcategory="subcategory-{{ $subCategory->id }}">
+
 
                         <div class="card border-0 text-center service-card">
 
+
+                            {{-- Service Image --}}
+
                             <a class="service-card-image-link"
-                            href="{{ route('service.detail', $service->slug) }}"
-                            aria-label="View {{ $service->name }}">
+                               href="{{ route('service.detail', $service->slug) }}"
+                               aria-label="View {{ $service->localized_name }}">
 
                                 @if(!empty($service->image))
 
                                     <img
                                         src="{{ asset('uploads/services/thumb/large/' . $service->image) }}"
                                         class="card-img-top"
-                                        alt="{{ $service->name }}"
+                                        alt="{{ $service->localized_name }}"
                                         width="400"
                                         height="300"
                                         loading="lazy"
@@ -83,7 +93,7 @@
                                     <img
                                         src="{{ asset('uploads/services/thumb/large/caption-cam.webp') }}"
                                         class="card-img-top"
-                                        alt="{{ $service->name }}"
+                                        alt="{{ $service->localized_name }}"
                                         width="400"
                                         height="300"
                                         loading="lazy"
@@ -93,32 +103,55 @@
 
                             </a>
 
+
+                            {{-- Card Body --}}
+
                             <div class="card-body p-3">
 
+
+                                {{-- Sub Category --}}
+
                                 <div class="service-subcategory-name">
-                                    {{ $subCategory->name }}
+
+                                    {{ $subCategory->localized_name }}
+
                                 </div>
+
+
+                                {{-- Service Name --}}
 
                                 <h4 class="card-title mt-2">
 
                                     <a href="{{ route('service.detail', $service->slug) }}">
-                                        {{ $service->name }}
+
+                                        {{ $service->localized_name }}
+
                                     </a>
 
                                 </h4>
 
+
+                                {{-- Short Description --}}
+
                                 <div class="content pt-2">
 
                                     <p class="card-text">
-                                        {{ $service->short_desc ?: '' }}
+
+                                        {{ $service->localized_short_desc }}
+
                                     </p>
 
                                 </div>
 
-                                <a href="{{ route('service.detail', $service->slug) }}"
-                                class="service-action-btn">
 
-                                    <span>Discover More</span>
+                                {{-- Discover More --}}
+
+                                <a href="{{ route('service.detail', $service->slug) }}"
+                                   class="service-action-btn">
+
+                                    <span>
+                                        {{ __('messages.discover_more') }}
+                                    </span>
 
                                     <i class="fa-solid fa-angle-right"></i>
 
@@ -137,6 +170,8 @@
         </div>
 
 
+        {{-- Category Button --}}
+
         <div class="selected-category-action">
 
             <a href="{{ route('categories.index') }}"
@@ -144,7 +179,9 @@
                id="category-page-button">
 
                 <span id="category-page-button-text">
-                    Discover More
+
+                    {{ __('messages.discover_more') }}
+
                 </span>
 
                 <i class="fa-solid fa-arrow-right"></i>
@@ -164,7 +201,9 @@
         <div class="facts-heading">
 
             <h2>
-                SOME <span> FACTS OF OUR </span> WORK
+                {{ __('messages.some') }}
+                <span>{{ __('messages.facts_of_our') }}</span>
+                {{ __('messages.WORK') }}
             </h2>
 
             <div class="divider-container">
@@ -191,14 +230,12 @@
 
                     </div>
 
-                    <h3>Activations</h3>
+                    <h3>{{ __('messages.activations') }}</h3>
 
                     <div class="fact-line"></div>
 
                     <p>
-                        Successfully completed and
-                        delivered with quality and attention
-                        to detail.
+                        {{ __('messages.activations_description') }}
                     </p>
 
                 </div>
@@ -221,14 +258,12 @@
 
                     </div>
 
-                    <h3>Clients</h3>
+                    <h3>{{ __('messages.clients') }}</h3>
 
                     <div class="fact-line"></div>
 
                     <p>
-                        Trusted by clients who value
-                        professional service and memorable
-                        experiences.
+                        {{ __('messages.clients_description') }}
                     </p>
 
                 </div>
@@ -251,13 +286,12 @@
 
                     </div>
 
-                    <h3>Rating</h3>
+                    <h3>{{ __('messages.rating') }}</h3>
 
                     <div class="fact-line"></div>
 
                     <p>
-                        Our commitment to quality helps us
-                        deliver experiences our clients love.
+                        {{ __('messages.rating_description') }}
                     </p>
 
                 </div>

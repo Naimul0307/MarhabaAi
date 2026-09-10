@@ -9,6 +9,7 @@ use App\Models\FeaturedService;
 use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class SettingsController extends Controller
 {
@@ -17,13 +18,16 @@ class SettingsController extends Controller
         $settings = Setting::find(1);
 
         $categories = Category::orderBy('name', 'asc')->get();
+
         $sub_categories = SubCategory::orderBy('name', 'asc')->get();
 
-        $featuredCategories = FeaturedService::whereNotNull('category_id')
+        $featuredCategories = FeaturedService::with('category')
+            ->whereNotNull('category_id')
             ->orderBy('sort_order', 'ASC')
             ->get();
 
-        $featuredSubCategories = FeaturedService::whereNotNull('sub_category_id')
+        $featuredSubCategories = FeaturedService::with('subCategory')
+            ->whereNotNull('sub_category_id')
             ->orderBy('sort_order', 'ASC')
             ->get();
 
@@ -43,13 +47,26 @@ class SettingsController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'website_title' => 'required',
+            'google_map' => 'nullable|url',
         ]);
 
-        if ($validator->passes()) {
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 0,
+                'errors' => $validator->errors(),
+            ]);
+        }
+
+        DB::beginTransaction();
+
+        try {
 
             FeaturedService::query()->delete();
 
-            $categories = json_decode($request->featured_categories, true);
+            $categories = json_decode(
+                $request->featured_categories,
+                true
+            );
 
             if (!empty($categories)) {
                 foreach ($categories as $key => $categoryId) {
@@ -61,7 +78,10 @@ class SettingsController extends Controller
                 }
             }
 
-            $subCategories = json_decode($request->featured_sub_categories, true);
+            $subCategories = json_decode(
+                $request->featured_sub_categories,
+                true
+            );
 
             if (!empty($subCategories)) {
                 foreach ($subCategories as $key => $subCategoryId) {
@@ -75,7 +95,7 @@ class SettingsController extends Controller
 
             $settings = Setting::find(1);
 
-            if ($settings == null) {
+            if (!$settings) {
                 $settings = new Setting();
             }
 
@@ -91,24 +111,35 @@ class SettingsController extends Controller
             $settings->tiktok_url = $request->tiktok_url;
             $settings->youtube_url = $request->youtube_url;
 
+            $settings->google_map = $request->google_map;
+
             $settings->contact_card_one = $request->contact_card_one;
             $settings->contact_card_two = $request->contact_card_two;
-            $settings->google_map = $request->google_map;
 
             $settings->copy = $request->copy;
 
             $settings->save();
 
-            $request->session()->flash('success', 'Settings saved successfully');
+            DB::commit();
+
+            $request->session()->flash(
+                'success',
+                'Settings saved successfully'
+            );
 
             return response()->json([
                 'status' => 200,
             ]);
-        }
 
-        return response()->json([
-            'status' => 0,
-            'errors' => $validator->errors(),
-        ]);
+        } catch (\Throwable $e) {
+
+            DB::rollBack();
+
+            return response()->json([
+                'status' => 0,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 }
+

@@ -75,8 +75,8 @@ class Service extends Model
     {
         return [
             'slug' => [
-                'source' => 'name'
-            ]
+                'source' => 'name',
+            ],
         ];
     }
 
@@ -86,57 +86,57 @@ class Service extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function getLocalizedNameAttribute()
+    public function getLocalizedNameAttribute(): string
     {
-        if (app()->getLocale() === 'ar' && !empty($this->name_ar)) {
+        if (app()->isLocale('ar') && filled($this->name_ar)) {
             return $this->name_ar;
         }
 
-        return $this->name;
+        return $this->name ?? '';
     }
 
-    public function getLocalizedShortDescAttribute()
+    public function getLocalizedShortDescAttribute(): string
     {
-        if (app()->getLocale() === 'ar' && !empty($this->short_desc_ar)) {
+        if (app()->isLocale('ar') && filled($this->short_desc_ar)) {
             return $this->short_desc_ar;
         }
 
-        return $this->short_desc;
+        return $this->short_desc ?? '';
     }
 
-    public function getLocalizedDescriptionAttribute()
+    public function getLocalizedDescriptionAttribute(): string
     {
-        if (app()->getLocale() === 'ar' && !empty($this->description_ar)) {
+        if (app()->isLocale('ar') && filled($this->description_ar)) {
             return $this->description_ar;
         }
 
-        return $this->description;
+        return $this->description ?? '';
     }
 
-    public function getLocalizedMetaTitleAttribute()
+    public function getLocalizedMetaTitleAttribute(): string
     {
-        if (app()->getLocale() === 'ar' && !empty($this->meta_title_ar)) {
+        if (app()->isLocale('ar') && filled($this->meta_title_ar)) {
             return $this->meta_title_ar;
         }
 
-        return $this->meta_title;
+        return $this->meta_title ?? '';
     }
 
-    public function getLocalizedMetaDescriptionAttribute()
+    public function getLocalizedMetaDescriptionAttribute(): string
     {
-        if (app()->getLocale() === 'ar' && !empty($this->meta_description_ar)) {
+        if (app()->isLocale('ar') && filled($this->meta_description_ar)) {
             return $this->meta_description_ar;
         }
 
-        return $this->meta_description;
+        return $this->meta_description ?? '';
     }
 
-    public function getLocalizedMetaKeywordsAttribute()
+    public function getLocalizedMetaKeywordsAttribute(): string
     {
-        if (app()->getLocale() === 'ar' && !empty($this->meta_keywords_ar)) {
+        if (app()->isLocale('ar') && filled($this->meta_keywords_ar)) {
             return $this->meta_keywords_ar;
         }
 
-        return $this->meta_keywords;
+        return $this->meta_keywords ?? '';
     }
 }
