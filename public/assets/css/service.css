@@ -728,7 +728,7 @@ transform: none;
 }
 
 .description-content {
-    color: var(--white);
+    color: var( --text-darkq);
 
     font-size: 25px;
 

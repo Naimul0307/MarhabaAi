@@ -92,18 +92,29 @@
     @endphp
 
     @if(!empty($settings) && !empty($settings->whatsapp_url))
-        <a href="{{ $settings->whatsapp_url }}"
-           class="whatsapp-button"
-           target="_blank"
-           rel="noopener noreferrer"
-           aria-label="Chat with us on WhatsApp">
-            <img src="{{ asset('uploads/WhatsApp.svg') }}"
-                 alt=""
-                 width="24"
-                 height="24"
-                 aria-hidden="true">
-            <span>Chat with us</span>
+
+        <a
+            href="{{ $settings->whatsapp_url }}"
+            class="whatsapp-button"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="{{ __('messages.chat_with_us_on_whatsapp') }}"
+        >
+
+            <img
+                src="{{ asset('uploads/WhatsApp.svg') }}"
+                alt=""
+                width="24"
+                height="24"
+                aria-hidden="true"
+            >
+
+            <span>
+                {{ __('messages.chat_with_us') }}
+            </span>
+
         </a>
+
     @endif
 
     @include('layouts.header')

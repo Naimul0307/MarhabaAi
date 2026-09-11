@@ -86,5 +86,7 @@ return [
     'close' => 'Close',
     'no_image_or_video' => 'No image or video available',
     'view_gallery_image' => 'View gallery image',
+    'chat_with_us' => 'Chat with us',
+    'chat_with_us_on_whatsapp' => 'Chat with us on WhatsApp',
 ];
 

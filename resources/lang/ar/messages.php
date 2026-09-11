@@ -93,4 +93,6 @@ return [
     'close' => 'إغلاق',
     'no_image_or_video' => 'لا توجد صورة أو فيديو متاح',
     'view_gallery_image' => 'عرض صورة المعرض',
+    'chat_with_us' => 'تواصل معنا',
+    'chat_with_us_on_whatsapp' => 'تواصل معنا عبر واتساب',
 ];
