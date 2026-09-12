@@ -201,7 +201,7 @@
                         class="category-page-btn"
                     >
                         <span>
-                            {{ __('messages.discover_more') }}
+                            {{ __('messages.explore_all') }}
                         </span>
 
                         <i class="fa-solid fa-arrow-right"></i>

@@ -204,16 +204,18 @@
                         {{ __('messages.find_us') }}
                     </h3>
 
-                    <iframe
-                        class="w-100 rounded"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3612.689286854263!2d55.21748097537905!3d25.112377177765673!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f6cfa0d4ca90b%3A0x3587fd0f2266a3f9!2sAl%20Asayel%20St%20-%20Dubai!5e0!3m2!1sen!2sae!4v1787516976584!5m2!1sen!2sae"
-                        title="{{ __('messages.marhaba_ai_location') }}"
-                        height="250"
-                        style="border:0;"
-                        loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"
-                        allowfullscreen>
-                    </iframe>
+                    @if(!empty($settings) && $settings->google_map)
+                        <iframe
+                            class="w-100 rounded"
+                            src="{{ $settings->google_map }}"
+                            title="{{ __('messages.marhaba_ai_location') }}"
+                            height="250"
+                            style="border:0;"
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            allowfullscreen>
+                        </iframe>
+                    @endif
 
                 </div>
             </div>

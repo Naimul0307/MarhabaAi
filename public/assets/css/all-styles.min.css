@@ -237,7 +237,7 @@
 
     --service-main-row-margin-bottom: 45px;
 
-    --main-media-height: 400px;
+    --main-media-height: 675px;
 
     --service-short-padding: 25px 10px;
 
@@ -2098,6 +2098,19 @@ select {
 
 
 /* =========================================================
+   SERVICE DETAIL TABLET / SMALL DESKTOP MEDIA
+========================================================= */
+
+@media (max-width: 1199px) and (min-width: 769px) {
+
+    .main-video-thumbnail,
+    .main-service-image img {
+        height: 540px;
+    }
+}
+
+
+/* =========================================================
    71. MOBILE 768px
 ========================================================= */
 
@@ -2109,15 +2122,7 @@ select {
 
     .main-video-thumbnail,
     .main-service-image img {
-        height: 320px;
-    }
-
-    .service-short-content {
-        padding: 30px 5px 10px;
-    }
-
-    .service-short-content h2 {
-        font-size: 26px;
+        height: 405px;
     }
 
     .service-gallery-slider .slick-prev,
@@ -2260,7 +2265,7 @@ select {
 
     .main-video-thumbnail,
     .main-service-image img {
-        height: 250px;
+        height: 320px;
     }
 
     .video-modal {

@@ -63,8 +63,6 @@ return [
     'lets' => "Let's ",
 
     'contact_intro' => 'Smarter engagement. Better experiences. Sharper insights',
-    'get_in_touch' => 'Get In Touch',
-    'send_email' => 'Send Email',
     'name' => 'Name',
     'full_name' => 'Full Name',
     'phone_number' => 'Phone Number',
@@ -88,5 +86,6 @@ return [
     'view_gallery_image' => 'View gallery image',
     'chat_with_us' => 'Chat with us',
     'chat_with_us_on_whatsapp' => 'Chat with us on WhatsApp',
+    'explore_all' => 'Explore All'
 ];
 

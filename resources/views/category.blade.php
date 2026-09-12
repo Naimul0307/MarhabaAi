@@ -19,7 +19,7 @@
                         </span>
 
                         @if(!$loop->last)
-                            <span class="title-separator">. </span>
+                            <span class="title-separator">.</span>
                         @endif
 
                     @endif
@@ -223,7 +223,7 @@
                         >
 
                             <span>
-                                {{ __('messages.discover_more') }}
+                                {{ __('messages.explore_all') }}
                             </span>
 
                             <i class="fa-solid fa-arrow-right"></i>

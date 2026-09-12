@@ -47,7 +47,7 @@
                  MAIN VIDEO / IMAGE
             ====================================================== --}}
 
-            <div class="col-lg-6 col-md-6">
+            <div class="col-12">
 
                 <div class="service-main-video">
 
@@ -98,79 +98,6 @@
                             <p>
                                 {{ __('messages.no_image_or_video') }}
                             </p>
-
-                        </div>
-
-                    @endif
-
-                </div>
-
-            </div>
-
-
-            {{-- =====================================================
-                 SHORT CONTENT
-            ====================================================== --}}
-
-            <div class="col-lg-6 col-md-6">
-
-                <div
-                    class="service-short-content"
-                    @if(app()->getLocale() === 'ar') dir="rtl" @endif
-                >
-
-                    <h2>
-                        {{ $service->localized_name }}
-                    </h2>
-
-
-                    {{-- =================================================
-                         SHORT DESCRIPTION
-                    ================================================== --}}
-
-                    @if(filled($service->localized_short_desc))
-
-                        <div class="service-short-description">
-
-                            {!! $service->localized_short_desc !!}
-
-                        </div>
-
-                    @endif
-
-
-                    {{-- =================================================
-                         CATEGORY
-                    ================================================== --}}
-
-                    @if($service->category)
-
-                        <div class="service-category">
-
-                            <strong>
-                                {{ __('messages.category') }}:
-                            </strong>
-
-                            {{ $service->category->localized_name }}
-
-                        </div>
-
-                    @endif
-
-
-                    {{-- =================================================
-                         SUB CATEGORY
-                    ================================================== --}}
-
-                    @if($service->subCategory)
-
-                        <div class="service-subcategory">
-
-                            <strong>
-                                {{ __('messages.sub_category') }}:
-                            </strong>
-
-                            {{ $service->subCategory->localized_name }}
 
                         </div>
 

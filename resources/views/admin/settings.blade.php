@@ -120,7 +120,7 @@
                                 >{{ old('google_map', $settings->google_map ?? '') }}</textarea>
 
                                 <small class="text-muted">
-                                    Paste the Google Maps iframe embed URL.
+                                    Paste the Google Maps embed URL.
                                 </small>
 
                             </div>
@@ -257,22 +257,6 @@
                                         id="youtube_url"
                                         class="form-control"
                                         value="{{ old('youtube_url', $settings->youtube_url ?? '') }}"
-                                    >
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <label for="google_map">
-                                        Google Map Url
-                                    </label>
-
-                                    <input
-                                        type="text"
-                                        name="google_map"
-                                        id="google_map"
-                                        class="form-control"
-                                        value="{{ old('google_map', $settings->google_map ?? '') }}"
                                     >
 
                                 </div>

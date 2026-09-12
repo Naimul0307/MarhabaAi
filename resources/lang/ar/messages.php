@@ -70,8 +70,6 @@ return [
 
     'contact_intro' => 'تفاعل أكثر ذكاءً. تجارب أفضل. رؤى أكثر دقة',
     'helping_brands_grow' => 'نساعد العلامات التجارية والوكالات على النمو.',
-    'get_in_touch' => 'تواصل معنا',
-    'send_email' => 'إرسال بريد إلكتروني',
     'name' => 'الاسم',
     'full_name' => 'الاسم الكامل',
     'phone_number' => 'رقم الهاتف',
@@ -95,4 +93,5 @@ return [
     'view_gallery_image' => 'عرض صورة المعرض',
     'chat_with_us' => 'تواصل معنا',
     'chat_with_us_on_whatsapp' => 'تواصل معنا عبر واتساب',
+    'explore_all' => 'استكشف الكل'
 ];

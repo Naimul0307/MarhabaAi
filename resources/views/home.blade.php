@@ -180,7 +180,7 @@
 
                 <span id="category-page-button-text">
 
-                    {{ __('messages.discover_more') }}
+                    {{ __('messages.explore_all') }}
 
                 </span>
 
