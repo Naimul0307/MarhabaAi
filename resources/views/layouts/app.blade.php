@@ -66,6 +66,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/subcategory.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/whatsapp.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/font.css') }}">
 
     <link rel="preload" href="{{ asset('assets/fontawesome/css/fontawesome.min.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
