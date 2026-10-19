@@ -563,10 +563,7 @@ transform: none;
 
 .main-video-thumbnail {
     position: relative;
-
     width: 100%;
-    height: var(--main-media-height);
-
     overflow: hidden;
 }
 

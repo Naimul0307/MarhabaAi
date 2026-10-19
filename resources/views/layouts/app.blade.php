@@ -16,10 +16,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="DRjpAQfoniJxaRdOE3UhWhguZA2bL32hftgz2ymHRYI">
 
-    <title>{{ $meta_title ?? 'MIRROR BOOTH EVENT SERVICES L.L.C.-DUBAI' }}</title>
+    <title>{{ $meta_title ?? 'Marhaba AI' }}</title>
 
     <link rel="canonical" href="{{ $meta_canonical ?? url()->current() }}">
-    <meta name="title" content="{{ $meta_title ?? 'MIRROR BOOTH EVENT SERVICES L.L.C.-DUBAI' }}">
+    <meta name="title" content="{{ $meta_title ?? 'MMarhaba AI' }}">
     <meta name="description" content="{{ $meta_description ?? 'Default description' }}">
     <meta name="keywords" content="{{ $meta_keywords ?? 'Default, Keywords' }}">
     <meta name="_token" content="{{ csrf_token() }}">
@@ -28,6 +28,8 @@
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}" sizes="180x180">
     <link rel="icon" href="{{ asset('android-chrome-192x192.png') }}" sizes="192x192" type="image/png">
     <link rel="icon" href="{{ asset('android-chrome-512x512.png') }}" sizes="512x512" type="image/png">
+    <link rel="shortcut icon" href="{{ asset('favicon-16x16.png') }}" sizes="16x16" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('favicon-16x16.png') }}" sizes="16x16" type="image/x-icon">
 
     @php
         $firstHeroImage = null;
@@ -62,7 +64,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/facts.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/category.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/about.css') }}">
-    <link rel="stylesheet" href="{{asset('assets/css/service.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/service.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/subcategory.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/whatsapp.css') }}">

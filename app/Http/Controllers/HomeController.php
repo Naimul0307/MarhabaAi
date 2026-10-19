@@ -135,10 +135,10 @@ class HomeController extends Controller
             */
 
             'meta_title' =>
-                'HOME | Marhaba Ai',
+                'HOME | Marhaba AI',
 
             'meta_description' =>
-                'Award-Winning Photo Booth & Game Rentals in Dubai. A trusted name in the UAE, we offer over 80+ premium photo booths and interactive games, providing the most comprehensive range of services in the GCC.',
+                'A go-to tech shop for Shopper Marketing agencies and Consumer brands.',
 
             'meta_keywords' =>
                 'MIRROR BOOTH, PHOTO BOOTH, VIDEOS BOOTH, MAGAZIN BOOTH, EVENT SERVICES, MIRROR BOOTH EVENT SERVICES L.L.C, DUBAI, UAE',

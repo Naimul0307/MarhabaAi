@@ -13,10 +13,10 @@ class ContactController extends Controller
     {
 
         return view('contact', [
-            'meta_title' => 'CONTACT US | MArhaba Ai',
+            'meta_title' => 'CONTACT US | MArhaba AI',
 
             'meta_description' =>
-                'Get in touch with Marhaba Ai for bookings or inquiries. Contact us today to make your event unforgettable with our photo booth services.',
+                'A go-to tech shop for Shopper Marketing agencies and Consumer brands.',
 
             'meta_keywords' =>
                 'CONTACT, MIRROR BOOTH, DUBAI, BOOKING, UAE, Marhaba Ai',
@@ -57,7 +57,7 @@ class ContactController extends Controller
 
 
             Mail::to(
-                'mdnaimul.alam07@gmail.com'
+                'marhaba.experience.ai@gmail.com'
             )->send(
                 new ContactMail($emailData)
             );

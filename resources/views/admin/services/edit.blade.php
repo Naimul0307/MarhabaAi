@@ -261,7 +261,7 @@
                                         <textarea
                                             name="description"
                                             id="description"
-                                            class="summernote"
+                                            class="form-control jodit-editor"
                                         >{{ old('description', $service->description) }}</textarea>
 
                                         <p class="error description-error"></p>
@@ -478,7 +478,7 @@
                                             <textarea
                                                 name="description_ar"
                                                 id="description_ar"
-                                                class="summernote"
+                                                class="form-control jodit-editor"
                                                 dir="rtl"
                                             >{{ old('description_ar', $service->description_ar) }}</textarea>
 
@@ -1491,6 +1491,8 @@ $('#editServiceForm').on(
 
         clearErrors();
 
+        // Copy the latest HTML from both Jodit editors before AJAX serialization.
+        syncServiceEditors(form[0]);
 
         $.ajax({
 
@@ -1614,7 +1616,7 @@ function showErrors(errors)
 
             /*
             |--------------------------------------------------------------------------
-            | Summernote fields
+            | Jodit fields
             |--------------------------------------------------------------------------
             */
 
@@ -1624,8 +1626,9 @@ function showErrors(errors)
             ) {
 
                 $('[name="' + field + '"]')
-                    .next('.note-editor')
-                    .addClass('is-invalid');
+                    .closest('.form-group')
+                    .find('.jodit-container')
+                    .addClass('border border-danger');
 
             }
 
@@ -1772,12 +1775,12 @@ function clearErrors()
 
     /*
     |--------------------------------------------------------------------------
-    | Remove invalid state from Summernote
+    | Remove invalid state from Jodit
     |--------------------------------------------------------------------------
     */
 
-    $('.note-editor')
-        .removeClass('is-invalid');
+    $('.jodit-container')
+        .removeClass('border border-danger');
 }
 
 

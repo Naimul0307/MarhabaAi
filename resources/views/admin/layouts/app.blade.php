@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
         <link rel="stylesheet" href="{{ asset('admin_assets/assets/plugins/fontawesome-free/css/all.min.css') }}">
         <link rel="stylesheet" href="{{ asset('admin_assets/assets/css/adminlte.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('admin_assets/assets/plugins/summernote/summernote-bs4.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('admin_assets/assets/plugins/jodit/jodit.min.css') }}">
         <link rel="stylesheet" href="{{ asset('admin_assets/assets/plugins/dropzone/dropzone.css') }}">
         <link rel="stylesheet" href="{{ asset('admin_assets/assets/plugins/jquery-ui/jquery-ui.min.css') }}">
         <link rel="stylesheet" href="{{ asset('admin_assets/assets/css/custom.css') }}">
@@ -135,27 +135,68 @@
 
         <script src="{{ asset('admin_assets/assets/js/adminlte.min.js') }}"></script>
 
-        <!-- Summernote -->
-        <script src="{{ asset('admin_assets/assets/plugins/summernote/summernote-bs4.min.js') }}"></script>
+        <!-- Jodit (local files; no CDN) -->
+        <script src="{{ asset('admin_assets/assets/plugins/jodit/jodit.min.js') }}"></script>
 
         <script src="{{ asset('admin_assets/assets/plugins/dropzone/dropzone.js') }}"></script>
 
-        <script type="text/javascript">
-        $(document).ready(function(){
-                $('.summernote').summernote({
-                    height: 300,
-                    callbacks: {
-                        onImageUpload: function(files) {
-                            uploadImage(files[0], $(this));
-                        }
+        <script>
+        // Shared Jodit instances for all Service Create/Edit forms.
+        window.serviceEditors = {};
+
+        window.initServiceEditor = function (el) {
+            if (!el || window.serviceEditors[el.id]) return;
+            if (typeof Jodit === 'undefined') {
+                console.error('Jodit not loaded. Verify the local jodit.min.js path.');
+                return;
+            }
+
+            const isArabic = el.getAttribute('dir') === 'rtl';
+            const editor = Jodit.make(el, {
+                height: 350,
+                toolbarAdaptive: false,
+                direction: isArabic ? 'rtl' : 'ltr',
+                buttons: [
+                    'source', '|',
+                    'bold', 'italic', 'underline', 'strikethrough', '|',
+                    'font', 'fontsize', 'brush', '|',
+                    'ul', 'ol', 'outdent', 'indent', '|',
+                    'left', 'center', 'right', 'justify', '|',
+                    'link', 'table', 'hr', '|',
+                    'undo', 'redo', 'fullsize'
+                ]
+            });
+            window.serviceEditors[el.id] = editor;
+            editor.events.on('change', function () {
+                el.value = editor.value;
+            });
+        };
+
+        // Explicit sync protects existing AJAX form.serialize() handlers.
+        window.syncServiceEditors = function (form) {
+            if (!form) return;
+            form.querySelectorAll('textarea.jodit-editor').forEach(function (el) {
+                const editor = window.serviceEditors[el.id];
+                if (editor) el.value = editor.value;
+            });
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('textarea.jodit-editor').forEach(function (el) {
+                // Avoid initializing an editor in the hidden Arabic Bootstrap tab.
+                if (!el.closest('.tab-pane') || el.closest('.tab-pane').classList.contains('active')) {
+                    window.initServiceEditor(el);
+                }
+            });
+            // Initialize Arabic editor when its Bootstrap tab becomes visible.
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
+                document.querySelectorAll('textarea.jodit-editor').forEach(function (el) {
+                    if (!el.closest('.tab-pane') || el.closest('.tab-pane').classList.contains('active')) {
+                        window.initServiceEditor(el);
                     }
                 });
             });
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                }
-            });
+        });
         </script>
 
         @yield('extraJs')

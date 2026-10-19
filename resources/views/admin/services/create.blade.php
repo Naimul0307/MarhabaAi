@@ -242,7 +242,7 @@
                                         <textarea
                                             name="description"
                                             id="description"
-                                            class="summernote"
+                                            class="form-control jodit-editor"
                                         ></textarea>
 
                                         <p class="error description-error"></p>
@@ -455,7 +455,7 @@
                                             <textarea
                                                 name="description_ar"
                                                 id="description_ar"
-                                                class="summernote"
+                                                class="form-control jodit-editor"
                                                 dir="rtl"
                                             ></textarea>
 
@@ -1246,6 +1246,8 @@ $('#createServiceForm').on(
 
         clearErrors();
 
+        // Copy the latest HTML from both Jodit editors before AJAX serialization.
+        syncServiceEditors(form[0]);
 
         $.ajax({
 
